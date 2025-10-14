@@ -1,0 +1,25 @@
+import React from "react";
+
+interface TitleHeaderProps {
+    title: string;
+    sub: string;
+}
+
+const TitleHeader: React.FC<TitleHeaderProps> = ({ title, sub }) => {
+    return (
+        <div className="flex flex-col items-center gap-5">
+
+            <div>
+                <h1 className="font-semibold md:text-5xl text-3xl text-center">
+                    {title}
+                </h1>
+            </div>
+
+            <div className="hero-badge">
+                <p>{sub}</p>
+            </div>
+        </div>
+    );
+};
+
+export default TitleHeader;
