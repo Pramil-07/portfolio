@@ -4,11 +4,22 @@ Command: npx gltfjsx@6.5.3 Pramil_3d_Grediant.glb --typescript --transform
 Files: Pramil_3d_Grediant.glb [19.12MB] > D:\Personal-Projects\portfolio\public\models\Pramil_3d_Grediant-transformed.glb [1.55MB] (92%)
 */
 
-import React from 'react'
+import React, {JSX} from 'react'
 import { useGLTF } from '@react-three/drei'
 
-export function Pramil(props) {
-  const { nodes, materials } = useGLTF('models/Pramil_3d_Grediant-transformed.glb')
+import { GLTF } from 'three-stdlib'
+import * as THREE from "three";
+type GLTFResult = GLTF & {
+  nodes: {
+    [key: string]: THREE.Mesh
+  }
+  materials: {
+    [key: string]: THREE.Material
+  }
+}
+
+export function Pramil(props: JSX.IntrinsicElements["group"]) {
+  const { nodes, materials } = useGLTF('models/Pramil_3d_Grediant-transformed.glb') as unknown as GLTFResult
   return (
     <group {...props} dispose={null}>
       <mesh geometry={nodes['tripo_node_5e3e2ad7-51de-428a-ab87-aa722cf2b7ab'].geometry} material={materials['tripo_mat_5e3e2ad7-51de-428a-ab87-aa722cf2b7ab']} />

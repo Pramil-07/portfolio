@@ -49,7 +49,7 @@ const AppShowcase = () => {
                 <div className="showcaselayout">
                     <div ref={project1Ref} className="first-project-wrapper">
                         <div className="image-wrapper">
-                            <img src="/images/project1.png" alt="Ryde App Interface"/>
+                            <img src="/images/project1.png" alt="Homaale Online Service Booking Platform"/>
                         </div>
                         <div className="text-content">
                             <h2>
@@ -69,7 +69,7 @@ const AppShowcase = () => {
                             <div className="image-wrapper bg-[#FFEFDB]">
                                 <img
                                     src="/images/project2.png"
-                                    alt="Library Management Platform"
+                                    alt="Mitho Sweets Ecommerce Platform for sweets"
                                 />
                             </div>
                             <h2>The Ecommerce Platform to buy Sweets</h2>
@@ -77,7 +77,7 @@ const AppShowcase = () => {
 
                         <div className="project " ref={project3Ref} >
                             <div className="image-wrapper bg-[#FFE7EB]">
-                                <img src="/images/project3.png" alt="YC Directory App"/>
+                                <img src="/images/cagtu_cms.jpg" alt="Cagtu CMS"/>
                             </div>
                             <div className="text-content">
                                 <h2>

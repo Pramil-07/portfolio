@@ -2,14 +2,8 @@ import React from "react";
 import { testimonials } from "../constants";
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
+import { Testimonial } from "../constants/types";
 
-// Define the type for a testimonial
-interface Testimonial {
-    name: string;
-    mentions: string;
-    role:string;
-    imgPath: string;
-}
 
 const Testimonials: React.FC = () => {
     return (
@@ -22,7 +16,7 @@ const Testimonials: React.FC = () => {
 
                 <div className="lg:columns-3 md:columns-2 columns-1 mt-16">
                     {testimonials.map((testimonial: Testimonial, index: number) => (
-                        <GlowCard card={testimonial} key={index} index={index}>
+                        <GlowCard<Testimonial> card={testimonial} key={index} index={index}>
                             <div className="flex items-center gap-3">
                                 <div>
                                     <img src={testimonial.imgPath} alt={testimonial.name} />

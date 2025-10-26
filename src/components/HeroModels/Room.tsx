@@ -8,10 +8,23 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { EffectComposer, SelectiveBloom } from "@react-three/postprocessing";
 import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
+import { JSX } from "react/jsx-runtime";
+import { GLTF } from 'three-stdlib'
 
-export function Room(props) {
-    const { nodes, materials } = useGLTF("/models/optimized-room.glb");
-    const screensRef = useRef();
+type GLTFResult = GLTF & {
+  nodes: {
+    [key: string]: THREE.Mesh
+  }
+  materials: {
+    [key: string]: THREE.Material
+  }
+}
+
+
+export function Room(props: JSX.IntrinsicElements['group']) {
+    const { nodes, materials } = useGLTF("/models/optimized-room.glb") as unknown as GLTFResult
+;
+    const screensRef = useRef<THREE.Object3D>(null)
     const matcapTexture = useTexture("/images/textures/mat1.png");
 
     const curtainMaterial = new THREE.MeshPhongMaterial({
@@ -46,7 +59,7 @@ export function Room(props) {
         <group {...props} dispose={null}>
             <EffectComposer>
                 <SelectiveBloom
-                    selection={screensRef}
+                    selection={screensRef.current as THREE.Object3D}
                     intensity={1.5} // Strength of the bloom
                     luminanceThreshold={0.2} // Minimum luminance needed
                     luminanceSmoothing={0.9} // Smooth transition
