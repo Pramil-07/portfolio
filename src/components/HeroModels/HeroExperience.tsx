@@ -2,9 +2,9 @@ import {Canvas} from "@react-three/fiber";
 import {OrbitControls} from "@react-three/drei";
 import {useMediaQuery} from "react-responsive";
 import * as THREE from "three";
-import {HeroLights} from "./HeroLights.tsx";
-import Particles from "./particals.tsx";
-import {Pramil} from "./Pramil.tsx";
+import {HeroLights} from "./HeroLights";
+import Particles from "./particals";
+import {Pramil} from "./Pramil";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 export const HeroExperience = () => {
     const isTablet = useMediaQuery({query : '(max-width: 1024px)'});

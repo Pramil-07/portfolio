@@ -1,15 +1,8 @@
 import { useRef, type ReactNode, type MouseEvent } from "react";
+import { GlowCardProps, HasReview } from "../constants/types";
 
 
-interface HasReview {
-    review?: string;
-}
 
-interface GlowCardProps<T extends HasReview> {
-    card: T;
-    index: number;
-    children?: ReactNode;
-}
 
 const GlowCard = <T extends HasReview>({ card, index, children }: GlowCardProps<T>) => {
     // refs for all the cards
