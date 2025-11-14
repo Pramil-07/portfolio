@@ -233,17 +233,17 @@ const testimonials:Testimonial[] = [
 const socialImgs = [
     {
         name: "github",
-        url: "https://github.com/pramildhungana",
+        url: "https://github.com/Pramil-07",
         imgPath: "public/images/GITHUB.png",
     },
     {
         name: "linkedin",
-        url: "https://www.linkedin.com/in/pramildhungana",
+        url: "https://www.linkedin.com/in/pramil-dhungana/",
         imgPath: "/images/linkedin.png",
     },
     {
         name: "email",
-        url: "mailto:pramildhungana7@gmail.com",
+        url: "mailto:youraddress@gmail.com?subject=Contact&body=Hi! Pramil,",
         imgPath: "/images/mail.png",
     },
 ];

@@ -49,7 +49,9 @@ const AppShowcase = () => {
                 <div className="showcaselayout">
                     <div ref={project1Ref} className="first-project-wrapper">
                         <div className="image-wrapper">
+                            <a href="https://homaale.com" target="_blank" rel="noopener noreferrer">
                             <img src="/images/project1.png" alt="Homaale Online Service Booking Platform"/>
+                            </a>
                         </div>
                         <div className="text-content">
                             <h2>
@@ -67,10 +69,13 @@ const AppShowcase = () => {
                     <div className="project-list-wrapper overflow-hidden">
                         <div className="project" ref={project2Ref}>
                             <div className="image-wrapper bg-[#FFEFDB]">
+                                <a href="https://mithosweets.com" target="_blank" rel="noopener noreferrer">
                                 <img
                                     src="/images/project2.png"
                                     alt="Mitho Sweets Ecommerce Platform for sweets"
                                 />
+                                </a>
+                                
                             </div>
                             <h2>The Ecommerce Platform to buy Sweets</h2>
                         </div>

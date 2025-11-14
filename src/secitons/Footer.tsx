@@ -15,15 +15,16 @@ const Footer: React.FC = () => {
                 {/* Social Icons */}
                 <div className="socials">
                     {socialImgs.map((socialImg, index: number) => (
-                        <div key={index} className="icon">
-                                <a href={socialImg.url}      
-                                    target="_blank"            
-                                    rel="noopener noreferrer" 
-                                >
-                                        <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
-                                </a>
-                            
+                       <div key={index} className="icon">
+                        <a
+                            href={socialImg.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
+                        </a>
                         </div>
+
                     ))}
                 </div>
 
