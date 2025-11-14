@@ -16,8 +16,7 @@ const Footer: React.FC = () => {
                 <div className="socials">
                     {socialImgs.map((socialImg, index: number) => (
                         <div key={index} className="icon">
-                                                        <a 
-                                    href={socialImg.url}      
+                                <a href={socialImg.url}      
                                     target="_blank"            
                                     rel="noopener noreferrer"  // security best practice
                                 ></a>

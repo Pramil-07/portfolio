@@ -210,7 +210,7 @@ const testimonials:Testimonial[] = [
         mentions: "@cagtunepal",
         review:
             "Pramil consistently delivers high-quality work with precision and dedication. His understanding of full-stack systems and proactive communication make him a valuable developer.",
-        imgPath: "/images/client1.png",
+        imgPath: "/images/deepak.jpg",
     },
     {
         name: "krijan Niraula",
@@ -226,7 +226,7 @@ const testimonials:Testimonial[] = [
         mentions: "@uxcollab",
         review:
             "Pramil understands the importance of user experience and translates design ideas into robust, scalable code effortlessly. Highly recommended for any product-focused team.",
-        imgPath: "/images/client3.png",
+        imgPath: "/images/Utsav.jpg",
     },
 ];
 
@@ -234,7 +234,7 @@ const socialImgs = [
     {
         name: "github",
         url: "https://github.com/pramildhungana",
-        imgPath: "/images/github.png",
+        imgPath: "public/images/GITHUB.png",
     },
     {
         name: "linkedin",
