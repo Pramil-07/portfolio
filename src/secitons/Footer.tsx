@@ -1,11 +1,7 @@
 import React from "react";
 import { socialImgs } from "../constants";
 
-// Define the type for social images
-interface SocialImg {
-    imgPath: string;
-    name?: string; // optional if you have a name or alt property
-}
+
 
 const Footer: React.FC = () => {
     return (
@@ -13,13 +9,18 @@ const Footer: React.FC = () => {
             <div className="footer-container">
                 {/* Terms & Conditions */}
                 <div className="flex flex-col justify-center">
-                    <p>Terms & Conditions</p>
+                    <p>Terms & tt Conditions</p>
                 </div>
 
                 {/* Social Icons */}
                 <div className="socials">
-                    {socialImgs.map((socialImg: SocialImg, index: number) => (
+                    {socialImgs.map((socialImg, index: number) => (
                         <div key={index} className="icon">
+                                                        <a 
+                                    href={socialImg.url}      
+                                    target="_blank"            
+                                    rel="noopener noreferrer"  // security best practice
+                                ></a>
                             <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
                         </div>
                     ))}
@@ -28,7 +29,7 @@ const Footer: React.FC = () => {
                 {/* Copyright */}
                 <div className="flex flex-col justify-center">
                     <p className="text-center md:text-end">
-                        © {new Date().getFullYear()} Adrian Hajdin. All rights reserved.
+                        © {new Date().getFullYear()} Pramil Dhungana. All rights reserved.
                     </p>
                 </div>
             </div>
