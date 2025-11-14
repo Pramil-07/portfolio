@@ -234,7 +234,7 @@ const socialImgs = [
     {
         name: "github",
         url: "https://github.com/Pramil-07",
-        imgPath: "/images/GITHUB.png",
+        imgPath: "public/images/GITHUB.png",
     },
     {
         name: "linkedin",
