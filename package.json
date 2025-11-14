@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "heroku-postbuild": "npm run build",
+    "start": "serve -s dist"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -24,6 +26,7 @@
     "react-dom": "^19.1.1",
     "react-hot-toast": "^2.6.0",
     "react-responsive": "^10.0.1",
+    "serve": "^14.2.5",
     "tailwindcss": "^4.1.13",
     "three": "^0.180.0"
   },
