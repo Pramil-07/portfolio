@@ -18,9 +18,11 @@ const Footer: React.FC = () => {
                         <div key={index} className="icon">
                                 <a href={socialImg.url}      
                                     target="_blank"            
-                                    rel="noopener noreferrer"  // security best practice
-                                ></a>
-                            <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
+                                    rel="noopener noreferrer" 
+                                >
+                                        <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
+                                </a>
+                            
                         </div>
                     ))}
                 </div>
