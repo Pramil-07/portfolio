@@ -4,6 +4,8 @@ import { socialImgs } from "../constants";
 
 
 const Footer: React.FC = () => {
+
+    console.log(socialImgs.map(img => img.url));
     return (
         <footer className="footer">
             <div className="footer-container">
@@ -15,15 +17,17 @@ const Footer: React.FC = () => {
                 {/* Social Icons */}
                 <div className="socials">
                     {socialImgs.map((socialImg, index: number) => (
-                       <div key={index} className="icon">
+                      
                         <a
                             href={socialImg.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                        >
+                            className="icon"
+                        > 
                             <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
+
                         </a>
-                        </div>
+                       
 
                     ))}
                 </div>
