@@ -1,3 +1,2 @@
-import { jsx as _jsx, Fragment as _Fragment, jsxs as _jsxs } from "react/jsx-runtime";
-import { Environment } from "@react-three/drei";
-export const HeroLights = () => (_jsxs(_Fragment, { children: [_jsx("spotLight", { position: [2, 5, 6], angle: 0.25, penumbra: 1, intensity: 150, color: "#ffffff" }), _jsx("spotLight", { position: [5, 3, -3], angle: 0.4, penumbra: 1, intensity: 80, color: "#4cc9f0" }), _jsx("spotLight", { position: [-4, 2, 4], angle: 0.5, penumbra: 1, intensity: 90, color: "#9d4edd" }), _jsx("ambientLight", { intensity: 0.6, color: "#ffffff" }), _jsx(Environment, { preset: "city", background: false })] }));
+import { jsx as _jsx } from "react/jsx-runtime";
+export const HeroLights = () => _jsx("div", {});
