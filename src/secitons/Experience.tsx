@@ -26,7 +26,7 @@ const Experience: React.FC = () => {
             });
         });
 
-        // Animate the timeline scaleY
+        
         gsap.to(".timeline", {
             transformOrigin: "bottom bottom",
             ease: "power1.inOut",
