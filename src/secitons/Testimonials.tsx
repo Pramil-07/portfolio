@@ -18,8 +18,12 @@ const Testimonials: React.FC = () => {
                     {testimonials.map((testimonial: Testimonial, index: number) => (
                         <GlowCard<Testimonial> card={testimonial} key={index} index={index}>
                             <div className="flex items-center gap-3">
-                                <div>
-                                    <img src={testimonial.imgPath} alt={testimonial.name} />
+                                <div className="flex-shrink-0">
+                                    <img 
+                                        src={testimonial.imgPath} 
+                                        alt={testimonial.name}
+                                        className="w-16 h-16 rounded-full object-cover"
+                                    />
                                 </div>
                                 <div>
                                     <p className="font-bold">{testimonial.name}</p>
