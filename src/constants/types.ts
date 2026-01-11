@@ -38,3 +38,17 @@ export interface GlowCardProps<T extends HasReview> {
     index: number;
     children?: ReactNode;
 }
+
+export interface NavLink {
+  id: number;
+  name: string;
+  href: string;
+}
+
+export interface Certification {
+  title: string;
+  issuer: string;
+  date: string;
+  imgPath: string;
+  credentialUrl: string;
+}
