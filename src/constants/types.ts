@@ -24,6 +24,7 @@ export interface TechIconCardExperienceProps {
 
 export interface HasReview {
     review?: string;
+    herosection?: boolean
 }
 
 export interface Testimonial extends HasReview {

@@ -3,7 +3,9 @@ import {useGSAP} from "@gsap/react";
 import gsap from "gsap";
 import Button from "../components/Button";
 import AnimatedCounter from "../components/AnimatedCounter";
-import HeroExperience from "../components/HeroModels/HeroExperience";
+import Pramil from "../components/HeroModels/Pramil";
+const heroBg = new URL("../assets/images/bg.png", import.meta.url).href;
+const profileImg = new URL("../assets/images/pramil_bgremove.png", import.meta.url).href;
 
 
 
@@ -19,12 +21,12 @@ export const Hero = () => {
     return (
         <section id="hero" className="relative overflow-hidden">
             <div className="absolute top-0 left-0 z-10">
-                <img src="/images/bg.png" alt=""/>
+                <img src={heroBg} alt=""/>
             </div>
 
-            <div className="hero-layout">
+            <div className="hero-layout ">
                 {/* LEFT: Hero Content */}
-                <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+                <header className="flex flex-col justify-center md:w-full w-screen  md:px-20 px-5">
                     <div className="flex flex-col gap-7">
                         <div className="hero-text">
                                         <h1> Shaping<span className="slide">
@@ -62,15 +64,17 @@ export const Hero = () => {
                     </div>
                 </header>
 
-                {/* RIGHT: 3D Model or Visual */}
-                <figure>
-                    <div className="hero-3d-layout">
-                        <HeroExperience/>
-                    </div>
-                </figure>
+               
+                   
+                        {/* Show the new hero image card */}
+                        <Pramil   className="" alt="Pramil Image" />
+               
+                    
+                
             </div>
 
             <AnimatedCounter/>
         </section>
     )
 }
+

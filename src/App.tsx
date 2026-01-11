@@ -1,14 +1,16 @@
 
+import React, { Suspense } from "react";
 import Navbar from "./components/NavBar";
 import Testimonials from "./secitons/Testimonials";
-import Contact from "./secitons/Contact";
 import Footer from "./secitons/Footer";
 import {Hero} from "./secitons/hero";
 import ShowcaseSection from "./secitons/ShowcaseSection";
 import LogoShowcase from "./secitons/LogoShowcase";
 import FeatureCards from "./secitons/FeatureCards";
 import Experience from "./secitons/Experience";
-import TechStack from "./secitons/TechStack";
+
+const TechStack = React.lazy(() => import("./secitons/TechStack"));
+const Contact = React.lazy(() => import("./secitons/Contact"));
 export const App = () => {
     return (
         <>
@@ -18,9 +20,13 @@ export const App = () => {
             <LogoShowcase />
             <FeatureCards />
             <Experience />
-            <TechStack/>
+            <Suspense fallback={null}>
+                <TechStack />
+            </Suspense>
             <Testimonials />
-            <Contact />
+            <Suspense fallback={null}>
+                <Contact />
+            </Suspense>
             <Footer />
 
         </>

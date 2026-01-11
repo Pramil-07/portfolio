@@ -10,6 +10,7 @@ type ButtonProps = {
 };
 
 export const Button = ({ text, className, id }:ButtonProps) => {
+    const arrowImg = "/images/arrow-down.svg";
     return (
         <a
             onClick={(e) => {
@@ -36,7 +37,7 @@ export const Button = ({ text, className, id }:ButtonProps) => {
                 <div className="bg-circle" />
                 <p className="text">{text}</p>
                 <div className="arrow-wrapper">
-                    <img src="/images/arrow-down.svg" alt="arrow" />
+                    <img src={arrowImg} alt="arrow" />
                 </div>
             </div>
         </a>

@@ -1,4 +1,6 @@
 import {ExpCardType, Testimonial} from "./types";
+// Images moved to public/images; use absolute URLs
+const IMG = (path: string) => `/images/${path}`;
 
 const navLinks = [
     { name: "Work", link: "#work" },
@@ -8,12 +10,12 @@ const navLinks = [
 ];
 
 const words = [
-    { text: "Ideas", imgPath: "/images/ideas.svg" },
-    { text: "Brands", imgPath: "/images/designs.svg" },
-    { text: "Dreams", imgPath: "/images/concepts.svg" },
-    { text: "Products", imgPath: "/images/code.svg" },
-    { text: "Solutions", imgPath: "/images/ideas.svg" },
-    { text: "Visions", imgPath: "/images/designs.svg" },
+    { text: "Ideas", imgPath: IMG('ideas.svg') },
+    { text: "Brands", imgPath: IMG('designs.svg') },
+    { text: "Dreams", imgPath: IMG('concepts.svg') },
+    { text: "Products", imgPath: IMG('code.svg') },
+    { text: "Solutions", imgPath: IMG('ideas.svg') },
+    { text: "Visions", imgPath: IMG('designs.svg') },
 ];
 
 
@@ -25,135 +27,63 @@ const counterItems = [
 ];
 
 const logoIconsList = [
-    {
-        imgPath: "/images/logos/company-logo-1.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-2.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-3.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-4.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-5.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-6.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-7.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-8.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-9.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-10.png",
-    },
-    {
-        imgPath: "/images/logos/company-logo-11.png",
-    },
+    { imgPath: IMG('logos/company-logo-1.png') },
+    { imgPath: IMG('logos/company-logo-2.png') },
+    { imgPath: IMG('logos/company-logo-3.png') },
+    { imgPath: IMG('logos/company-logo-4.png') },
+    { imgPath: IMG('logos/company-logo-5.png') },
+    { imgPath: IMG('logos/company-logo-6.png') },
+    { imgPath: IMG('logos/company-logo-7.png') },
+    { imgPath: IMG('logos/company-logo-8.png') },
+    { imgPath: IMG('logos/company-logo-9.png') },
+    { imgPath: IMG('logos/company-logo-10.png') },
+    { imgPath: IMG('logos/company-logo-11.png') },
 ];
 const abilities = [
     {
-        imgPath: "/images/seo.png",
+        imgPath: IMG('seo.png'),
         title: "Full Stack Development",
         desc: "Building scalable, high-performance web apps using Next.js and Django REST Framework.",
     },
     {
-        imgPath: "/images/time.png",
+        imgPath: IMG('time.png'),
         title: "Optimized Delivery",
         desc: "Deploying and maintaining production-ready systems with Docker, Redis, and PostgreSQL.",
     },
     {
-        imgPath: "/images/chat.png",
+        imgPath: IMG('chat.png'),
         title: "Collaborative Workflow",
         desc: "Working closely with designers, developers, and clients using Agile methodology for effective delivery.",
     },
 ];
 
 const techStackImgs = [
-    { name: "Next.js Developer", imgPath: "/images/logos/nextjs.svg" },
-    { name: "Django Developer", imgPath: "/images/logos/django.png" },
-    { name: "PostgreSQL", imgPath: "/images/logos/postgresql.svg" },
-    { name: "Redis", imgPath: "/images/logos/redis.svg" },
-    { name: "Docker", imgPath: "/images/logos/docker.png" },
+    { name: "Next.js Developer", imgPath: IMG('logos/nextjs.svg') },
+    { name: "Django Developer", imgPath: IMG('logos/django.png') },
+    { name: "PostgreSQL", imgPath: IMG('logos/postgresql.svg') },
+    { name: "Redis", imgPath: IMG('logos/redis.svg') },
+    { name: "Docker", imgPath: IMG('logos/docker.png') },
 ];
 
 const techStackIcons = [
-    {
-        name: "React Developer",
-        modelPath: "/images/REACT.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, 0, 0],
-    },
-    {
-        name: "Python Developer",
-        modelPath: "/images/PYTHON.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, 0, 0],
-    },
-    {
-        name: "TypeScript Developer",
-        modelPath: "/images/TYPESCRIPT.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, 0, 0],
-    },
-    {
-        name: "JavaScript Developer",
-        modelPath: "/images/JAVASCRIPT.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, 0, 0],
-    },
-    {
-        name: "Backend Developer",
-        modelPath: "/images/DJANGO.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, -Math.PI / 2, 0],
-    },
-    {
-        name: "Redis cache ",
-        modelPath: "/images/REDIS.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, -Math.PI / 2, 0],
-    },
-    {
-        name: "Tailwind CSS",
-        modelPath: "/images/TAILWIND.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, -Math.PI / 2, 0],
-    },
-    {
-        name: "State Management ",
-        modelPath: "/images/REDUX.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, 0, 0],
-    },
-    {
-        name: "Project Management",
-        modelPath: "/images/GITHUB.png",
-        scale: [5 , 5 , 5],
-        rotation: [0, -Math.PI / 4, 0],
-    },
-    {
-        name: "Docker",
-        modelPath: "/images/docker_logo.png",
-        scale: [10 , 10 , 10],
-        rotation: [0, -Math.PI / 4, 0],
-    },
+    { name: "React Developer", modelPath: IMG('REACT.png'), scale: [5, 5, 5], rotation: [0, 0, 0] },
+    { name: "Python Developer", modelPath: IMG('PYTHON.png'), scale: [5, 5, 5], rotation: [0, 0, 0] },
+    { name: "TypeScript Developer", modelPath: IMG('TYPESCRIPT.png'), scale: [5, 5, 5], rotation: [0, 0, 0] },
+    { name: "JavaScript Developer", modelPath: IMG('JAVASCRIPT.png'), scale: [5, 5, 5], rotation: [0, 0, 0] },
+    { name: "Backend Developer", modelPath: IMG('DJANGO.png'), scale: [5, 5, 5], rotation: [0, -Math.PI / 2, 0] },
+    { name: "Redis cache ", modelPath: IMG('REDIS.png'), scale: [5, 5, 5], rotation: [0, -Math.PI / 2, 0] },
+    { name: "Tailwind CSS", modelPath: IMG('TAILWIND.png'), scale: [5, 5, 5], rotation: [0, -Math.PI / 2, 0] },
+    { name: "State Management ", modelPath: IMG('REDUX.png'), scale: [5, 5, 5], rotation: [0, 0, 0] },
+    { name: "Project Management", modelPath: IMG('GITHUB.png'), scale: [5, 5, 5], rotation: [0, -Math.PI / 4, 0] },
+    { name: "Docker", modelPath: IMG('docker_logo.png'), scale: [10, 10, 10], rotation: [0, -Math.PI / 4, 0] },
 ];
 const expCards: ExpCardType[] = [
     {
         id: 1,
         review:
             "Pramil has been instrumental in delivering full-stack features at Cagtu Nepal, combining clean design with efficient backend logic. His attention to scalability and integration has made him a reliable asset to the team.",
-        imgPath: "/images/homaale-logo_png.png",
-        logoPath: "/images/homaale-favicon.png",
+        imgPath: IMG('homaale-logo_png.png'),
+        logoPath: IMG('homaale-favicon.png'),
         title: "Junior Full Stack Developer",
         date: "Nov 2024 – Present",
         responsibilities: [
@@ -167,8 +97,8 @@ const expCards: ExpCardType[] = [
         id: 2,
         review:
             "Pramil made a significant contribution to MithoSweets — a complete eCommerce platform with smooth customer experience and robust admin management. His expertise ensured a secure, scalable, and polished final product.",
-        imgPath: "/images/mithoSweets_banner.png",
-        logoPath: "/images/mithoSweets_logo.png",
+        imgPath: IMG('mithoSweets_banner.png'),
+        logoPath: IMG('mithoSweets_logo.png'),
         title: "MithoSweets – Full Stack E-commerce Platform",
         date: "Dec 2024 – Present",
         responsibilities: [
@@ -183,8 +113,8 @@ const expCards: ExpCardType[] = [
         id: 3,
         review:
             "During his internship, Pramil quickly demonstrated an ability to learn, adapt, and contribute effectively to team projects, delivering reliable and polished features.",
-        imgPath: "/images/cagtu-logo-icon.png",
-        logoPath: "/images/cagtu-Collapsed.webp",
+        imgPath: IMG('cagtu-logo-icon.png'),
+        logoPath: IMG('cagtu-Collapsed.webp'),
         title: "Full Stack Intern",
         date: "Aug 2024 – Nov 2024",
         responsibilities: [
@@ -200,7 +130,7 @@ const expCards: ExpCardType[] = [
 ];
 
 const expLogos = [
-    { name: "Cagtu Nepal", imgPath: "/images/logo1.png" },
+    { name: "Cagtu Nepal", imgPath: IMG('logo1.png') },
 ];
 
 const testimonials:Testimonial[] = [
@@ -210,7 +140,7 @@ const testimonials:Testimonial[] = [
         mentions: "@cagtunepal",
         review:
             "Pramil consistently delivers high-quality work with precision and dedication. His understanding of full-stack systems and proactive communication make him a valuable developer.",
-        imgPath: "/images/deepak.jpg",
+        imgPath: IMG('deepak.jpg'),
     },
     {
         name: "krijan Niraula",
@@ -218,7 +148,7 @@ const testimonials:Testimonial[] = [
         mentions: "@projectlead",
         review:
             "Working with Pramil has been a smooth and productive experience. His problem-solving mindset and mastery of modern web technologies set him apart.",
-        imgPath: "/images/client2.png",
+        imgPath: IMG('client2.png'),
     },
     {
         name: "Utsav Guragai",
@@ -226,7 +156,7 @@ const testimonials:Testimonial[] = [
         mentions: "@uxcollab",
         review:
             "Pramil understands the importance of user experience and translates design ideas into robust, scalable code effortlessly. Highly recommended for any product-focused team.",
-        imgPath: "/images/Utsav.jpg",
+        imgPath: IMG('utsav.jpg'),
     },
 ];
 
@@ -234,17 +164,17 @@ const socialImgs = [
     {
         name: "github",
         url: "https://github.com/Pramil-07",
-        imgPath: "/images/GITHUB.png",
+        imgPath: IMG('GITHUB.png'),
     },
     {
         name: "linkedin",
         url: "https://www.linkedin.com/in/pramil-dhungana/",
-        imgPath: "/images/linkedin.png",
+        imgPath: IMG('linkedin.png'),
     },
     {
         name: "email",
         url: "mailto:youraddress@gmail.com?subject=Contact&body=Hi! Pramil,",
-        imgPath: "/images/mail.png",
+        imgPath: IMG('mail.png'),
     },
 ];
 

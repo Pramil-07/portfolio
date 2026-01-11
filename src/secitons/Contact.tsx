@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/models/contact/ContactExperience";
+const arrowDown = "/images/arrow-down.svg";
 
 // Define the form state type
 interface ContactForm {
@@ -147,7 +148,7 @@ const Contact: React.FC = () => {
                                         <div className="bg-circle" />
                                         <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                                         <div className="arrow-wrapper">
-                                            <img src="/images/arrow-down.svg" alt="arrow" />
+                                            <img src={arrowDown} alt="arrow" />
                                         </div>
                                     </div>
                                 </button>

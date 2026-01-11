@@ -1,10 +1,11 @@
 import { useRef, type ReactNode, type MouseEvent } from "react";
 import { GlowCardProps, HasReview } from "../constants/types";
+const starImg = new URL("../assets/images/star.png", import.meta.url).href;
 
 
 
 
-const GlowCard = <T extends HasReview>({ card, index, children }: GlowCardProps<T>) => {
+const GlowCard = <T extends HasReview>({ card, index, children  }: GlowCardProps<T>) => {
     // refs for all the cards
     const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
 
@@ -33,11 +34,13 @@ const GlowCard = <T extends HasReview>({ card, index, children }: GlowCardProps<
             className="card card-border timeline-card rounded-xl p-10 mb-5 break-inside-avoid-column"
         >
             <div className="glow"></div>
-            <div className="flex items-center gap-1 mb-5">
+            {!card.herosection && (<div className="flex items-center gap-1 mb-5">
                 {Array.from({ length: 5 }, (_, i) => (
-                    <img key={i} src="/images/star.png" alt="star" className="size-5" />
+                    <img key={i} src={starImg} alt="star" className="size-5" />
                 ))}
-            </div>
+            </div>)
+            }
+            
             <div className="mb-5">
                 <p className="text-white-50 text-lg">{card.review}</p>
             </div>

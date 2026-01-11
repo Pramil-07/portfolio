@@ -4,6 +4,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 
 gsap.registerPlugin(ScrollTrigger);
+// Use public images with absolute paths
+const project1Img = "/images/project1.png";
+const project2Img = "/images/project2.png";
+const project3Img = "/images/cagtu_cms.jpg";
 
 const AppShowcase = () => {
     const sectionRef = useRef(null);
@@ -50,7 +54,7 @@ const AppShowcase = () => {
                     <div ref={project1Ref} className="first-project-wrapper">
                         <div className="image-wrapper">
                             <a href="https://homaale.com" target="_blank" rel="noopener noreferrer">
-                            <img src="/images/project1.png" alt="Homaale Online Service Booking Platform"/>
+                            <img src={project1Img} alt="Homaale Online Service Booking Platform"/>
                             </a>
                         </div>
                         <div className="text-content">
@@ -71,7 +75,7 @@ const AppShowcase = () => {
                             <div className="image-wrapper bg-[#FFEFDB]">
                                 <a href="https://mithosweets.com" target="_blank" rel="noopener noreferrer">
                                 <img
-                                    src="/images/project2.png"
+                                    src={project2Img}
                                     alt="Mitho Sweets Ecommerce Platform for sweets"
                                 />
                                 </a>
@@ -82,7 +86,7 @@ const AppShowcase = () => {
 
                         <div className="project " ref={project3Ref} >
                             <div className="image-wrapper bg-[#FFE7EB]">
-                                <img src="/images/cagtu_cms.jpg" alt="Cagtu CMS"/>
+                                <img src={project3Img} alt="Cagtu CMS"/>
                             </div>
                             <div className="text-content">
                                 <h2>
