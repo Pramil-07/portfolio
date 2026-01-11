@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import animationData from "../../../../public/animations/Contact_us.json";
+import animationData from "../../../assets/animations/Contact_us.json";
 
 export default function ContactExperience() {
     return (
