@@ -8,7 +8,7 @@ type PramilProps = {
 };
 
 export function Pramil({
-  imgPath = '/images/pramil_bgremove.png',
+  imgPath = '/images/heroImage6.jpg',
   alt = 'Profile image',
   className = ''
 }: PramilProps) {
