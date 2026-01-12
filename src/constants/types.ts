@@ -37,6 +37,7 @@ export interface GlowCardProps<T extends HasReview> {
     card: T;
     index: number;
     children?: ReactNode;
+    isHerosection?: boolean;
 }
 
 export interface NavLink {
