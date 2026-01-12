@@ -1,4 +1,5 @@
 import Lottie from "lottie-react";
+import animationData from "../../../assets/animations/Contact_us.json";
 import React from "react";
 import { useEffect, useState } from "react";
 

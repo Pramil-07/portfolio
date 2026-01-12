@@ -31,9 +31,9 @@ export const NavBar = () => {
 
                 <nav className="desktop">
                     <ul>
-                        {navLinks.map(({ link, name }) => (
+                        {navLinks.map(({ href, name }) => (
                             <li key={name} className="group">
-                                <a href={link}>
+                                <a href={href}>
                                     <span>{name}</span>
                                     <span className="underline" />
                                 </a>

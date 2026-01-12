@@ -1,12 +1,16 @@
-import {ExpCardType, Testimonial} from "./types";
+import {ExpCardType, Testimonial, NavLink, Certification} from "./types";
+
 // Images moved to public/images; use absolute URLs
 const IMG = (path: string) => `/images/${path}`;
 
-const navLinks = [
-    { name: "Work", link: "#work" },
-    { name: "Experience", link: "#experience" },
-    { name: "Skills", link: "#skills" },
-    { name: "Testimonials", link: "#testimonials" },
+export const navLinks: NavLink[] = [
+  { id: 1, name: "Home", href: "#hero" },
+  { id: 2, name: "Work", href: "#work" },
+  { id: 3, name: "Experience", href: "#experience" },
+  { id: 4, name: "Skills", href: "#skills" },
+  { id: 5, name: "Testimonials", href: "#testimonials" },
+  { id: 6, name: "Resume", href: "#resume" },
+  { id: 7, name: "Contact", href: "#contact" },
 ];
 
 const words = [
@@ -178,6 +182,26 @@ const socialImgs = [
     },
 ];
 
+export const certifications = [
+  {
+    title: "AWS Certified Solutions Architect",
+    issuer: "Amazon Web Services",
+    date: "2025",
+    imgPath: "/images/certifications/aws-cert.png",
+    credentialUrl: "https://aws.amazon.com/verification"
+  },
+  {
+    title: "React Advanced Patterns",
+    issuer: "Frontend Masters",
+    date: "2024",
+    imgPath: "/images/certifications/react-cert.png",
+    credentialUrl: "https://frontendmasters.com/certificates"
+  },
+  // Add more certifications
+];
+
+export const resumeFile = "/downloads/Pramil_Dhungana_Resume.pdf";
+
 export {
     words,
     abilities,
@@ -189,5 +213,4 @@ export {
     socialImgs,
     techStackIcons,
     techStackImgs,
-    navLinks,
 };

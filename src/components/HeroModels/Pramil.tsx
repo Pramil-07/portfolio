@@ -8,7 +8,7 @@ type PramilProps = {
 };
 
 export function Pramil({
-  imgPath = '/images/heroImage6.jpg',
+  imgPath = '/images/Herosection.png',
   alt = 'Profile image',
   className = ''
 }: PramilProps) {
@@ -52,7 +52,7 @@ export function Pramil({
   const dummyCard = {herosection: true, review: ""};
 
   return (
-    <div className={`relative w-full h-full flex items-center justify-center py-6 md:py-8 lg:py-10 ${className}`}>
+    <div className={`flex w-3/5 items-center justify-center md:py-8 lg:py-10 ${className}`}>
       {/* Animated background orbs */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div 
@@ -111,7 +111,7 @@ export function Pramil({
           />
 
           {/* GlowCard wrapper */}
-          <GlowCard card={dummyCard} index={0}>
+          <GlowCard card={dummyCard} isHerosection={true} index={0}>
             <div className="relative h-full !p-0 !m-0 rounded-3xl bg-card/90 backdrop-blur-2xl overflow-hidden">
               {/* Dynamic spotlight effect following cursor */}
               <div
