@@ -1,8 +1,8 @@
 import React, { useRef, useState, ChangeEvent, FormEvent, useEffect } from "react";
-import emailjs from "@emailjs/browser";
 import toast, { Toaster } from "react-hot-toast";
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/models/contact/ContactExperience";
+import OptimizedImage from "../components/OptimizedImage";
 
 // Define the form state type
 interface ContactForm {
@@ -37,7 +37,7 @@ const Contact: React.FC = () => {
     // Change handler
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
-        setForm({ ...form, [name]: value });
+        setForm((prev) => ({ ...prev, [name]: value }));
     };
 
     // Simple email regex for validation
@@ -71,6 +71,7 @@ const Contact: React.FC = () => {
         const loadingToast = toast.loading("Sending your message...");
 
         try {
+            const { default: emailjs } = await import("@emailjs/browser");
             await emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, formRef.current, PUBLIC_KEY);
 
             toast.dismiss(loadingToast);
@@ -78,10 +79,17 @@ const Contact: React.FC = () => {
 
             // Reset form
             setForm({ name: "", email: "", message: "" });
-        } catch (error: any) {
+        } catch (error: unknown) {
             toast.dismiss(loadingToast);
             console.error("EmailJS Error:", error);
-            toast.error(error?.text || "Something went wrong. Please try again.");
+            const message =
+                typeof error === "object" &&
+                error !== null &&
+                "text" in error &&
+                typeof (error as { text?: unknown }).text === "string"
+                    ? (error as { text: string }).text
+                    : "Something went wrong. Please try again.";
+            toast.error(message);
         } finally {
             setLoading(false);
         }
@@ -147,7 +155,7 @@ const Contact: React.FC = () => {
                                         <div className="bg-circle" />
                                         <p className="text">{loading ? "Sending..." : "Send Message"}</p>
                                         <div className="arrow-wrapper">
-                                            <img src="/images/arrow-down.svg" alt="arrow" />
+                                            <OptimizedImage src="/images/arrow-down.svg" alt="arrow" />
                                         </div>
                                     </div>
                                 </button>

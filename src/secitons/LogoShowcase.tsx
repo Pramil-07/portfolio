@@ -1,10 +1,16 @@
 
 import { logoIconsList } from "../constants";
+import OptimizedImage from "../components/OptimizedImage";
 
-const LogoIcon = ({ icon }:{icon:any}) => {
+interface LogoIconData {
+    imgPath: string;
+    name?: string;
+}
+
+const LogoIcon = ({ icon }: { icon: LogoIconData }) => {
     return (
         <div className="flex-none flex-center marquee-item">
-            <img src={icon.imgPath} alt={icon.name} />
+            <OptimizedImage src={icon.imgPath} alt={icon.name ?? "company logo"} />
         </div>
     );
 };

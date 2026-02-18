@@ -6,11 +6,17 @@ import type {ExpCardType,} from "../constants/types.ts";
 
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
+import OptimizedImage from "../components/OptimizedImage";
+import { shouldReduceHeavyMotion } from "../utils/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Experience: React.FC = () => {
     useGSAP(() => {
+        if (shouldReduceHeavyMotion()) {
+            return;
+        }
+
         // Animate each timeline card
         gsap.utils.toArray<HTMLElement>(".timeline-card").forEach((card) => {
             gsap.from(card, {
@@ -74,7 +80,7 @@ const Experience: React.FC = () => {
                                 <div className="xl:w-2/6">
                                     <GlowCard index={card?.id ?? 0} card={card}>
                                         <div>
-                                            <img
+                                            <OptimizedImage
                                                 src={card.imgPath}
                                                 alt="exp-img"
                                                 width={150}
@@ -93,7 +99,7 @@ const Experience: React.FC = () => {
                                         </div>
                                         <div className="expText flex xl:gap-20 md:gap-10 gap-5 relative z-20">
                                             <div className="timeline-logo">
-                                                <img src={card.logoPath} alt="logo" />
+                                                <OptimizedImage src={card.logoPath} alt="logo" />
                                             </div>
                                             <div>
                                                 <h1 className="font-semibold text-3xl">{card.title}</h1>

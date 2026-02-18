@@ -2,6 +2,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import { shouldReduceHeavyMotion } from "../utils/motion";
 
 import { counterItems } from "../constants";
 import CountUp from 'react-countup';
@@ -16,6 +17,10 @@ const AnimatedCounter = () => {
     const countersRef = useRef<HTMLDivElement[]>([]);
 
     useGSAP(() => {
+        if (shouldReduceHeavyMotion()) {
+            return;
+        }
+
         countersRef.current.forEach((counter, index) => {
             const numberElement = counter.querySelector(".counter-number") as HTMLElement;
             const item = counterItems[index];

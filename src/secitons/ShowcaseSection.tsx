@@ -2,6 +2,8 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import OptimizedImage from "../components/OptimizedImage";
+import { shouldReduceHeavyMotion } from "../utils/motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,6 +14,10 @@ const AppShowcase = () => {
     const project3Ref = useRef(null);
 
     useGSAP(() => {
+        if (shouldReduceHeavyMotion()) {
+            return;
+        }
+
         // Animation for the main section
         gsap.fromTo(
             sectionRef.current,
@@ -50,7 +56,7 @@ const AppShowcase = () => {
                     <div ref={project1Ref} className="first-project-wrapper">
                         <div className="image-wrapper">
                             <a href="https://homaale.com" target="_blank" rel="noopener noreferrer">
-                            <img src="/images/project1.png" alt="Homaale Online Service Booking Platform"/>
+                            <OptimizedImage src="/images/project1.png" alt="Homaale Online Service Booking Platform"/>
                             </a>
                         </div>
                         <div className="text-content">
@@ -70,7 +76,7 @@ const AppShowcase = () => {
                         <div className="project" ref={project2Ref}>
                             <div className="image-wrapper bg-[#FFEFDB]">
                                 <a href="https://mithosweets.com" target="_blank" rel="noopener noreferrer">
-                                <img
+                                <OptimizedImage
                                     src="/images/project2.png"
                                     alt="Mitho Sweets Ecommerce Platform for sweets"
                                 />
@@ -82,7 +88,7 @@ const AppShowcase = () => {
 
                         <div className="project " ref={project3Ref} >
                             <div className="image-wrapper bg-[#FFE7EB]">
-                                <img src="/images/cagtu_cms.jpg" alt="Cagtu CMS"/>
+                                <OptimizedImage src="/images/cagtu_cms.jpg" alt="Cagtu CMS"/>
                             </div>
                             <div className="text-content">
                                 <h2>

@@ -3,6 +3,7 @@ import { testimonials } from "../constants";
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
 import { Testimonial } from "../constants/types";
+import OptimizedImage from "../components/OptimizedImage";
 
 
 const Testimonials: React.FC = () => {
@@ -19,7 +20,7 @@ const Testimonials: React.FC = () => {
                         <GlowCard<Testimonial> card={testimonial} key={index} index={index}>
                             <div className="flex items-center gap-3">
                                 <div className="flex-shrink-0">
-                                    <img 
+                                    <OptimizedImage 
                                         src={testimonial.imgPath} 
                                         alt={testimonial.name}
                                         className="w-16 h-16 rounded-full object-cover"

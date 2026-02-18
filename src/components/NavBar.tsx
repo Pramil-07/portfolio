@@ -12,11 +12,13 @@ export const NavBar = () => {
             // check if the user has scrolled down at least 10px
             // if so, set the state to true
             const isScrolled = window.scrollY > 10;
-            setScrolled(isScrolled);
+            setScrolled((prev) => (prev === isScrolled ? prev : isScrolled));
         };
 
+        handleScroll();
+
         // add the event listener to the window
-        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scroll", handleScroll, { passive: true });
 
         // cleanup the event listener when the component is unmounted
         return () => window.removeEventListener("scroll", handleScroll);

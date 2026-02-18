@@ -81,11 +81,11 @@ const abilities = [
 ];
 
 const techStackImgs = [
-    { name: "Next.js Developer", imgPath: "/images/logos/nextjs.svg" },
-    { name: "Django Developer", imgPath: "/images/logos/django.png" },
-    { name: "PostgreSQL", imgPath: "/images/logos/postgresql.svg" },
-    { name: "Redis", imgPath: "/images/logos/redis.svg" },
-    { name: "Docker", imgPath: "/images/logos/docker.png" },
+    { name: "Next.js Developer", imgPath: "/images/NODE_JS.png" },
+    { name: "Django Developer", imgPath: "/images/DJANGO.png" },
+    { name: "PostgreSQL", imgPath: "/images/MONGO_DB.png" },
+    { name: "Redis", imgPath: "/images/REDIS.png" },
+    { name: "Docker", imgPath: "/images/docker_logo.png" },
 ];
 
 const techStackIcons = [
@@ -229,7 +229,7 @@ const testimonials:Testimonial[] = [
         mentions: "@uxcollab",
         review:
             "Pramil understands the importance of user experience and translates design ideas into robust, scalable code effortlessly. Highly recommended for any product-focused team.",
-        imgPath: "/images/Utsav.jpg",
+        imgPath: "/images/utsav.jpg",
     },
 ];
 
@@ -251,7 +251,7 @@ const socialImgs = [
     },
 ];
 
-export const certifications = [
+export const certifications: Certification[] = [
   {
     title: "AWS Certified Solutions Architect",
     issuer: "Amazon Web Services",

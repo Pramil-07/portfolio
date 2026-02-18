@@ -1,3 +1,5 @@
+import OptimizedImage from "./OptimizedImage";
+
 /**
  * A reusable CTA button component.
  * When clicked, it scrolls smoothly to the section with ID "counter",
@@ -36,7 +38,12 @@ export const Button = ({ text, className, id }:ButtonProps) => {
                 <div className="bg-circle" />
                 <p className="text">{text}</p>
                 <div className="arrow-wrapper">
-                    <img src="/images/arrow-down.svg" alt="arrow" />
+                    <OptimizedImage
+                        src="/images/arrow-down.svg"
+                        alt="arrow"
+                        loading="eager"
+                        decoding="sync"
+                    />
                 </div>
             </div>
         </a>

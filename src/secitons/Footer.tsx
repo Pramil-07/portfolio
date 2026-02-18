@@ -1,11 +1,10 @@
 import React from "react";
 import { socialImgs } from "../constants";
+import OptimizedImage from "../components/OptimizedImage";
 
 
 
 const Footer: React.FC = () => {
-
-    console.log(socialImgs.map(img => img.url));
     return (
         <footer className="footer">
             <div className="footer-container">
@@ -16,15 +15,16 @@ const Footer: React.FC = () => {
 
                 {/* Social Icons */}
                 <div className="socials">
-                    {socialImgs.map((socialImg, index: number) => (
+                    {socialImgs.map((socialImg) => (
                       
                         <a
+                            key={socialImg.name}
                             href={socialImg.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="icon"
                         > 
-                            <img src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
+                            <OptimizedImage src={socialImg.imgPath} alt={socialImg.name || "social icon"} />
 
                         </a>
                        

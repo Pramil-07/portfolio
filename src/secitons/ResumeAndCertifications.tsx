@@ -1,9 +1,9 @@
 import React from "react";
 import { certifications, resumeFile } from "../constants";
 import TitleHeader from "../components/TitleHeader";
-import GlowCard from "../components/GlowCard";
 import { Certification } from "../constants/types";
 import { Download, ExternalLink } from "lucide-react";
+import OptimizedImage from "../components/OptimizedImage";
 
 const ResumeAndCertifications: React.FC = () => {
   return (
@@ -53,7 +53,7 @@ const ResumeAndCertifications: React.FC = () => {
                 >
                   <div className="flex flex-col gap-4">
                     <div className="w-full aspect-video rounded-lg overflow-hidden bg-white/5">
-                      <img
+                      <OptimizedImage
                         src={cert.imgPath}
                         alt={cert.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

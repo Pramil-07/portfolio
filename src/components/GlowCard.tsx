@@ -1,5 +1,6 @@
-import { useRef, type ReactNode, type MouseEvent } from "react";
+import { useRef, type MouseEvent } from "react";
 import { GlowCardProps, HasReview } from "../constants/types";
+import OptimizedImage from "./OptimizedImage";
 
 
 
@@ -37,7 +38,7 @@ const GlowCard = <T extends HasReview>({ card, index, children ,isHerosection }:
                     <div className="glow"></div>
             <div className="flex items-center gap-1 mb-5">
                 {Array.from({ length: 5 }, (_, i) => (
-                    <img key={i} src="/images/star.png" alt="star" className="size-5" />
+                    <OptimizedImage key={i} src="/images/star.png" alt="star" className="size-5" />
                 ))}
             </div>
             <div className="mb-5">

@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect, type MouseEvent } from 'react';
 import GlowCard from '../GlowCard';
+import OptimizedImage from '../OptimizedImage';
 
 type PramilProps = {
   imgPath?: string;
@@ -17,9 +18,17 @@ export function Pramil({
   const [hovered, setHovered] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const glowRef = useRef<HTMLDivElement | null>(null);
+  const frameRef = useRef<number | null>(null);
+  const pointerRef = useRef({ x: 0, y: 0, mouseX: 50, mouseY: 50 });
 
   useEffect(() => {
     setIsLoaded(true);
+
+    return () => {
+      if (frameRef.current !== null) {
+        cancelAnimationFrame(frameRef.current);
+      }
+    };
   }, []);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
@@ -32,13 +41,27 @@ export function Pramil({
     
     // Tilt calculation
     const max = 15;
-    const x = (py - 0.5) * -2 * max;
-    const y = (px - 0.5) * 2 * max;
-    setTilt({ x, y });
-    setMousePos({ x: px * 100, y: py * 100 });
+    pointerRef.current = {
+      x: (py - 0.5) * -2 * max,
+      y: (px - 0.5) * 2 * max,
+      mouseX: px * 100,
+      mouseY: py * 100,
+    };
+
+    if (frameRef.current === null) {
+      frameRef.current = requestAnimationFrame(() => {
+        setTilt({ x: pointerRef.current.x, y: pointerRef.current.y });
+        setMousePos({ x: pointerRef.current.mouseX, y: pointerRef.current.mouseY });
+        frameRef.current = null;
+      });
+    }
   };
 
   const handleMouseLeave = () => {
+    if (frameRef.current !== null) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
     setTilt({ x: 0, y: 0 });
     setHovered(false);
     setMousePos({ x: 50, y: 50 });
@@ -134,9 +157,12 @@ export function Pramil({
 
               {/* Image container */}
               <div className="relative overflow-hidden h-full">
-                <img
+                <OptimizedImage
                   src={imgPath}
                   alt={alt}
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="sync"
                   className="block w-full h-full object-cover object-center rounded-3xl transform group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 

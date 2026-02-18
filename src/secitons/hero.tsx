@@ -3,14 +3,19 @@ import {useGSAP} from "@gsap/react";
 import gsap from "gsap";
 import Button from "../components/Button";
 import AnimatedCounter from "../components/AnimatedCounter";
-import HeroExperience from "../components/HeroModels/HeroExperience";
 import { Pramil } from "../components/HeroModels/Pramil";
+import OptimizedImage from "../components/OptimizedImage";
+import { shouldReduceHeavyMotion } from "../utils/motion";
 
 
 
 
 export const Hero = () => {
     useGSAP(() => {
+        if (shouldReduceHeavyMotion()) {
+            return;
+        }
+
         gsap.fromTo(
             ".hero-text h1",
             { y: 50, opacity: 0 },
@@ -20,7 +25,13 @@ export const Hero = () => {
     return (
         <section id="hero" className="relative  overflow-hidden">
             <div className="absolute top-0 left-0 z-10">
-                <img src="/images/bg.png" alt=""/>
+                <OptimizedImage
+                    src="/images/bg.png"
+                    alt="hero background"
+                    loading="eager"
+                    fetchPriority="high"
+                    decoding="sync"
+                />
             </div>
 
             <div className="hero-layout">
@@ -35,9 +46,11 @@ export const Hero = () => {
                                                     key={index}
                                                     className="flex items-center gap-1 pb-2"
                                                 >
-                                                <img
+                                                <OptimizedImage
                                                     src={word.imgPath}
                                                     alt="person"
+                                                    loading="eager"
+                                                    decoding="sync"
                                                     className="xl:size-12 md:size-10 size-7 md:p-2 p-1 rounded-full bg-white-50"
                                                 />
                                                 <span>{word.text}</span>

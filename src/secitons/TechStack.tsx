@@ -6,11 +6,16 @@ import TitleHeader from "../components/TitleHeader";
 import TechIconCardExperience from "../components/models/tech_logos/TechIconCardExperience";
 import {techStackIcons} from "../constants";
 import type {TechStackIcon} from "../constants/types.ts";
+import { shouldReduceHeavyMotion } from "../utils/motion";
 
 
 const TechStack: React.FC = () => {
     // Animate the tech cards
     useGSAP(() => {
+        if (shouldReduceHeavyMotion()) {
+            return;
+        }
+
         gsap.fromTo(
             ".tech-card",
             { y: 50, opacity: 0 },
