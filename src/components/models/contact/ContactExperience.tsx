@@ -7,7 +7,7 @@ export default function ContactExperience() {
             animationData={animationData}
             loop={true}
             autoplay={true}
-            style={{ width: 800, height: 700 }}
+            style={{ width: "100%", height: "auto" }}
         />
     );
 }

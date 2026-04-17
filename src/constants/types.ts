@@ -2,6 +2,7 @@ import {ReactNode} from "react";
 
 export interface ExpCardType {
     id?: number;
+    company: string;
     title: string;
     date: string;
     imgPath: string;
@@ -52,4 +53,15 @@ export interface Certification {
   date: string;
   imgPath: string;
   credentialUrl: string;
+}
+
+export interface Project {
+  id: number;
+  title: string;
+  description: string;
+  images: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  tags: string[];
+  category: string;
 }

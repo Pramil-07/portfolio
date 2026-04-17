@@ -6,7 +6,7 @@ export const prefersReducedMotion = (): boolean => {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 };
 
-export const isMobileViewport = (): boolean => {
+const isMobileViewport = (): boolean => {
     if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
         return false;
     }

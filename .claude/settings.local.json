@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(cp \"C:/Users/asus/Downloads/sellerClub_front page.jpg\" \"D:/Projects/Personal-Projects/portfolio/public/images/projects/sellrclub-1.jpg\")",
+      "Bash(cp \"C:/Users/asus/Downloads/nepastore_homepage.jpg\" \"D:/Projects/Personal-Projects/portfolio/public/images/projects/nepastore-1.jpg\")",
+      "Bash(cp \"C:/Users/asus/Downloads/nepastore_admin_dashboard.jpg\" \"D:/Projects/Personal-Projects/portfolio/public/images/projects/nepastore-2.jpg\")",
+      "WebSearch",
+      "Bash(xargs ls *)",
+      "Bash(awk '{print $9, $5}')",
+      "Bash(find /d/Projects/Personal-Projects/portfolio/src -name \"*.tsx\" -exec grep -l \"import.*ContactExperience\" {} \\\\;)",
+      "Bash(grep -v \"//.*any\")"
+    ]
+  }
+}

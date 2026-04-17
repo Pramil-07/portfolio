@@ -7,17 +7,13 @@ interface TitleHeaderProps {
 
 const TitleHeader: React.FC<TitleHeaderProps> = ({ title, sub }) => {
     return (
-        <div className="flex flex-col items-center gap-5">
-
-            <div>
-                <h1 className="font-semibold md:text-5xl text-3xl text-center">
-                    {title}
-                </h1>
-            </div>
-
+        <div className="flex flex-col items-center gap-4">
             <div className="hero-badge">
                 <p>{sub}</p>
             </div>
+            <h2 className="font-bold md:text-5xl text-2xl text-center leading-tight max-w-3xl">
+                {title}
+            </h2>
         </div>
     );
 };

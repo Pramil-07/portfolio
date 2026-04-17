@@ -21,9 +21,9 @@ const words = [
 
 
 const counterItems = [
-    { value: 1, suffix: "+", label: "Years of Experience" },
-    { value: 3, suffix: "+", label: "Major Projects Completed" },
-    { value: 5, suffix: "+", label: "Technologies Mastered" },
+    { value: 1.5, suffix: "+", label: "Years of Experience" },
+    { value: 8, suffix: "+", label: "Projects Delivered" },
+    { value: 15, suffix: "+", label: "Technologies Used" },
     { value: 100, suffix: "%", label: "Commitment to Quality" },
 ];
 
@@ -66,23 +66,23 @@ const abilities = [
     {
         imgPath: "/images/seo.png",
         title: "Full Stack Development",
-        desc: "Building scalable, high-performance web apps using Next.js and Django REST Framework.",
+        desc: "Building production web products with React, Next.js, TypeScript, FastAPI, and Django — from UI to API to database.",
     },
     {
         imgPath: "/images/time.png",
-        title: "Optimized Delivery",
-        desc: "Deploying and maintaining production-ready systems with Docker, Redis, and PostgreSQL.",
+        title: "Reliable Delivery",
+        desc: "Shipping end-to-end features across auth, payments, analytics, and testing in multi-repo team environments.",
     },
     {
         imgPath: "/images/chat.png",
         title: "Collaborative Workflow",
-        desc: "Working closely with designers, developers, and clients using Agile methodology for effective delivery.",
+        desc: "Working across frontend and backend repositories with Git, GitHub Actions, code review, and structured debugging.",
     },
 ];
 
 const techStackImgs = [
-    { name: "Next.js Developer", imgPath: "/images/NODE_JS.png" },
-    { name: "Django Developer", imgPath: "/images/DJANGO.png" },
+    { name: "Next.js / React", imgPath: "/images/REACT.png" },
+    { name: "Django / FastAPI", imgPath: "/images/DJANGO.png" },
     { name: "PostgreSQL", imgPath: "/images/MONGO_DB.png" },
     { name: "Redis", imgPath: "/images/REDIS.png" },
     { name: "Docker", imgPath: "/images/docker_logo.png" },
@@ -90,37 +90,37 @@ const techStackImgs = [
 
 const techStackIcons = [
     {
-        name: "React Developer",
+        name: "React / Next.js",
         modelPath: "/images/REACT.png",
         scale: [5 , 5 , 5],
         rotation: [0, 0, 0],
     },
     {
-        name: "Python Developer",
+        name: "Python",
         modelPath: "/images/PYTHON.png",
         scale: [5 , 5 , 5],
         rotation: [0, 0, 0],
     },
     {
-        name: "TypeScript Developer",
+        name: "TypeScript",
         modelPath: "/images/TYPESCRIPT.png",
         scale: [5 , 5 , 5],
         rotation: [0, 0, 0],
     },
     {
-        name: "JavaScript Developer",
+        name: "JavaScript",
         modelPath: "/images/JAVASCRIPT.png",
         scale: [5 , 5 , 5],
         rotation: [0, 0, 0],
     },
     {
-        name: "Backend Developer",
+        name: "Django / FastAPI",
         modelPath: "/images/DJANGO.png",
         scale: [5 , 5 , 5],
         rotation: [0, -Math.PI / 2, 0],
     },
     {
-        name: "Redis cache ",
+        name: "Redis",
         modelPath: "/images/REDIS.png",
         scale: [5 , 5 , 5],
         rotation: [0, -Math.PI / 2, 0],
@@ -132,13 +132,13 @@ const techStackIcons = [
         rotation: [0, -Math.PI / 2, 0],
     },
     {
-        name: "State Management ",
-        modelPath: "/images/REDUX.png",
+        name: "PostgreSQL",
+        modelPath: "/images/MONGO_DB.png",
         scale: [5 , 5 , 5],
         rotation: [0, 0, 0],
     },
     {
-        name: "Project Management",
+        name: "Git / GitHub",
         modelPath: "/images/GITHUB.png",
         scale: [5 , 5 , 5],
         rotation: [0, -Math.PI / 4, 0],
@@ -153,53 +153,51 @@ const techStackIcons = [
 const expCards: ExpCardType[] = [
     {
         id: 1,
+        company: "NepaWorks",
         review:
-            "Pramil has been instrumental in delivering full-stack features at Cagtu Nepal, combining clean design with efficient backend logic. His attention to scalability and integration has made him a reliable asset to the team.",
-        imgPath: "/images/homaale-logo_png.png",
-        logoPath: "/images/homaale-favicon.png",
-        title: "Junior Full Stack Developer",
-        date: "Nov 2024 – Present",
+            "Pramil has been an excellent addition to the NepaWorks team, shipping full-stack features across NepaStore and SellrClub with speed and reliability. His ability to work across frontend and backend repositories in a fast-moving product environment is impressive.",
+        imgPath: "/images/nepa-works.webp",
+        logoPath: "/images/nepa-works.webp",
+        title: "Full Stack Developer",
+        date: "Jan 2026 – Present",
         responsibilities: [
-            "Developing and maintaining scalable web applications using Next.js and Django REST Framework.",
-            "Integrated Google Maps, PayPal, Stripe, eSewa, and Khalti APIs for real-world service and payment platforms.",
-            "Worked on high-impact products like Homaale (task/service platform) and Buzz API (e-commerce backend).",
-            "Implemented caching with Redis and deployed applications using Docker.",
+            "Building and shipping full-stack features across NepaStore and SellrClub using React, TypeScript, FastAPI, PostgreSQL, Redis, and Docker.",
+            "Delivered NepaStore functionality including authentication, admin invitation flows, cart and order updates, audit support, and migration fixes.",
+            "Built SellrClub capabilities: password reset, workspace state management, notification integration, warehouse APIs, time-tracking, and SMTP configuration.",
+            "Resolved migration conflicts, backend reliability issues, and unnecessary frontend API calls across multiple active product repositories.",
         ],
     },
     {
         id: 2,
+        company: "CAGTU Nepal",
         review:
-            "Pramil made a significant contribution to MithoSweets — a complete eCommerce platform with smooth customer experience and robust admin management. His expertise ensured a secure, scalable, and polished final product.",
-        imgPath: "/images/mithoSweets_banner.png",
-        logoPath: "/images/mithoSweets_logo.png",
-        title: "MithoSweets – Full Stack E-commerce Platform",
-        date: "Dec 2024 – Present",
+            "Pramil has been instrumental in delivering full-stack features at CAGTU Nepal, combining clean design with efficient backend logic across multiple live products. His attention to scalability, payments, and API integration made him a reliable asset to the team.",
+        imgPath: "/images/cagtu-logo.jpg",
+        logoPath: "/images/cagtu-logo.jpg",
+        title: "Full Stack Developer",
+        date: "Nov 2024 – Jan 2026",
         responsibilities: [
-            "Developed a complete eCommerce website with separate Admin and Customer dashboards using Next.js and Django REST Framework.",
-            "Implemented secure authentication and authorization with JWT for user roles (Admin, Customer).",
-            "Integrated a payment gateway for real-time online transactions and order management.",
-            "Built REST APIs in Django for product listings, orders, payments, and user management with optimized database queries.",
-            "Collaborated with the team on Git and followed clean code architecture with reusable components.",
+            "Developed frontend and backend features across Homaale, Buzz, Merchant Dashboard, CAGTU CMS, and Mitho Sweets using Next.js, React, Django, PostgreSQL, and REST APIs.",
+            "Built service booking, merchant management, analytics, and e-commerce modules including availability APIs, sold-products workflows, and shop analytics.",
+            "Integrated Google OAuth, Khalti and eSewa payment flows, map and location workflows, and product-level analytics.",
+            "Improved product quality through bug fixing, API integration, responsive UI updates, test support, and release troubleshooting.",
         ],
     },
     {
         id: 3,
+        company: "CAGTU Nepal",
         review:
             "During his internship, Pramil quickly demonstrated an ability to learn, adapt, and contribute effectively to team projects, delivering reliable and polished features.",
-        imgPath: "/images/cagtu-logo-icon.png",
-        logoPath: "/images/cagtu-Collapsed.webp",
+        imgPath: "/images/homaale-logo_png.png",
+        logoPath: "/images/homaale-favicon.png",
         title: "Full Stack Intern",
         date: "Aug 2024 – Nov 2024",
         responsibilities: [
-            "Built responsive UI components with Next.js and Tailwind CSS.",
-            "Contributed to backend endpoints and bug fixes using Django REST Framework.",
-            "Managed state using Redux Toolkit and consumed REST APIs using Axios.",
-            "Collaborated with the development team following Agile practices and Git version control.",
+            "Built responsive UI components, connected frontend screens with APIs, and fixed issues in live products.",
+            "Contributed dynamic data rendering, mobile responsiveness, and UI refinements to company products.",
+            "Learned collaborative workflows, code review practices, and Git-based team development.",
         ],
     },
-
-
-
 ];
 
 const expLogos = [
@@ -238,38 +236,33 @@ const socialImgs = [
         name: "github",
         url: "https://github.com/Pramil-07",
         imgPath: "/images/GITHUB.png",
+        invertImg: true,
     },
     {
         name: "linkedin",
         url: "https://www.linkedin.com/in/pramil-dhungana/",
         imgPath: "/images/linkedin.png",
+        invertImg: false,
     },
     {
         name: "email",
-        url: "mailto:youraddress@gmail.com?subject=Contact&body=Hi! Pramil,",
+        url: "mailto:pramildhungana7@gmail.com?subject=Hello Pramil&body=Hi Pramil,",
         imgPath: "/images/mail.png",
+        invertImg: true,
     },
 ];
 
 export const certifications: Certification[] = [
   {
-    title: "AWS Certified Solutions Architect",
-    issuer: "Amazon Web Services",
-    date: "2025",
-    imgPath: "/images/certifications/aws-cert.png",
-    credentialUrl: "https://aws.amazon.com/verification"
-  },
-  {
-    title: "React Advanced Patterns",
-    issuer: "Frontend Masters",
+    title: "Full Stack Development Internship",
+    issuer: "CAGTU Nepal",
     date: "2024",
-    imgPath: "/images/certifications/react-cert.png",
-    credentialUrl: "https://frontendmasters.com/certificates"
+    imgPath: "/images/cagtu-logo.jpg",
+    credentialUrl: "https://cagtu.com",
   },
-  // Add more certifications
 ];
 
-export const resumeFile = "/downloads/Pramil_Dhungana_Resume.pdf";
+export const resumeFile = "/Pramil_Dhungana_CV.pdf";
 
 export {
     words,

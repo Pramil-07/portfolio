@@ -1,35 +1,40 @@
 import { Suspense, lazy } from "react";
 import Navbar from "./components/NavBar";
-import { Hero } from "./secitons/hero";
+import { Hero } from "./sections/hero";
+import MobileNav from "./components/MobileNav";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-const Testimonials = lazy(() => import("./secitons/Testimonials"));
-const Contact = lazy(() => import("./secitons/Contact"));
-const Footer = lazy(() => import("./secitons/Footer"));
-const ShowcaseSection = lazy(() => import("./secitons/ShowcaseSection"));
-const LogoShowcase = lazy(() => import("./secitons/LogoShowcase"));
-const FeatureCards = lazy(() => import("./secitons/FeatureCards"));
-const Experience = lazy(() => import("./secitons/Experience"));
-const TechStack = lazy(() => import("./secitons/TechStack"));
+const Testimonials = lazy(() => import("./sections/Testimonials"));
+const Contact = lazy(() => import("./sections/Contact"));
+const Footer = lazy(() => import("./sections/Footer"));
+const ShowcaseSection = lazy(() => import("./sections/ShowcaseSection"));
+const LogoShowcase = lazy(() => import("./sections/LogoShowcase"));
+const FeatureCards = lazy(() => import("./sections/FeatureCards"));
+const Experience = lazy(() => import("./sections/Experience"));
+const TechStack = lazy(() => import("./sections/TechStack"));
 const ResumeAndCertifications = lazy(
-    () => import("./secitons/ResumeAndCertifications")
+    () => import("./sections/ResumeAndCertifications")
 );
 
 export function App() {
   return (
     <>
+      <MobileNav />
       <Navbar />
       <Hero />
-      <Suspense fallback={null}>
-        <ShowcaseSection />
-        <LogoShowcase />
-        <FeatureCards />
-        <Experience />
-        <TechStack />
-        <Testimonials />
-        <ResumeAndCertifications />
-        <Contact />
-        <Footer />
-      </Suspense>
+      <ErrorBoundary>
+        <Suspense fallback={<div className="flex-center min-h-[200px]"><span className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white animate-spin" /></div>}>
+          <ShowcaseSection />
+          <LogoShowcase />
+          <FeatureCards />
+          <Experience />
+          <TechStack />
+          <Testimonials />
+          <ResumeAndCertifications />
+          <Contact />
+          <Footer />
+        </Suspense>
+      </ErrorBoundary>
     </>
   );
 }
