@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 
 const SUGGESTIONS = [
-    "What tech stack do you use?",
-    "Tell me about your projects",
-    "How can I contact you?",
+    "Tech stack",
+    "Projects",
+    "Experience",
+    "Availability",
 ];
 
 const SYSTEM_PROMPT = `You are a friendly AI assistant embedded in Pramil Dhungana's portfolio website. Answer visitor questions about Pramil concisely (2–4 sentences max). Stay on-topic — if asked about anything unrelated to Pramil or his work, politely redirect.
@@ -35,9 +36,8 @@ Contact:
 type Message = { role: "user" | "ai"; text: string };
 
 const SendIcon = () => (
-    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-        <path d="M22 2L11 13" stroke="#62e0ff" strokeWidth="2" strokeLinecap="round" />
-        <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="#62e0ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width="11" height="11" viewBox="0 0 24 24" style={{ fill: "#818cf8" }}>
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
     </svg>
 );
 
@@ -66,9 +66,9 @@ function MessageList({ messages, loading, endRef }: {
                 <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
                     <div className="text-xs leading-relaxed px-3 py-2 rounded-2xl max-w-[80%]"
                         style={{
-                            background: m.role === "user" ? "rgba(98,224,255,0.12)" : "rgba(255,255,255,0.05)",
-                            color: m.role === "user" ? "#62e0ff" : "#d9ecff",
-                            border: m.role === "user" ? "1px solid rgba(98,224,255,0.25)" : "1px solid rgba(255,255,255,0.07)",
+                            background: m.role === "user" ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.05)",
+                            color: m.role === "user" ? "#818cf8" : "#d9ecff",
+                            border: m.role === "user" ? "1px solid rgba(99,102,241,0.25)" : "1px solid rgba(255,255,255,0.07)",
                             borderBottomRightRadius: m.role === "user" ? 4 : undefined,
                             borderBottomLeftRadius: m.role === "ai" ? 4 : undefined,
                         }}>
@@ -128,87 +128,115 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     if (!API_KEY) return null;
 
     const inputBar = (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-200"
+        <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
             style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
             <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && ask(input)}
-                placeholder="Ask about my skills, projects, experience..."
-                className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/25"
+                placeholder="Ask about skills, projects, or availability…"
+                className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/20"
             />
             <button onClick={() => ask(input)} disabled={loading || !input.trim()}
-                className="flex-none transition-opacity duration-200 p-1"
-                style={{ opacity: loading || !input.trim() ? 0.25 : 1 }} aria-label="Send">
+                className="flex-none p-1.5 rounded cursor-pointer"
+                style={{
+                    background: "rgba(99,102,241,0.15)",
+                    opacity: loading || !input.trim() ? 0.35 : 1,
+                    transition: "opacity 0.2s",
+                }}
+                aria-label="Send">
                 <SendIcon />
             </button>
         </div>
     );
 
-    /* ── CARD MODE (full-width, used everywhere) ── */
     if (card) {
         return (
             <div className="w-full flex flex-col rounded-2xl overflow-hidden"
-                style={{
-                    background: "rgba(14,14,16,0.82)",
-                    backdropFilter: "blur(24px)",
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    boxShadow: "0 0 60px rgba(98,224,255,0.04), 0 20px 40px rgba(0,0,0,0.35)",
-                }}>
+                style={{ background: "#111", border: "1px solid rgba(255,255,255,0.07)", flex: 1 }}>
 
-                {/* ── Header: avatar + name + label + available badge ── */}
-                <div className="flex items-center gap-4 px-5 py-4 flex-wrap gap-y-3"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
-
-                    {/* Avatar + identity */}
-                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                        <div className="size-10 rounded-full overflow-hidden flex-none"
-                            style={{ border: "2px solid rgba(98,224,255,0.35)", boxShadow: "0 0 10px rgba(98,224,255,0.15)" }}>
-                            <img src="/images/Herosection.png" alt="Pramil"
-                                className="w-full h-full object-cover object-top" />
-                        </div>
-                        <div className="min-w-0">
-                            <p className="font-semibold text-white text-sm leading-tight">Pramil Dhungana</p>
-                            <p className="text-xs mt-0.5" style={{ color: "#839cb5" }}>Full Stack Developer</p>
-                        </div>
+                {/* Header */}
+                <div className="flex items-center gap-3 px-5 py-4"
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    <div className="size-9 rounded-full flex-none flex items-center justify-center text-[11px] font-medium"
+                        style={{
+                            background: "#161625",
+                            border: "1px solid rgba(99,102,241,0.2)",
+                            color: "#818cf8",
+                            letterSpacing: "0.3px",
+                        }}>
+                        PD
                     </div>
-
-                    {/* AI badge */}
-                    <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold tracking-wide flex-none"
-                        style={{ background: "rgba(98,224,255,0.1)", color: "#62e0ff", border: "1px solid rgba(98,224,255,0.2)" }}>
+                    <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-white leading-tight">Pramil Dhungana</p>
+                        <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>
+                            Full Stack Developer
+                        </p>
+                    </div>
+                    <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide flex-none"
+                        style={{
+                            background: "rgba(99,102,241,0.06)",
+                            color: "rgba(99,102,241,0.6)",
+                            border: "1px solid rgba(99,102,241,0.15)",
+                            letterSpacing: "0.5px",
+                        }}>
                         AI
                     </span>
                 </div>
 
-                {/* ── Body: suggestions or messages ── */}
-                <div className="px-5 pt-4 pb-3 flex-1 overflow-hidden">
+                {/* Body */}
+                <div className="px-5 pt-5 pb-3 flex-1 overflow-hidden flex flex-col">
                     {messages.length === 0 ? (
                         <div className="flex flex-col gap-3">
-                        <div className="flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full animate-pulse flex-none" style={{ background: "#62e0ff" }} />
-                            <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>Ask me anything about Pramil</p>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {SUGGESTIONS.map((s, i) => (
-                                <button key={i} onClick={() => ask(s)}
-                                    className="text-xs px-3 py-1.5 rounded-full transition-all duration-200 hover:text-white hover:border-[rgba(98,224,255,0.35)]"
-                                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#d9ecff" }}>
-                                    {s}
-                                </button>
-                            ))}
-                        </div>
+                            <div className="flex items-center gap-2">
+                                <span className="w-1 h-1 rounded-full flex-none animate-pulse"
+                                    style={{ background: "#4ade80" }} />
+                                <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+                                    Ask me anything
+                                </p>
+                            </div>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                                {SUGGESTIONS.map((s) => (
+                                    <button key={s} onClick={() => ask(s)}
+                                        className="text-[11px] px-3 py-1.5 rounded cursor-pointer transition-colors duration-150"
+                                        style={{
+                                            background: "rgba(255,255,255,0.025)",
+                                            border: "1px solid rgba(255,255,255,0.07)",
+                                            color: "rgba(255,255,255,0.38)",
+                                        }}>
+                                        {s}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="rounded-xl p-4"
+                                style={{
+                                    background: "rgba(99,102,241,0.06)",
+                                    border: "1px solid rgba(99,102,241,0.1)",
+                                }}>
+                                <p className="text-[9px] uppercase tracking-widest mb-2"
+                                    style={{ color: "rgba(99,102,241,0.5)" }}>
+                                    Assistant
+                                </p>
+                                <p className="text-xs leading-relaxed font-light"
+                                    style={{ color: "rgba(255,255,255,0.45)" }}>
+                                    Hi — I can walk you through Pramil's work, skills, and how to work together. What would you like to explore?
+                                </p>
+                            </div>
                         </div>
                     ) : (
-                        <div className="space-y-2 overflow-y-auto" style={{ maxHeight: 220, scrollbarWidth: "none" }}>
+                        <div className="space-y-2 overflow-y-auto flex-1"
+                            style={{ scrollbarWidth: "none" }}>
                             <MessageList messages={messages} loading={loading} endRef={messagesEndRef} />
                         </div>
                     )}
                 </div>
 
-                {/* ── Input ── */}
-                <div className="px-5 pb-4 pt-3" style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                {/* Input */}
+                <div className="px-5 pb-4 pt-3"
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
                     {inputBar}
-                    <p className="text-[10px] mt-1.5 text-right" style={{ color: "rgba(255,255,255,0.16)" }}>
+                    <p className="text-[9px] mt-1.5 text-right"
+                        style={{ color: "rgba(255,255,255,0.1)", letterSpacing: "0.3px" }}>
                         Powered by Gemini
                     </p>
                 </div>
@@ -216,22 +244,21 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
         );
     }
 
-    /* ── INLINE FALLBACK (not used in current layout but kept for safety) ── */
     return (
         <div className="w-full relative z-10">
             <div className="flex items-center gap-2 mb-3">
-                <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#62e0ff" }} />
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#818cf8" }} />
                 <p className="text-xs text-white-50">Ask anything about me</p>
-                <span className="ml-auto text-[10px] px-2 py-0.5 rounded-full font-semibold"
-                    style={{ background: "rgba(98,224,255,0.1)", color: "#62e0ff", border: "1px solid rgba(98,224,255,0.2)" }}>
+                <span className="ml-auto text-[10px] px-2 py-0.5 rounded font-semibold"
+                    style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)" }}>
                     AI
                 </span>
             </div>
             {messages.length === 0 ? (
                 <div className="flex flex-wrap gap-2">
-                    {SUGGESTIONS.map((s, i) => (
-                        <button key={i} onClick={() => ask(s)}
-                            className="text-xs px-3 py-1.5 rounded-full"
+                    {SUGGESTIONS.map((s) => (
+                        <button key={s} onClick={() => ask(s)}
+                            className="text-xs px-3 py-1.5 rounded-full cursor-pointer"
                             style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#d9ecff" }}>
                             {s}
                         </button>
