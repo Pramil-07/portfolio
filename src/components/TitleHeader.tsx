@@ -11,7 +11,7 @@ const TitleHeader: React.FC<TitleHeaderProps> = ({ title, sub }) => {
             <div className="hero-badge">
                 <p>{sub}</p>
             </div>
-            <h2 className="font-bold md:text-5xl text-2xl text-center leading-tight max-w-3xl">
+            <h2 className="section-heading">
                 {title}
             </h2>
         </div>

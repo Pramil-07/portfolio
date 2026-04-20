@@ -12,10 +12,6 @@ const LogoShowcase = lazy(() => import("./sections/LogoShowcase"));
 const FeatureCards = lazy(() => import("./sections/FeatureCards"));
 const Experience = lazy(() => import("./sections/Experience"));
 const TechStack = lazy(() => import("./sections/TechStack"));
-const ResumeAndCertifications = lazy(
-    () => import("./sections/ResumeAndCertifications")
-);
-
 export function App() {
   return (
     <>
@@ -30,7 +26,6 @@ export function App() {
           <Experience />
           <TechStack />
           <Testimonials />
-          <ResumeAndCertifications />
           <Contact />
           <Footer />
         </Suspense>
