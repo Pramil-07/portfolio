@@ -198,7 +198,7 @@ const Experience: React.FC = () => {
                 <div className="hidden xl:block mt-32 relative">
                     <div className="relative z-50 xl:space-y-32">
                         {expCards.map((card: ExpCardType) => (
-                            <div key={card.title} className="exp-card-wrapper">
+                            <div key={card.id} className="exp-card-wrapper">
                                 <div className="xl:w-2/6">
                                     <GlowCard index={card?.id ?? 0} card={card}>
                                         <div>
