@@ -7,32 +7,6 @@ const SUGGESTIONS = [
     "Availability",
 ];
 
-const SYSTEM_PROMPT = `You are a friendly AI assistant embedded in Pramil Dhungana's portfolio website. Answer visitor questions about Pramil concisely (2–4 sentences max). Stay on-topic — if asked about anything unrelated to Pramil or his work, politely redirect.
-
-About Pramil Dhungana:
-- Full Stack Developer based in Kathmandu, Nepal
-- 1.5+ years professional experience, 8+ projects delivered
-
-Experience:
-- NepaWorks (Jan 2026 – Present): Building full-stack features for NepaStore and SellrClub using React, TypeScript, FastAPI, PostgreSQL, Redis, Docker
-- CAGTU Nepal — Full Stack Developer (Nov 2024 – Jan 2026): Built Homaale, Buzz, Merchant Dashboard, CAGTU CMS, Mitho Sweets using Next.js, React, Django, PostgreSQL, REST APIs. Integrated Khalti/eSewa payments, Google OAuth
-- CAGTU Nepal — Full Stack Intern (Aug 2024 – Nov 2024): UI components, API connections, responsive design
-
-Tech Stack: React, Next.js, TypeScript, Tailwind CSS, FastAPI, Django, Node.js, PostgreSQL, Redis, Docker, Git
-
-Projects:
-- NepaStore: E-commerce with auth, cart, orders, admin panel
-- SellrClub: Workspace management with notifications, time-tracking, SMTP
-- Homaale: Service booking with merchant management and map integration
-- Buzz: API platform
-- Mitho Sweets: E-commerce for confectionery
-- CAGTU CMS: Internal content management system
-
-Contact:
-- Email: pramildhungana7@gmail.com
-- LinkedIn: linkedin.com/in/pramil-dhungana
-- GitHub: github.com/Pramil-07`;
-
 type Message = { role: "user" | "ai"; text: string };
 
 const SendIcon = () => (
@@ -88,35 +62,43 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     const [loading, setLoading] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY as string | undefined;
+    const API_BASE_URL =
+        (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
+        (import.meta.env.DEV ? "http://localhost:3000" : "");
+    const PROFILE_NAME = (import.meta.env.VITE_PROFILE_NAME as string | undefined) ?? "Portfolio Owner";
+    const PROFILE_TITLE = (import.meta.env.VITE_PROFILE_TITLE as string | undefined) ?? "Full Stack Developer";
+    const PROFILE_INITIALS =
+        (import.meta.env.VITE_PROFILE_INITIALS as string | undefined) ??
+        PROFILE_NAME.split(" ")
+            .filter(Boolean)
+            .slice(0, 2)
+            .map((word) => word[0]?.toUpperCase() ?? "")
+            .join("");
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, loading]);
 
     const ask = async (question: string) => {
-        if (!question.trim() || loading || !API_KEY) return;
+        if (!question.trim() || loading) return;
         const newMessages: Message[] = [...messages, { role: "user", text: question }];
         setMessages(newMessages);
         setInput("");
         setLoading(true);
         try {
-            const res = await fetch(
-                `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-                        contents: newMessages.map((m) => ({
-                            role: m.role === "user" ? "user" : "model",
-                            parts: [{ text: m.text }],
-                        })),
-                    }),
-                }
-            );
+            const res = await fetch(`${API_BASE_URL}/api/ai/chat`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: question,
+                    history: messages,
+                }),
+            });
             const data = await res.json();
-            const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text ?? "Sorry, I couldn't get a response right now.";
+            if (!res.ok) {
+                throw new Error(data?.error ?? "AI request failed");
+            }
+            const aiText = data.reply ?? "Sorry, I couldn't get a response right now.";
             setMessages((prev) => [...prev, { role: "ai", text: aiText }]);
         } catch {
             setMessages((prev) => [...prev, { role: "ai", text: "Something went wrong. Please try again." }]);
@@ -124,8 +106,6 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
             setLoading(false);
         }
     };
-
-    if (!API_KEY) return null;
 
     const inputBar = (
         <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
@@ -165,12 +145,12 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                             color: "#818cf8",
                             letterSpacing: "0.3px",
                         }}>
-                        PD
+                        {PROFILE_INITIALS || "PO"}
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white leading-tight">Pramil Dhungana</p>
+                        <p className="text-sm font-medium text-white leading-tight">{PROFILE_NAME}</p>
                         <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>
-                            Full Stack Developer
+                            {PROFILE_TITLE}
                         </p>
                     </div>
                     <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide flex-none"
@@ -219,7 +199,7 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                                 </p>
                                 <p className="text-xs leading-relaxed font-light"
                                     style={{ color: "rgba(255,255,255,0.45)" }}>
-                                    Hi — I can walk you through Pramil's work, skills, and how to work together. What would you like to explore?
+                                    {`Hi — I can walk you through ${PROFILE_NAME}'s work, skills, and how to work together. What would you like to explore?`}
                                 </p>
                             </div>
                         </div>
