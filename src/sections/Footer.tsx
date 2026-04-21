@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
             <div className="footer-container">
                 {/* Terms & Conditions */}
                 <div className="flex flex-col justify-center">
-                    <p>Terms & Conditions</p>
+                    <p>Minimal by design. Built for clarity.</p>
                 </div>
 
                 {/* Social Icons */}

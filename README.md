@@ -71,3 +71,23 @@ export default defineConfig([
   },
 ])
 ```
+
+## EmailJS configuration (local + production)
+
+The contact form requires these client env variables:
+
+```env
+VITE_APP_EMAILJS_SERVICE_ID=...
+VITE_APP_EMAILJS_TEMPLATE_ID=...
+VITE_APP_EMAILJS_PUBLIC_KEY=...
+```
+
+Fallback names are also supported:
+
+```env
+VITE_EMAILJS_SERVICE_ID=...
+VITE_EMAILJS_TEMPLATE_ID=...
+VITE_EMAILJS_PUBLIC_KEY=...
+```
+
+Important for deployment: Vite injects `VITE_*` variables at build time, so set these in your hosting provider before running the production build.

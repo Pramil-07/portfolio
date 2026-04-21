@@ -42,8 +42,8 @@ const AppShowcase = () => {
         <section id="work" ref={sectionRef} className="section-padding">
             <div className="padding-x-lg">
                 <TitleHeader
-                    title="My Projects"
-                    sub="A selection of work I've built — full-stack apps, e-commerce platforms, and internal tools."
+                    title="Selected Projects"
+                    sub="Full-stack products shipped for real users"
                 />
                 <div className="projects-masonry mt-12">
                     {projects.map((project, i) => (

@@ -37,14 +37,14 @@ const TechStack: React.FC = () => {
         <div id="skills" className="flex-center section-padding">
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
-                    title="How I Can Contribute & My Key Skills"
-                    sub="🤝 What I Bring to the Table"
+                    title="Core Stack"
+                    sub="Tools I use to deliver end-to-end"
                 />
                 <div className="tech-grid mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     {techStackIcons.map((techStackIcon: TechStackIcon) => (
                         <div
                             key={techStackIcon.name}
-                            className="card-border tech-card overflow-hidden group xl:rounded-full rounded-lg relative"
+                            className="card-border tech-card overflow-hidden group rounded-lg relative"
                         >
                             <div className="tech-card-animated-bg absolute inset-0" />
                             <div className="tech-card-content relative flex flex-col justify-center items-center p-1">

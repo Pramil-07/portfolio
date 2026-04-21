@@ -1,4 +1,5 @@
-import React, { useRef, useState, ChangeEvent, FormEvent, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import type { ChangeEvent, FormEvent } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import TitleHeader from "../components/TitleHeader";
 import ContactExperience from "../components/models/contact/ContactExperience";
@@ -20,19 +21,25 @@ const Contact: React.FC = () => {
         message: "",
     });
 
-    // EmailJS environment variables
-    const SERVICE_ID = import.meta.env.VITE_APP_EMAILJS_SERVICE_ID as string;
-    const TEMPLATE_ID = import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID as string;
-    const PUBLIC_KEY = import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY as string;
+    // EmailJS environment variables (supports both APP and non-APP prefixes)
+    const env = import.meta.env as Record<string, string | undefined>;
+    const SERVICE_ID = env.VITE_APP_EMAILJS_SERVICE_ID || env.VITE_EMAILJS_SERVICE_ID || "";
+    const TEMPLATE_ID = env.VITE_APP_EMAILJS_TEMPLATE_ID || env.VITE_EMAILJS_TEMPLATE_ID || "";
+    const PUBLIC_KEY = env.VITE_APP_EMAILJS_PUBLIC_KEY || env.VITE_EMAILJS_PUBLIC_KEY || "";
+    const missingConfigKeys: string[] = [];
+
+    if (!SERVICE_ID) missingConfigKeys.push("EMAILJS_SERVICE_ID");
+    if (!TEMPLATE_ID) missingConfigKeys.push("EMAILJS_TEMPLATE_ID");
+    if (!PUBLIC_KEY) missingConfigKeys.push("EMAILJS_PUBLIC_KEY");
+    const isEmailConfigured = missingConfigKeys.length === 0;
+    const missingConfigSummary = missingConfigKeys.join(", ");
 
     // Check environment variables on mount
     useEffect(() => {
-        if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-            toast.error(
-                "EmailJS environment variables are missing. Check your .env file."
-            );
+        if (!isEmailConfigured) {
+            toast.error(`EmailJS config missing: ${missingConfigSummary}`);
         }
-    }, [SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY]);
+    }, [isEmailConfigured, missingConfigSummary]);
 
     // Change handler
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -49,8 +56,8 @@ const Contact: React.FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (!SERVICE_ID || !TEMPLATE_ID || !PUBLIC_KEY) {
-            toast.error("Email service is not configured properly.");
+        if (!isEmailConfigured) {
+            toast.error(`Email service config missing: ${missingConfigSummary}`);
             return;
         }
 
@@ -99,8 +106,8 @@ const Contact: React.FC = () => {
             <Toaster position="top-right" reverseOrder={false} />
             <div className="w-full h-full md:px-10 px-5">
                 <TitleHeader
-                    title="Let’s Build Something Great Together 🚀"
-                    sub="📬 Get in touch"
+                    title="Get In Touch"
+                    sub="Tell me what you want to build"
                 />
                 <div className="grid-12-cols mt-16">
                     <div className="xl:col-span-5">

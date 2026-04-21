@@ -42,17 +42,14 @@ const MobileExperienceScroll = () => {
                     <div
                         key={i}
                         className="snap-start flex-none w-[calc(100vw-40px)] rounded-2xl overflow-hidden bg-black-100"
-                        style={{
-                            borderLeft: "2px solid #62e0ff",
-                            boxShadow: "0 0 32px rgba(98,224,255,0.04), inset 0 0 0 1px rgba(255,255,255,0.04)",
-                        }}
+                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
                     >
                         {/* Header */}
                         <div className="relative px-4 pt-4 pb-3">
                             {/* Faded ordinal */}
                             <span
                                 className="absolute top-2 right-3 font-black text-5xl select-none pointer-events-none leading-none"
-                                style={{ color: "rgba(98,224,255,0.05)" }}
+                                style={{ color: "rgba(255,255,255,0.06)" }}
                             >
                                 {String(i + 1).padStart(2, "0")}
                             </span>
@@ -72,7 +69,7 @@ const MobileExperienceScroll = () => {
                                     />
                                 </div>
                                 <div className="min-w-0">
-                                    <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style={{ color: "#62e0ff" }}>
+                                    <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style={{ color: "rgba(255,255,255,0.62)" }}>
                                         {card.company}
                                     </p>
                                     <h3 className="font-semibold text-sm text-white leading-tight truncate">
@@ -93,7 +90,7 @@ const MobileExperienceScroll = () => {
                                     <li key={j} className="flex gap-2.5 text-white-50 text-xs leading-relaxed">
                                         <span
                                             className="flex-none rounded-full"
-                                            style={{ width: 4, height: 4, background: "#62e0ff", opacity: 0.7, marginTop: 5 }}
+                                            style={{ width: 4, height: 4, background: "rgba(255,255,255,0.5)", marginTop: 5 }}
                                         />
                                         {resp}
                                     </li>
@@ -117,9 +114,7 @@ const MobileExperienceScroll = () => {
                             className="flex-1 rounded-full transition-all duration-500"
                             style={{
                                 height: 2,
-                                background: activeIndex === i
-                                    ? "linear-gradient(90deg, #62e0ff, #839cb5)"
-                                    : "rgba(255,255,255,0.1)",
+                                background: activeIndex === i ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
                             }}
                         />
                     ))}
@@ -186,10 +181,7 @@ const Experience: React.FC = () => {
     return (
         <section id="experience" className="flex-center section-padding xl:px-0">
             <div className="w-full h-full md:px-20 px-5">
-                <TitleHeader
-                    title="Professional Work Experience"
-                    sub="💼 My Career Overview"
-                />
+                <TitleHeader title="Experience" sub="Product-focused full-stack delivery" />
 
                 {/* ── MOBILE / TABLET layout — horizontal snap scroll ─────── */}
                 <MobileExperienceScroll />
@@ -225,10 +217,10 @@ const Experience: React.FC = () => {
                                             <div>
                                                 <h1 className="font-semibold text-3xl">{card.title}</h1>
                                                 <p className="my-5 text-white-50">🗓️&nbsp;{card.date}</p>
-                                                <p className="text-blue-50 italic text-sm mb-4">Responsibilities</p>
-                                                <ul className="list-disc ms-5 flex flex-col gap-5 text-white-50">
+                                                <p className="text-white-50 text-sm mb-4">Key contributions</p>
+                                                <ul className="list-disc ms-5 flex flex-col gap-3 text-white-50">
                                                     {card.responsibilities.map((resp: string, index: number) => (
-                                                        <li key={index} className="text-lg">{resp}</li>
+                                                        <li key={index} className="text-base">{resp}</li>
                                                     ))}
                                                 </ul>
                                             </div>

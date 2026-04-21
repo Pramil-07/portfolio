@@ -24,7 +24,8 @@ app.use((_req: Request, res: Response) => {
     res.status(404).json({ error: "Not found" });
 });
 
-app.use((error: unknown, _req: Request, res: Response, _next: NextFunction) => {
+app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
+    void next;
     console.error("[server] unhandled error", error);
     res.status(500).json({ error: "Unexpected server error. Please try again." });
 });

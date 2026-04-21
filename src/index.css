@@ -8,26 +8,26 @@
     --nav-height: 60px;
 
     /* ── Type scale ──────── */
-    --text-2xs:  9px;
-    --text-xs:   11px;
-    --text-sm:   12px;
-    --text-base: 14px;
-    --text-md:   15px;
+    --text-2xs:  10px;
+    --text-xs:   12px;
+    --text-sm:   13px;
+    --text-base: 15px;
+    --text-md:   16px;
     --text-lg:   18px;
     --text-xl:   24px;
     --text-2xl:  32px;
     --text-3xl:  clamp(28px, 3vw, 40px);
-    --text-hero: clamp(36px, 4vw, 54px);
+    --text-hero: clamp(42px, 4.8vw, 64px);
 
     /* ── Semantic text colors ─ */
     --c-text:          #ffffff;
-    --c-text-2:        rgba(255,255,255,0.45);
-    --c-text-3:        rgba(255,255,255,0.24);
-    --c-text-4:        rgba(255,255,255,0.12);
+    --c-text-2:        rgba(255,255,255,0.78);
+    --c-text-3:        rgba(255,255,255,0.6);
+    --c-text-4:        rgba(255,255,255,0.42);
 
     /* ── Surfaces & borders ── */
-    --c-border:        rgba(255,255,255,0.07);
-    --c-border-strong: rgba(255,255,255,0.12);
+    --c-border:        rgba(255,255,255,0.12);
+    --c-border-strong: rgba(255,255,255,0.2);
     --c-surface:       #111111;
     --c-surface-2:     #161616;
 
@@ -60,19 +60,35 @@ section {
 /* ── Global type helpers ────────────────────────── */
 .section-heading {
     font-family: "Instrument Serif", serif;
-    font-size: var(--text-3xl);
+    font-size: clamp(32px, 3.2vw, 44px);
     font-weight: 400;
     line-height: 1.1;
     letter-spacing: -0.5px;
     color: var(--c-text);
     text-align: center;
-    max-width: 48rem;
+    max-width: 32rem;
 }
 
 .section-sub {
     font-size: var(--text-sm);
     color: var(--c-text-3);
     letter-spacing: 0.1px;
+}
+
+.section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto 2.5rem;
+}
+
+.section-kicker {
+    font-size: var(--text-xs);
+    color: var(--c-text-3);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    font-weight: 500;
 }
 
 @theme {
@@ -107,7 +123,7 @@ section {
     }
 
     .section-padding {
-        @apply px-5 md:px-10 py-16 md:py-24;
+        @apply px-5 md:px-10 py-20 md:py-24;
     }
 
     .mt-responsive {
@@ -156,7 +172,7 @@ section {
     }
 
     .hero-badge {
-        @apply bg-black-200 border border-black-50 py-1.5 px-4 rounded-full w-fit text-xs md:text-sm text-white-50 font-medium tracking-wide text-center max-w-[90vw];
+        @apply py-1 px-0 w-fit text-xs text-white-50 font-medium tracking-wide text-center max-w-[90vw];
     }
 
     .hero-3d-layout {
@@ -255,15 +271,16 @@ section {
 
     .project-card {
         break-inside: avoid;
-        border-radius: 0.75rem;
+        border-radius: 0.85rem;
         overflow: hidden;
         margin-bottom: 1.5rem;
-        background-color: var(--color-black-200);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--c-border);
+        transition: transform 0.2s ease, border-color 0.2s ease;
 
         &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+            border-color: var(--c-border-strong);
         }
 
         .project-card__image {
@@ -328,7 +345,7 @@ section {
         }
 
         .project-card__body {
-            padding: 1rem 1.25rem 1.25rem;
+            padding: 1rem 1.25rem 1.1rem;
         }
 
         .project-card__category {
@@ -336,21 +353,25 @@ section {
             font-weight: 600;
             letter-spacing: 0.08em;
             text-transform: uppercase;
-            color: var(--color-blue-50);
+            color: var(--c-text-3);
         }
 
         .project-card__title {
-            font-size: 1.25rem;
-            font-weight: 700;
+            font-size: 1.15rem;
+            font-weight: 600;
             margin-top: 0.25rem;
             color: white;
         }
 
         .project-card__desc {
             font-size: 0.875rem;
-            color: var(--color-white-50);
+            color: var(--c-text-2);
             margin-top: 0.5rem;
             line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .project-card__tags {
@@ -364,9 +385,9 @@ section {
             font-size: 0.7rem;
             padding: 0.2rem 0.6rem;
             border-radius: 9999px;
-            background: var(--color-black-50);
-            color: var(--color-white-50);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--c-text-3);
+            border: 1px solid var(--c-border);
         }
 
         .project-card__links {
@@ -376,7 +397,7 @@ section {
         }
 
         .project-link {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             padding: 0.35rem 0.85rem;
             border-radius: 0.375rem;
@@ -395,8 +416,8 @@ section {
 
         .project-link--github {
             background: transparent;
-            color: var(--color-white-50);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--c-text-2);
+            border: 1px solid var(--c-border);
         }
     }
 
@@ -429,7 +450,9 @@ section {
     }
 
     .card-border {
-        @apply border border-black-50 bg-black-100;
+        @apply border bg-black-100;
+        border-color: var(--c-border);
+        border-radius: 12px;
     }
 
     .marquee-item {
@@ -457,19 +480,19 @@ section {
     }
 
     .tech-card-animated-bg {
-        @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#2D3240] group-hover:bottom-0 transition-all duration-700;
+        @apply absolute left-0 bottom-[-100%] w-full h-full bg-[#1a1f2a] group-hover:bottom-0 transition-all duration-700;
     }
 
     .tech-card-content {
         @apply flex flex-col md:justify-center items-center xl:gap-5 xl:h-[50vh] overflow-hidden relative z-10 group-hover:cursor-grab;
 
         & p {
-            @apply text-lg 2xl:text-2xl pb-5 xl:pb-0 font-semibold text-white-50 text-center;
+            @apply text-sm 2xl:text-lg pb-5 xl:pb-0 font-medium text-white-50 text-center;
         }
     }
 
     .tech-grid {
-        @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-16 md:gap-10 gap-5 mt-16;
+        @apply grid xl:grid-cols-5 md:grid-cols-3 grid-cols-1 xl:gap-10 md:gap-8 gap-4 mt-12;
     }
 
     .tech-icon-wrapper {
@@ -478,12 +501,21 @@ section {
 
     form {
         label {
-            @apply block text-white-50 mb-2;
+            @apply block text-sm mb-2;
+            color: var(--c-text-3);
         }
 
         input,
         textarea {
-            @apply w-full px-4 py-4 md:text-base text-sm placeholder:text-blue-50 bg-blue-100 rounded-md;
+            @apply w-full px-4 py-3 md:text-base text-sm rounded-md;
+            color: var(--c-text);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid var(--c-border);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: rgba(255,255,255,0.45);
         }
 
         a {
@@ -496,7 +528,8 @@ section {
     }
 
     .footer {
-        @apply my-10 md:mt-20 mt-10 text-white-50 px-5 md:px-20 xl:px-20 flex items-center justify-center;
+        @apply my-10 md:mt-20 mt-10 px-5 md:px-20 xl:px-20 flex items-center justify-center;
+        color: var(--c-text-3);
 
         .footer-container {
             @apply grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-0 w-full;
@@ -510,7 +543,8 @@ section {
             @apply flex items-center justify-center gap-5;
 
             .icon {
-                @apply border border-black-50 bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-500 hover:bg-black-50;
+                @apply border bg-black-100 flex justify-center items-center rounded-xl size-10 md:size-12 cursor-pointer transition-all duration-300;
+                border-color: var(--c-border);
             }
 
             img {
@@ -648,52 +682,25 @@ section {
 }
 
 .card {
-    --start: 0;
     position: relative;
     z-index: 40;
     overflow: hidden;
-    transition: border-color 1s ease-in-out;
+    transition: border-color 0.2s ease;
+    border: 1px solid var(--c-border);
+    background: rgba(255,255,255,0.02);
+    padding: 1.25rem;
 }
 
 .card::before {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 12px;
-    border: 2px solid transparent;
-    background: var(--gradient);
-    background-attachment: fixed;
-    mask: linear-gradient(#0000, #0000),
-    conic-gradient(
-            from calc((var(--start) - 15) * 1deg),
-            #ffffff1f 0deg,
-            white,
-            #ffffff00 100deg
-    );
-    mask-composite: intersect;
-    mask-clip: padding-box, border-box;
-    opacity: 0;
-    transition: 0.5s ease;
+    display: none;
 }
 
 .glow {
-    pointer-events: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(10px);
-    filter: saturate(200);
+    display: none;
 }
 
-.card:hover::before {
-    opacity: 1;
+.card:hover {
+    border-color: var(--c-border-strong);
 }
 
 @media (max-width: 1023px) {
@@ -703,14 +710,14 @@ section {
 /* ── Hero redesign ─────────────────────────────── */
 .hero-main-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.08fr 0.92fr;
     min-height: calc(100vh - var(--nav-height));
     border-bottom: 1px solid var(--c-border);
     margin-top: var(--nav-height);
 }
 
 .hero-left {
-    padding: 72px 56px 64px;
+    padding: 80px 64px 68px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--c-border);
@@ -719,16 +726,16 @@ section {
 .hero-right {
     display: flex;
     flex-direction: column;
-    background: rgba(255,255,255,0.01);
+    background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.015) 100%);
     overflow: hidden;
 }
 
 .hero-eyebrow {
     font-size: var(--text-2xs);
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--c-text-3);
+    color: rgba(255,255,255,0.62);
     margin-bottom: 28px;
     display: block;
 }
@@ -739,22 +746,23 @@ section {
     line-height: 1.05;
     letter-spacing: -1px;
     color: var(--c-text);
+    text-shadow: 0 1px 12px rgba(0,0,0,0.2);
     margin-bottom: 24px;
     font-weight: 400;
 }
 
 .hero-heading em {
     font-style: italic;
-    color: var(--c-text-3);
+    color: rgba(255,255,255,0.86);
 }
 
 .hero-desc {
-    font-size: var(--text-base);
-    font-weight: 300;
-    color: var(--c-text-2);
+    font-size: var(--text-md);
+    font-weight: 400;
+    color: rgba(255,255,255,0.82);
     line-height: 1.75;
-    max-width: 320px;
-    margin-bottom: 44px;
+    max-width: 520px;
+    margin-bottom: 52px;
 }
 
 .hero-actions {
@@ -781,14 +789,14 @@ section {
 
 .hero-btn-text {
     font-size: var(--text-sm);
-    color: var(--c-text-3);
+    color: rgba(255,255,255,0.8);
     display: inline-flex;
     align-items: center;
     gap: 6px;
     text-decoration: none;
     transition: color 0.15s;
 }
-.hero-btn-text:hover { color: var(--c-text-2); }
+.hero-btn-text:hover { color: var(--c-text); }
 
 .hero-social-row {
     display: flex;
@@ -819,67 +827,19 @@ section {
 
 .hero-panel-label {
     font-size: var(--text-2xs);
-    font-weight: 400;
+    font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--c-text-4);
+    color: rgba(255,255,255,0.58);
     margin-bottom: 18px;
 }
 
 /* kept for backwards compat */
-.hero-chat-label { font-size: var(--text-2xs); font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: var(--c-text-4); margin-bottom: 18px; }
-
-/* ── What I Offer (right panel top) ─────────────── */
-.hero-offers-block {
-    padding: 44px 52px 36px;
-    border-bottom: 1px solid var(--c-border);
-    flex-shrink: 0;
-}
-
-.hero-offers-list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--c-border);
-}
-
-.hero-offer-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 16px;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--c-border);
-    transition: background 0.15s;
-}
-.hero-offer-item:last-child { border-bottom: none; }
-
-.hero-offer-num {
-    font-size: var(--text-2xs);
-    color: var(--c-text-4);
-    flex-shrink: 0;
-    min-width: 18px;
-    letter-spacing: 0.5px;
-    padding-top: 2px;
-    font-variant-numeric: tabular-nums;
-}
-
-.hero-offer-title {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--c-text);
-    margin-bottom: 4px;
-    letter-spacing: -0.1px;
-}
-
-.hero-offer-desc {
-    font-size: var(--text-xs);
-    color: var(--c-text-3);
-    line-height: 1.55;
-    font-weight: 300;
-}
+.hero-chat-label { font-size: var(--text-2xs); font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.58); margin-bottom: 18px; }
 
 /* ── AI Chat (right panel bottom) ───────────────── */
 .hero-chat-block {
-    padding: 36px 52px 44px;
+    padding: 44px 52px;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -922,12 +882,11 @@ section {
         min-height: auto;
     }
     .hero-left {
-        padding: 48px 24px 40px;
+        padding: 52px 24px 40px;
         border-right: none;
         border-bottom: 1px solid var(--c-border);
     }
-    .hero-offers-block { padding: 36px 24px 28px; }
-    .hero-chat-block { padding: 28px 24px 36px; }
+    .hero-chat-block { padding: 36px 24px; }
     .stats-row { grid-template-columns: repeat(2, 1fr); }
     .stats-item:nth-child(2) { border-right: none; }
     .stats-item:nth-child(1),
