@@ -10,7 +10,7 @@ const SUGGESTIONS = [
 type Message = { role: "user" | "ai"; text: string };
 
 const SendIcon = () => (
-    <svg width="11" height="11" viewBox="0 0 24 24" style={{ fill: "#818cf8" }}>
+    <svg width="11" height="11" viewBox="0 0 24 24" style={{ fill: "#a5b4fc" }}>
         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
     </svg>
 );
@@ -18,7 +18,7 @@ const SendIcon = () => (
 const TypingDots = () => (
     <div className="flex justify-start">
         <div className="px-3 py-2.5 rounded-2xl rounded-bl-sm"
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.07)" }}>
+            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.13)" }}>
             <span className="inline-flex gap-1 items-center">
                 {[0, 150, 300].map((d) => (
                     <span key={d} className="w-1 h-1 rounded-full animate-bounce"
@@ -41,8 +41,8 @@ function MessageList({ messages, loading, endRef }: {
                     <div className="text-xs leading-relaxed px-3 py-2 rounded-2xl max-w-[80%]"
                         style={{
                             background: m.role === "user" ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.05)",
-                            color: m.role === "user" ? "#818cf8" : "#d9ecff",
-                            border: m.role === "user" ? "1px solid rgba(99,102,241,0.25)" : "1px solid rgba(255,255,255,0.07)",
+                            color: m.role === "user" ? "#c7d2fe" : "#eef6ff",
+                            border: m.role === "user" ? "1px solid rgba(99,102,241,0.35)" : "1px solid rgba(255,255,255,0.14)",
                             borderBottomRightRadius: m.role === "user" ? 4 : undefined,
                             borderBottomLeftRadius: m.role === "ai" ? 4 : undefined,
                         }}>
@@ -109,18 +109,18 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
 
     const inputBar = (
         <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
-            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}>
+            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.14)" }}>
             <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && ask(input)}
                 placeholder="Ask about skills, projects, or availability…"
-                className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/20"
+                className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/45"
             />
             <button onClick={() => ask(input)} disabled={loading || !input.trim()}
                 className="flex-none p-1.5 rounded cursor-pointer"
                 style={{
-                    background: "rgba(99,102,241,0.15)",
+                    background: "rgba(99,102,241,0.24)",
                     opacity: loading || !input.trim() ? 0.35 : 1,
                     transition: "opacity 0.2s",
                 }}
@@ -133,31 +133,31 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     if (card) {
         return (
             <div className="w-full flex flex-col rounded-2xl overflow-hidden"
-                style={{ background: "#111", border: "1px solid rgba(255,255,255,0.07)", flex: 1 }}>
+                style={{ background: "#121216", border: "1px solid rgba(255,255,255,0.14)", flex: 1 }}>
 
                 {/* Header */}
                 <div className="flex items-center gap-3 px-5 py-4"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.05)" }}>
+                    style={{ borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
                     <div className="size-9 rounded-full flex-none flex items-center justify-center text-[11px] font-medium"
                         style={{
                             background: "#161625",
-                            border: "1px solid rgba(99,102,241,0.2)",
-                            color: "#818cf8",
+                            border: "1px solid rgba(99,102,241,0.35)",
+                            color: "#c7d2fe",
                             letterSpacing: "0.3px",
                         }}>
                         {PROFILE_INITIALS || "PO"}
                     </div>
                     <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-white leading-tight">{PROFILE_NAME}</p>
-                        <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.28)" }}>
+                        <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.62)" }}>
                             {PROFILE_TITLE}
                         </p>
                     </div>
                     <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide flex-none"
                         style={{
-                            background: "rgba(99,102,241,0.06)",
-                            color: "rgba(99,102,241,0.6)",
-                            border: "1px solid rgba(99,102,241,0.15)",
+                            background: "rgba(99,102,241,0.14)",
+                            color: "rgba(199,210,254,0.95)",
+                            border: "1px solid rgba(99,102,241,0.28)",
                             letterSpacing: "0.5px",
                         }}>
                         AI
@@ -171,7 +171,7 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                             <div className="flex items-center gap-2">
                                 <span className="w-1 h-1 rounded-full flex-none animate-pulse"
                                     style={{ background: "#4ade80" }} />
-                                <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.2)" }}>
+                                <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.58)" }}>
                                     Ask me anything
                                 </p>
                             </div>
@@ -180,9 +180,9 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                                     <button key={s} onClick={() => ask(s)}
                                         className="text-[11px] px-3 py-1.5 rounded cursor-pointer transition-colors duration-150"
                                         style={{
-                                            background: "rgba(255,255,255,0.025)",
-                                            border: "1px solid rgba(255,255,255,0.07)",
-                                            color: "rgba(255,255,255,0.38)",
+                                            background: "rgba(255,255,255,0.06)",
+                                            border: "1px solid rgba(255,255,255,0.15)",
+                                            color: "rgba(255,255,255,0.78)",
                                         }}>
                                         {s}
                                     </button>
@@ -190,15 +190,15 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                             </div>
                             <div className="rounded-xl p-4"
                                 style={{
-                                    background: "rgba(99,102,241,0.06)",
-                                    border: "1px solid rgba(99,102,241,0.1)",
+                                    background: "rgba(99,102,241,0.14)",
+                                    border: "1px solid rgba(99,102,241,0.24)",
                                 }}>
                                 <p className="text-[9px] uppercase tracking-widest mb-2"
-                                    style={{ color: "rgba(99,102,241,0.5)" }}>
+                                    style={{ color: "rgba(199,210,254,0.85)" }}>
                                     Assistant
                                 </p>
                                 <p className="text-xs leading-relaxed font-light"
-                                    style={{ color: "rgba(255,255,255,0.45)" }}>
+                                    style={{ color: "rgba(255,255,255,0.9)" }}>
                                     {`Hi — I can walk you through ${PROFILE_NAME}'s work, skills, and how to work together. What would you like to explore?`}
                                 </p>
                             </div>
@@ -213,10 +213,10 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
 
                 {/* Input */}
                 <div className="px-5 pb-4 pt-3"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}>
+                    style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
                     {inputBar}
                     <p className="text-[9px] mt-1.5 text-right"
-                        style={{ color: "rgba(255,255,255,0.1)", letterSpacing: "0.3px" }}>
+                        style={{ color: "rgba(255,255,255,0.35)", letterSpacing: "0.3px" }}>
                         Powered by Gemini
                     </p>
                 </div>
@@ -227,10 +227,10 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     return (
         <div className="w-full relative z-10">
             <div className="flex items-center gap-2 mb-3">
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#818cf8" }} />
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#c7d2fe" }} />
                 <p className="text-xs text-white-50">Ask anything about me</p>
                 <span className="ml-auto text-[10px] px-2 py-0.5 rounded font-semibold"
-                    style={{ background: "rgba(99,102,241,0.1)", color: "#818cf8", border: "1px solid rgba(99,102,241,0.2)" }}>
+                    style={{ background: "rgba(99,102,241,0.18)", color: "#c7d2fe", border: "1px solid rgba(99,102,241,0.3)" }}>
                     AI
                 </span>
             </div>
@@ -239,7 +239,7 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                     {SUGGESTIONS.map((s) => (
                         <button key={s} onClick={() => ask(s)}
                             className="text-xs px-3 py-1.5 rounded-full cursor-pointer"
-                            style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.1)", color: "#d9ecff" }}>
+                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)", color: "#eef6ff" }}>
                             {s}
                         </button>
                     ))}

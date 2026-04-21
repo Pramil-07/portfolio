@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { testimonials } from "../constants";
 import TitleHeader from "../components/TitleHeader";
 import GlowCard from "../components/GlowCard";
-import { Testimonial } from "../constants/types";
+import type { Testimonial } from "../constants/types";
 import OptimizedImage from "../components/OptimizedImage";
 
 const MobileTestimonialScroll = () => {
@@ -34,17 +34,14 @@ const MobileTestimonialScroll = () => {
                     <div
                         key={i}
                         className="snap-start flex-none w-[calc(100vw-40px)] rounded-2xl overflow-hidden bg-black-100 flex flex-col"
-                        style={{
-                            borderLeft: "2px solid #62e0ff",
-                            boxShadow: "0 0 32px rgba(98,224,255,0.04), inset 0 0 0 1px rgba(255,255,255,0.04)",
-                        }}
+                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
                     >
                         {/* Review body */}
                         <div className="relative px-5 pt-5 pb-4 flex-1">
                             {/* Faded quote mark */}
                             <span
                                 className="absolute top-2 left-4 font-black select-none pointer-events-none leading-none"
-                                style={{ fontSize: 80, color: "rgba(98,224,255,0.05)", lineHeight: 1 }}
+                                style={{ fontSize: 80, color: "rgba(255,255,255,0.06)", lineHeight: 1 }}
                             >
                                 "
                             </span>
@@ -75,7 +72,7 @@ const MobileTestimonialScroll = () => {
                             <div className="min-w-0">
                                 <p className="text-white font-semibold text-sm leading-tight truncate">{t.name}</p>
                                 <p className="text-xs mt-0.5 truncate" style={{ color: "#839cb5" }}>{t.role}</p>
-                                <p className="text-[10px] mt-0.5" style={{ color: "#62e0ff", opacity: 0.7 }}>{t.mentions}</p>
+                                <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{t.mentions}</p>
                             </div>
                         </div>
                     </div>
@@ -95,9 +92,7 @@ const MobileTestimonialScroll = () => {
                             className="flex-1 rounded-full transition-all duration-500"
                             style={{
                                 height: 2,
-                                background: activeIndex === i
-                                    ? "linear-gradient(90deg, #62e0ff, #839cb5)"
-                                    : "rgba(255,255,255,0.1)",
+                                background: activeIndex === i ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
                             }}
                         />
                     ))}
@@ -116,10 +111,7 @@ const Testimonials: React.FC = () => {
     return (
         <section id="testimonials" className="flex-center section-padding">
             <div className="w-full h-full md:px-10 px-5">
-                <TitleHeader
-                    title="What People Say About Me?"
-                    sub="⭐️ Customer feedback highlights"
-                />
+                <TitleHeader title="Testimonials" sub="Feedback from teammates and clients" />
 
                 {/* Mobile / tablet — horizontal snap scroll */}
                 <MobileTestimonialScroll />
@@ -139,8 +131,8 @@ const Testimonials: React.FC = () => {
                                     </div>
                                     <div>
                                         <p className="font-bold">{testimonial.name}</p>
-                                        <p className="text-gray-300 text-sm font-mono">{testimonial.role}</p>
-                                        <p className="text-white-50">{testimonial.mentions}</p>
+                                        <p className="text-white-50 text-sm">{testimonial.role}</p>
+                                        <p className="text-white-50 text-xs">{testimonial.mentions}</p>
                                     </div>
                                 </div>
                             </GlowCard>

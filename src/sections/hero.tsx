@@ -5,24 +5,6 @@ import { shouldReduceHeavyMotion } from "../utils/motion";
 import HeroChat from "../components/HeroChat";
 import AnimatedCounter from "../components/AnimatedCounter";
 
-const OFFERS = [
-    {
-        num: "01",
-        title: "Full Stack Development",
-        desc: "React, Next.js, TypeScript, FastAPI, Django — from UI to API to database.",
-    },
-    {
-        num: "02",
-        title: "Production Delivery",
-        desc: "Auth, payments, analytics, and integrations shipped across live products.",
-    },
-    {
-        num: "03",
-        title: "Team-Ready Workflow",
-        desc: "Git, CI/CD, code review, and structured handoff in multi-repo environments.",
-    },
-];
-
 const GithubIcon = () => (
     <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "rgba(255,255,255,0.4)" }}>
         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
@@ -58,16 +40,16 @@ export const Hero = () => {
                 {/* ── LEFT: Identity ── */}
                 <div className="hero-left">
                     <span className="hero-eyebrow hero-anim">
-                        Full Stack Developer &nbsp;·&nbsp; Kathmandu, Nepal
+                        Full-Stack Engineer · Kathmandu
                     </span>
 
                     <h1 className="hero-heading hero-anim">
-                        Building products<br />that <em>matter.</em>
+                        Design. Build.<br /><em>Ship.</em>
                     </h1>
 
                     <p className="hero-desc hero-anim">
-                        I design and engineer full-stack systems — clean architecture,
-                        performant APIs, and interfaces people actually want to use.
+                        I build production-ready web products across frontend, backend,
+                        API, and data layers with clean, scalable architecture.
                     </p>
 
                     <div className="hero-actions hero-anim">
@@ -102,28 +84,11 @@ export const Hero = () => {
                     </div>
                 </div>
 
-                {/* ── RIGHT: Offers + Chat ── */}
+                {/* ── RIGHT: Chat ── */}
                 <div className="hero-right">
-
-                    {/* What I Offer */}
-                    <div className="hero-offers-block">
-                        <p className="hero-panel-label">What I offer</p>
-                        <div className="hero-offers-list">
-                            {OFFERS.map((item) => (
-                                <div key={item.num} className="hero-offer-item">
-                                    <span className="hero-offer-num">{item.num}</span>
-                                    <div>
-                                        <p className="hero-offer-title">{item.title}</p>
-                                        <p className="hero-offer-desc">{item.desc}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
                     {/* AI Chat — fills remaining height */}
                     <div className="hero-chat-block">
-                        <p className="hero-panel-label">Portfolio AI assistant</p>
+                        <p className="hero-panel-label">Ask about skills, projects, or availability</p>
                         <HeroChat card={true} />
                     </div>
 

@@ -1,23 +1,27 @@
 import { abilities } from "../constants";
 import OptimizedImage from "../components/OptimizedImage";
+import TitleHeader from "../components/TitleHeader";
 
 const FeatureCards = () => (
-    <div className="w-full padding-x-lg">
+    <section className="section-padding">
+        <div className="w-full padding-x-lg">
+            <TitleHeader title="What I Deliver" sub="End-to-end execution with clean systems" />
         <div className="mx-auto grid-3-cols">
             {abilities.map(({ imgPath, title, desc }) => (
                 <div
                     key={title}
-                    className="card-border rounded-xl p-8 flex flex-col gap-4"
+                    className="card-border p-7 flex flex-col gap-3"
                 >
-                    <div className="size-14 flex items-center justify-center rounded-full">
+                    <div className="size-12 flex items-center justify-center rounded-full">
                         <OptimizedImage src={imgPath} alt={title} />
                     </div>
-                    <h3 className="text-white text-2xl font-semibold mt-2">{title}</h3>
-                    <p className="text-white-50 text-lg">{desc}</p>
+                    <h3 className="text-white text-xl font-semibold mt-1">{title}</h3>
+                    <p className="text-white-50 text-sm leading-relaxed">{desc}</p>
                 </div>
             ))}
         </div>
-    </div>
+        </div>
+    </section>
 );
 
 export default FeatureCards;

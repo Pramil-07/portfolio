@@ -1,4 +1,4 @@
-import {ExpCardType, Testimonial, NavLink, Certification} from "./types";
+import type {ExpCardType, Testimonial, NavLink, Certification} from "./types";
 
 export const navLinks: NavLink[] = [
   { id: 1, name: "Home", href: "#hero" },
@@ -66,17 +66,17 @@ const abilities = [
     {
         imgPath: "/images/seo.png",
         title: "Full Stack Development",
-        desc: "Building production web products with React, Next.js, TypeScript, FastAPI, and Django — from UI to API to database.",
+        desc: "From UI to API to database with scalable architecture.",
     },
     {
         imgPath: "/images/time.png",
         title: "Reliable Delivery",
-        desc: "Shipping end-to-end features across auth, payments, analytics, and testing in multi-repo team environments.",
+        desc: "Production features shipped across auth, payments, and analytics.",
     },
     {
         imgPath: "/images/chat.png",
         title: "Collaborative Workflow",
-        desc: "Working across frontend and backend repositories with Git, GitHub Actions, code review, and structured debugging.",
+        desc: "Clean handoffs, code reviews, and CI-focused team execution.",
     },
 ];
 
