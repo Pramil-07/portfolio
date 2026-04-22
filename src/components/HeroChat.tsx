@@ -60,11 +60,12 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(false);
+    const [aiReady, setAiReady] = useState(true);
+    const [aiStatusMessage, setAiStatusMessage] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const API_BASE_URL =
-        (import.meta.env.VITE_API_BASE_URL as string | undefined) ??
-        (import.meta.env.DEV ? "http://localhost:3000" : "");
+    const rawApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
+    const API_BASE_URL = rawApiBaseUrl ? rawApiBaseUrl.replace(/\/+$/, "") : "";
     const PROFILE_NAME = (import.meta.env.VITE_PROFILE_NAME as string | undefined) ?? "Portfolio Owner";
     const PROFILE_TITLE = (import.meta.env.VITE_PROFILE_TITLE as string | undefined) ?? "Full Stack Developer";
     const PROFILE_INITIALS =
@@ -79,8 +80,47 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, loading]);
 
+    useEffect(() => {
+        let mounted = true;
+
+        const checkAiHealth = async () => {
+            try {
+                const res = await fetch(`${API_BASE_URL}/api/ai/health`);
+                const data = await res.json().catch(() => ({}));
+
+                if (!mounted) return;
+
+                if (!res.ok || data?.aiReady === false) {
+                    setAiReady(false);
+                    setAiStatusMessage(data?.message ?? "AI is temporarily unavailable.");
+                    return;
+                }
+
+                setAiReady(true);
+                setAiStatusMessage(null);
+            } catch {
+                if (!mounted) return;
+                setAiReady(false);
+                setAiStatusMessage("AI server is unreachable right now.");
+            }
+        };
+
+        void checkAiHealth();
+
+        return () => {
+            mounted = false;
+        };
+    }, [API_BASE_URL]);
+
     const ask = async (question: string) => {
         if (!question.trim() || loading) return;
+        if (!aiReady) {
+            setMessages((prev) => [
+                ...prev,
+                { role: "ai", text: aiStatusMessage ?? "AI is temporarily unavailable. Please try again later." },
+            ]);
+            return;
+        }
         const newMessages: Message[] = [...messages, { role: "user", text: question }];
         setMessages(newMessages);
         setInput("");
@@ -114,14 +154,15 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && ask(input)}
+                disabled={!aiReady}
                 placeholder="Ask about skills, projects, or availability…"
                 className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/45"
             />
-            <button onClick={() => ask(input)} disabled={loading || !input.trim()}
+            <button onClick={() => ask(input)} disabled={loading || !input.trim() || !aiReady}
                 className="flex-none p-1.5 rounded cursor-pointer"
                 style={{
                     background: "rgba(99,102,241,0.24)",
-                    opacity: loading || !input.trim() ? 0.35 : 1,
+                    opacity: loading || !input.trim() || !aiReady ? 0.35 : 1,
                     transition: "opacity 0.2s",
                 }}
                 aria-label="Send">
@@ -215,6 +256,11 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                 <div className="px-5 pb-4 pt-3"
                     style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
                     {inputBar}
+                    {!aiReady && (
+                        <p className="text-[10px] mt-2" style={{ color: "rgba(248,113,113,0.92)" }}>
+                            {aiStatusMessage ?? "AI is currently unavailable."}
+                        </p>
+                    )}
                     <p className="text-[9px] mt-1.5 text-right"
                         style={{ color: "rgba(255,255,255,0.35)", letterSpacing: "0.3px" }}>
                         Powered by Gemini

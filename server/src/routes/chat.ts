@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { env } from "../config/env";
+import { getEnv, hasConfiguredGeminiKey } from "../config/env";
 import { aiRateLimiter } from "../middleware/rateLimit";
 import { type RequestWithValidatedBody, validateBody } from "../middleware/validate";
 import { GeminiProviderError, generatePortfolioReply } from "../services/geminiClient";
@@ -12,9 +12,14 @@ chatRouter.post(
     aiRateLimiter,
     validateBody(CHAT_REQUEST_SCHEMA),
     async (req: RequestWithValidatedBody<ChatRequest>, res) => {
+        const env = getEnv();
         const payload = req.validatedBody;
         if (!payload) {
             res.status(400).json({ error: "Invalid request payload" });
+            return;
+        }
+        if (!hasConfiguredGeminiKey()) {
+            res.status(503).json({ error: "AI server not configured. Set a valid GEMINI_API_KEY." });
             return;
         }
 

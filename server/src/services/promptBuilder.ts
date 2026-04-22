@@ -1,8 +1,9 @@
-import { env } from "../config/env";
+import { getEnv } from "../config/env";
 
 export const UNKNOWN_FACT_REPLY = "I don't have that in this portfolio yet.";
 
 export function buildSystemInstruction(): string {
+    const env = getEnv();
     const rules = [
         env.AI_SYSTEM_PROMPT,
         "",

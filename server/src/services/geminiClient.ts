@@ -1,4 +1,4 @@
-import { env } from "../config/env";
+import { getEnv } from "../config/env";
 import type { ChatHistoryItem } from "../types/chat";
 import { buildSystemInstruction, normalizeReply } from "./promptBuilder";
 
@@ -37,35 +37,49 @@ export async function generatePortfolioReply(params: {
     history: ChatHistoryItem[];
 }): Promise<{ reply: string; model: string }> {
     const { message, history } = params;
+    const env = getEnv();
 
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${env.GEMINI_MODEL}:generateContent?key=${env.GEMINI_API_KEY}`;
     const contents: GeminiContent[] = [...mapHistoryToGemini(history), { role: "user", parts: [{ text: message }] }];
 
-    const response = await fetch(apiUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            system_instruction: {
-                parts: [{ text: buildSystemInstruction() }],
-            },
-            generationConfig: {
-                temperature: 0.2,
-                topP: 0.8,
-                maxOutputTokens: 220,
-            },
-            contents,
-        }),
-    });
+    try {
+        const response = await fetch(apiUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                system_instruction: {
+                    parts: [{ text: buildSystemInstruction() }],
+                },
+                generationConfig: {
+                    temperature: 0.2,
+                    topP: 0.8,
+                    maxOutputTokens: 220,
+                },
+                contents,
+            }),
+        });
 
-    const data = (await response.json()) as GeminiGenerateResponse;
+        const rawBody = await response.text();
+        const data = (rawBody ? JSON.parse(rawBody) : {}) as GeminiGenerateResponse;
 
-    if (!response.ok) {
-        throw new GeminiProviderError(data?.error?.message ?? "Gemini request failed");
+        if (!response.ok) {
+            throw new GeminiProviderError(data?.error?.message ?? `Gemini request failed with status ${response.status}`);
+        }
+
+        const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!rawReply || !rawReply.trim()) {
+            throw new GeminiProviderError("Gemini returned an empty response");
+        }
+
+        return {
+            reply: normalizeReply(rawReply),
+            model: env.GEMINI_MODEL,
+        };
+    } catch (error) {
+        if (error instanceof GeminiProviderError) {
+            throw error;
+        }
+
+        throw new GeminiProviderError("Failed to reach AI provider");
     }
-
-    const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-    return {
-        reply: normalizeReply(rawReply),
-        model: env.GEMINI_MODEL,
-    };
 }

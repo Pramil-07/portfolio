@@ -1,6 +1,8 @@
 import express, { type NextFunction, type Request, type Response } from "express";
+import type { Server } from "node:http";
 import path from "path";
 import { env } from "./config/env";
+import aiHealthRouter from "./routes/aiHealth";
 import chatRouter from "./routes/chat";
 import healthRouter from "./routes/health";
 
@@ -12,6 +14,7 @@ app.set("trust proxy", 1);
 app.use(express.json({ limit: "1mb" }));
 
 app.use("/api/health", healthRouter);
+app.use("/api/ai/health", aiHealthRouter);
 app.use("/api/ai/chat", chatRouter);
 
 app.use(express.static(distPath));
@@ -30,6 +33,22 @@ app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
     res.status(500).json({ error: "Unexpected server error. Please try again." });
 });
 
-app.listen(env.PORT, () => {
+const server: Server = app.listen(env.PORT, () => {
     console.log(`[server] running on port ${env.PORT}`);
+});
+
+server.on("error", (error) => {
+    console.error("[server] failed to start", error);
+});
+
+server.on("close", () => {
+    console.error("[server] closed");
+});
+
+process.on("uncaughtException", (error) => {
+    console.error("[server] uncaught exception", error);
+});
+
+process.on("unhandledRejection", (reason) => {
+    console.error("[server] unhandled rejection", reason);
 });
