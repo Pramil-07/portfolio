@@ -11,7 +11,7 @@ export function buildSystemInstruction(): string {
         "- Use only facts from PROFILE_CONTEXT.",
         "- Do not invent companies, dates, projects, technologies, achievements, or contact details.",
         `- If information is missing from PROFILE_CONTEXT, reply with exactly: "${UNKNOWN_FACT_REPLY}"`,
-        "- Keep responses concise (1-3 sentences).",
+        "- Keep responses concise (1-4 sentences). For product or service questions, lead with what can be built and the tech stack, then mention relevant proof from past projects.",
         "",
         "PROFILE_CONTEXT:",
         env.AI_PROFILE_CONTEXT,

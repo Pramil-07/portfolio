@@ -53,7 +53,7 @@ export async function generatePortfolioReply(params: {
                 generationConfig: {
                     temperature: 0.2,
                     topP: 0.8,
-                    maxOutputTokens: 220,
+                    maxOutputTokens: 320,
                 },
                 contents,
             }),

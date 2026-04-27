@@ -1,143 +1,106 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import { testimonials } from "../constants";
 import TitleHeader from "../components/TitleHeader";
-import GlowCard from "../components/GlowCard";
-import type { Testimonial } from "../constants/types";
 import OptimizedImage from "../components/OptimizedImage";
+import type { Testimonial } from "../constants/types";
 
-const MobileTestimonialScroll = () => {
-    const scrollRef = useRef<HTMLDivElement>(null);
-    const [activeIndex, setActiveIndex] = useState(0);
-
-    const handleScroll = () => {
-        const el = scrollRef.current;
-        if (!el) return;
-        setActiveIndex(Math.round(el.scrollLeft / (el.scrollWidth / testimonials.length)));
-    };
-
-    const scrollTo = (index: number) => {
-        const el = scrollRef.current;
-        if (!el) return;
-        el.scrollTo({ left: (el.scrollWidth / testimonials.length) * index, behavior: "smooth" });
-    };
-
-    return (
-        <div className="lg:hidden mt-10">
-            {/* Scroll track */}
-            <div
-                ref={scrollRef}
-                onScroll={handleScroll}
-                className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory px-5 scroll-pl-5"
-                style={{ scrollbarWidth: "none" }}
+const TestimonialCard = ({ t }: { t: Testimonial }) => (
+    <div
+        className="rounded-2xl overflow-hidden flex flex-col"
+        style={{
+            width: "min(calc(100vw - 40px), 360px)",
+            flexShrink: 0,
+            background: "#0e0e10",
+            border: "1px solid rgba(255,255,255,0.1)",
+        }}
+    >
+        {/* Review body */}
+        <div className="relative px-5 pt-5 pb-4 flex-1">
+            {/* Faded quote mark */}
+            <span
+                className="absolute top-2 left-4 font-black select-none pointer-events-none leading-none"
+                style={{ fontSize: 72, color: "rgba(255,255,255,0.05)", lineHeight: 1 }}
             >
-                {testimonials.map((t: Testimonial, i: number) => (
-                    <div
-                        key={i}
-                        className="snap-start flex-none w-[calc(100vw-40px)] rounded-2xl overflow-hidden bg-black-100 flex flex-col"
-                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
-                    >
-                        {/* Review body */}
-                        <div className="relative px-5 pt-5 pb-4 flex-1">
-                            {/* Faded quote mark */}
-                            <span
-                                className="absolute top-2 left-4 font-black select-none pointer-events-none leading-none"
-                                style={{ fontSize: 80, color: "rgba(255,255,255,0.06)", lineHeight: 1 }}
-                            >
-                                "
-                            </span>
-                            {/* Stars */}
-                            <div className="flex gap-0.5 mb-3 relative z-10">
-                                {[...Array(5)].map((_, s) => (
-                                    <span key={s} style={{ color: "#f5c518", fontSize: 13 }}>★</span>
-                                ))}
-                            </div>
-                            <p className="text-white-50 text-sm leading-relaxed relative z-10">
-                                "{t.review}"
-                            </p>
-                        </div>
+                ❝
+            </span>
 
-                        {/* Divider */}
-                        <div className="mx-5" style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
-
-                        {/* Author */}
-                        <div className="px-5 py-4 flex items-center gap-3">
-                            <div className="flex-none">
-                                <OptimizedImage
-                                    src={t.imgPath}
-                                    alt={t.name}
-                                    className="w-10 h-10 rounded-full object-cover"
-                                    style={{ border: "1px solid rgba(98,224,255,0.2)" }}
-                                />
-                            </div>
-                            <div className="min-w-0">
-                                <p className="text-white font-semibold text-sm leading-tight truncate">{t.name}</p>
-                                <p className="text-xs mt-0.5 truncate" style={{ color: "#839cb5" }}>{t.role}</p>
-                                <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.55)" }}>{t.mentions}</p>
-                            </div>
-                        </div>
-                    </div>
+            {/* Stars */}
+            <div className="flex gap-0.5 mb-3 relative z-10">
+                {[...Array(5)].map((_, s) => (
+                    <span key={s} style={{ color: "#f5c518", fontSize: 12 }}>★</span>
                 ))}
-                {/* Right-edge spacer */}
-                <div className="flex-none w-5 shrink-0" />
             </div>
 
-            {/* Segmented progress bar + counter */}
-            <div className="mt-5 px-1">
-                <div className="flex gap-1.5 mb-2">
-                    {testimonials.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => scrollTo(i)}
-                            aria-label={`Go to testimonial ${i + 1}`}
-                            className="flex-1 rounded-full transition-all duration-500"
-                            style={{
-                                height: 2,
-                                background: activeIndex === i ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
-                            }}
-                        />
-                    ))}
-                </div>
-                <p className="text-right text-xs tabular-nums" style={{ color: "rgba(255,255,255,0.3)" }}>
-                    <span style={{ color: "#62e0ff" }}>{String(activeIndex + 1).padStart(2, "0")}</span>
-                    {" / "}
-                    {String(testimonials.length).padStart(2, "0")}
+            <p className="relative z-10" style={{
+                fontSize: "var(--text-sm)",
+                color: "var(--c-text-3)",
+                lineHeight: 1.65,
+            }}>
+                "{t.review}"
+            </p>
+        </div>
+
+        {/* Divider */}
+        <div className="mx-5" style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
+
+        {/* Author */}
+        <div className="px-5 py-4 flex items-center gap-3">
+            <OptimizedImage
+                src={t.imgPath}
+                alt={t.name}
+                className="w-10 h-10 rounded-full object-cover flex-none"
+                style={{ border: "1px solid var(--c-border)" }}
+            />
+            <div className="min-w-0">
+                <p className="font-semibold leading-tight truncate" style={{
+                    fontSize: "var(--text-sm)",
+                    color: "var(--c-text)",
+                }}>
+                    {t.name}
+                </p>
+                <p className="truncate mt-0.5" style={{
+                    fontSize: "var(--text-xs)",
+                    color: "#839cb5",
+                }}>
+                    {t.role}
+                </p>
+                <p className="mt-0.5" style={{
+                    fontSize: "10px",
+                    color: "var(--c-text-4)",
+                }}>
+                    {t.mentions}
                 </p>
             </div>
         </div>
-    );
-};
+    </div>
+);
 
 const Testimonials: React.FC = () => {
+    /* Duplicate the list so the track is wide enough for a seamless loop.
+       Each item wrapper has paddingRight = gap, so translateX(-50%) lands
+       exactly at the start of the duplicate set. */
+    const doubled = [...testimonials, ...testimonials];
+
     return (
-        <section id="testimonials" className="flex-center section-padding">
-            <div className="w-full h-full md:px-10 px-5">
+        <section id="testimonials" className="py-20 md:py-24">
+            {/* Title — keep horizontal padding here */}
+            <div className="px-5 md:px-10 mb-12">
                 <TitleHeader title="Testimonials" sub="Feedback from teammates and clients" />
+            </div>
 
-                {/* Mobile / tablet — horizontal snap scroll */}
-                <MobileTestimonialScroll />
+            {/* Full-width infinite scroll track */}
+            <div className="relative overflow-hidden">
+                {/* Fade edges */}
+                <div className="gradient-edge" />
+                <div className="gradient-edge" />
 
-                {/* Desktop — original masonry layout */}
-                <div className="hidden lg:block">
-                    <div className="lg:columns-3 md:columns-2 columns-1 mt-16">
-                        {testimonials.map((testimonial: Testimonial, index: number) => (
-                            <GlowCard<Testimonial> card={testimonial} key={index} index={index}>
-                                <div className="flex items-center gap-3">
-                                    <div className="flex-shrink-0">
-                                        <OptimizedImage
-                                            src={testimonial.imgPath}
-                                            alt={testimonial.name}
-                                            className="w-16 h-16 rounded-full object-cover"
-                                        />
-                                    </div>
-                                    <div>
-                                        <p className="font-bold">{testimonial.name}</p>
-                                        <p className="text-white-50 text-sm">{testimonial.role}</p>
-                                        <p className="text-white-50 text-xs">{testimonial.mentions}</p>
-                                    </div>
-                                </div>
-                            </GlowCard>
-                        ))}
-                    </div>
+                {/* Animated track — no gap on flex, spacing lives in wrapper padding */}
+                <div className="testimonials-track flex">
+                    {doubled.map((t, i) => (
+                        <div key={i} style={{ paddingRight: "20px", flexShrink: 0 }}>
+                            <TestimonialCard t={t} />
+                        </div>
+                    ))}
                 </div>
             </div>
         </section>

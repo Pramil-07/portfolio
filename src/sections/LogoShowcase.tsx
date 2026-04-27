@@ -20,8 +20,8 @@ const LogoShowcase = () => (
         <div className="gradient-edge" />
         <div className="gradient-edge" />
 
-        <div className="marquee h-36">
-            <div className="marquee-box md:gap-12 gap-5">
+        <div className="marquee h-20 md:h-28">
+            <div className="marquee-box md:gap-12 gap-8">
                 {logoIconsList.map((icon, index) => (
                     <LogoIcon key={index} icon={icon} />
                 ))}

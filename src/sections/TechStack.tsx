@@ -40,19 +40,19 @@ const TechStack: React.FC = () => {
                     title="Core Stack"
                     sub="Tools I use to deliver end-to-end"
                 />
-                <div className="tech-grid mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6 mt-10">
                     {techStackIcons.map((techStackIcon: TechStackIcon) => (
                         <div
                             key={techStackIcon.name}
                             className="card-border tech-card overflow-hidden group rounded-lg relative"
                         >
-                            <div className="tech-card-animated-bg absolute inset-0" />
+                            <div className="tech-card-animated-bg" />
                             <div className="tech-card-content relative flex flex-col justify-center items-center p-1">
                                 <div className="tech-icon-wrapper w-30 h-20">
                                     <TechIconCardExperience model={techStackIcon} />
                                 </div>
-                                <div className="padding-x w-full text-center mt-2">
-                                    <p className="text-white text-lg font-medium">{techStackIcon.name}</p>
+                                <div className="w-full text-center mt-2 pb-4">
+                                    <p className="text-white text-sm font-medium">{techStackIcon.name}</p>
                                 </div>
                             </div>
                         </div>

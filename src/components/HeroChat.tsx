@@ -63,6 +63,8 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     const [aiReady, setAiReady] = useState(true);
     const [aiStatusMessage, setAiStatusMessage] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const chatCardRef = useRef<HTMLDivElement>(null);
+    const messagesContainerRef = useRef<HTMLDivElement>(null);
 
     const rawApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
     const API_BASE_URL = rawApiBaseUrl ? rawApiBaseUrl.replace(/\/+$/, "") : "";
@@ -77,7 +79,10 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
             .join("");
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        const container = messagesContainerRef.current;
+        if (container) {
+            container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+        }
     }, [messages, loading]);
 
     useEffect(() => {
@@ -112,8 +117,18 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
         };
     }, [API_BASE_URL]);
 
+    const scrollToChat = () => {
+        if (!chatCardRef.current) return;
+        const rect = chatCardRef.current.getBoundingClientRect();
+        const isOutOfView = rect.bottom > window.innerHeight || rect.top < 0;
+        if (isOutOfView) {
+            chatCardRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        }
+    };
+
     const ask = async (question: string) => {
         if (!question.trim() || loading) return;
+        scrollToChat();
         if (!aiReady) {
             setMessages((prev) => [
                 ...prev,
@@ -173,7 +188,7 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
 
     if (card) {
         return (
-            <div className="w-full flex flex-col rounded-2xl overflow-hidden"
+            <div ref={chatCardRef} className="w-full flex flex-col rounded-2xl overflow-hidden"
                 style={{ background: "#121216", border: "1px solid rgba(255,255,255,0.14)", flex: 1 }}>
 
                 {/* Header */}
@@ -234,18 +249,18 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                                     background: "rgba(99,102,241,0.14)",
                                     border: "1px solid rgba(99,102,241,0.24)",
                                 }}>
-                                <p className="text-[9px] uppercase tracking-widest mb-2"
-                                    style={{ color: "rgba(199,210,254,0.85)" }}>
+                                <p className="text-[10px] uppercase tracking-widest mb-2"
+                                    style={{ color: "rgba(199,210,254,0.9)" }}>
                                     Assistant
                                 </p>
-                                <p className="text-xs leading-relaxed font-light"
-                                    style={{ color: "rgba(255,255,255,0.9)" }}>
+                                <p className="text-xs leading-relaxed"
+                                    style={{ color: "rgba(255,255,255,0.92)" }}>
                                     {`Hi — I can walk you through ${PROFILE_NAME}'s work, skills, and how to work together. What would you like to explore?`}
                                 </p>
                             </div>
                         </div>
                     ) : (
-                        <div className="space-y-2 overflow-y-auto flex-1"
+                        <div ref={messagesContainerRef} className="space-y-2 overflow-y-auto flex-1"
                             style={{ scrollbarWidth: "none" }}>
                             <MessageList messages={messages} loading={loading} endRef={messagesEndRef} />
                         </div>
@@ -261,8 +276,8 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
                             {aiStatusMessage ?? "AI is currently unavailable."}
                         </p>
                     )}
-                    <p className="text-[9px] mt-1.5 text-right"
-                        style={{ color: "rgba(255,255,255,0.35)", letterSpacing: "0.3px" }}>
+                    <p className="text-[10px] mt-1.5 text-right"
+                        style={{ color: "rgba(255,255,255,0.38)", letterSpacing: "0.3px" }}>
                         Powered by Gemini
                     </p>
                 </div>

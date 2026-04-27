@@ -6,8 +6,6 @@ export const navLinks: NavLink[] = [
   { id: 3, name: "Experience", href: "#experience" },
   { id: 4, name: "Skills", href: "#skills" },
   { id: 5, name: "Testimonials", href: "#testimonials" },
-  { id: 6, name: "Resume", href: "#resume" },
-  { id: 7, name: "Contact", href: "#contact" },
 ];
 
 const words = [
@@ -21,7 +19,7 @@ const words = [
 
 
 const counterItems = [
-    { value: 1.5, suffix: "+", label: "Years of Experience" },
+    { value: 2, suffix: "+", label: "Years of Experience" },
     { value: 8, suffix: "+", label: "Projects Delivered" },
     { value: 15, suffix: "+", label: "Technologies Used" },
     { value: 100, suffix: "%", label: "Commitment to Quality" },

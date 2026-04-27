@@ -215,8 +215,8 @@ const Experience: React.FC = () => {
                                                 <OptimizedImage src={card.logoPath} alt="logo" />
                                             </div>
                                             <div>
-                                                <h1 className="font-semibold text-3xl">{card.title}</h1>
-                                                <p className="my-5 text-white-50">🗓️&nbsp;{card.date}</p>
+                                                <h3 className="font-semibold text-3xl">{card.title}</h3>
+                                                <p className="my-5 text-white-50 text-sm">{card.date}</p>
                                                 <p className="text-white-50 text-sm mb-4">Key contributions</p>
                                                 <ul className="list-disc ms-5 flex flex-col gap-3 text-white-50">
                                                     {card.responsibilities.map((resp: string, index: number) => (
