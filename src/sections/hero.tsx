@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Globe, Zap, Layers, Sparkles, X } from "lucide-react";
+import type { GSAPTimeline } from "gsap";
 import { resumeFile } from "../constants";
 import { shouldReduceHeavyMotion } from "../utils/motion";
 import HeroChat from "../components/HeroChat";
@@ -84,6 +85,7 @@ export const Hero = () => {
     const heroRef  = useRef<HTMLElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const zoneRef  = useRef<HTMLDivElement>(null);
+    const chatTimelineRef = useRef<GSAPTimeline | null>(null);
     const reduceMotion = shouldReduceHeavyMotion();
 
     const [phraseIdx, setPhraseIdx]   = useState(0);
@@ -91,62 +93,127 @@ export const Hero = () => {
     const [chatOpen, setChatOpen]     = useState(false);
     const [aiTalking, setAiTalking]   = useState(false);
 
+    const isMobileChatLayout = useCallback(() => {
+        if (typeof window === "undefined") return false;
+        return window.matchMedia("(max-width: 900px)").matches;
+    }, []);
+
+    const getHeroContent = useCallback(
+        () => heroRef.current?.querySelector<HTMLElement>(".hero-left-content") ?? null,
+        []
+    );
+
+    const stopChatAnimations = useCallback(() => {
+        chatTimelineRef.current?.kill();
+        chatTimelineRef.current = null;
+
+        const panel = panelRef.current;
+        const zone = zoneRef.current;
+        const content = getHeroContent();
+
+        if (panel) gsap.killTweensOf(panel);
+        if (zone) gsap.killTweensOf(zone);
+        if (content) gsap.killTweensOf(content);
+    }, [getHeroContent]);
+
     /* ── Open ── */
     const openChat = useCallback(() => {
         if (chatOpen) return;
+        stopChatAnimations();
         setChatOpen(true);
 
         const panel = panelRef.current;
         const zone  = zoneRef.current;
+        const content = getHeroContent();
+        const isMobile = isMobileChatLayout();
+
+        if (isMobile) {
+            return;
+        }
+
         if (!panel || reduceMotion) return;
 
-        // Fade zone out
+        const chatInnerElements = panel.querySelectorAll(".chat-inner-anim");
+        const robotAvatar = panel.querySelector(".chat-panel-head .robot-avatar");
+
+        gsap.set(panel, { x: "100%", opacity: 0 });
+        gsap.set(chatInnerElements, { y: 20, opacity: 0 });
+        if (robotAvatar) {
+            gsap.set(robotAvatar, { scale: 0.5, opacity: 0, rotation: -12 });
+        }
+
+        const timeline = gsap.timeline({
+            defaults: { overwrite: "auto" },
+            onComplete: () => {
+                chatTimelineRef.current = null;
+            },
+        });
+
         if (zone) {
-            gsap.to(zone, { opacity: 0, scale: 0.97, duration: 0.28, ease: "power2.in" });
+            timeline.to(zone, { opacity: 0, scale: 0.97, duration: 0.28, ease: "power2.in" }, 0);
         }
 
-        // Dim left content
-        const content = heroRef.current?.querySelector<HTMLElement>(".hero-left-content");
         if (content) {
-            gsap.to(content, { filter: "brightness(0.5) blur(0.4px)", scale: 0.975, duration: 0.6, ease: "power2.inOut" });
+            timeline.to(
+                content,
+                { filter: "brightness(0.5) blur(0.4px)", scale: 0.975, duration: 0.6, ease: "power2.inOut" },
+                0
+            );
         }
 
-        // Panel slides in
-        gsap.fromTo(panel,
-            { x: "100%", opacity: 0 },
-            { x: "0%",   opacity: 1,  duration: 0.72, ease: "expo.out" }
-        );
+        timeline.to(panel, { x: "0%", opacity: 1, duration: 0.72, ease: "expo.out" }, 0);
 
-        // Stagger interior items
-        gsap.fromTo(".chat-inner-anim",
-            { y: 20, opacity: 0 },
-            { y: 0,  opacity: 1,  stagger: 0.07, duration: 0.5, ease: "power3.out", delay: 0.3 }
-        );
+        if (chatInnerElements.length > 0) {
+            timeline.to(
+                chatInnerElements,
+                { y: 0, opacity: 1, stagger: 0.07, duration: 0.5, ease: "power3.out" },
+                0.3
+            );
+        }
 
-        // Robot avatar pops in
-        gsap.fromTo(".chat-panel-head .robot-avatar",
-            { scale: 0.5, opacity: 0, rotation: -12 },
-            { scale: 1,   opacity: 1,  rotation: 0,   duration: 0.55, ease: "back.out(1.8)", delay: 0.38 }
-        );
-    }, [chatOpen, reduceMotion]);
+        if (robotAvatar) {
+            timeline.to(
+                robotAvatar,
+                { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: "back.out(1.8)" },
+                0.38
+            );
+        }
+
+        chatTimelineRef.current = timeline;
+    }, [chatOpen, getHeroContent, isMobileChatLayout, reduceMotion, stopChatAnimations]);
 
     /* ── Close ── */
     const closeChat = useCallback(() => {
         const panel = panelRef.current;
         const zone  = zoneRef.current;
+        const content = getHeroContent();
 
-        if (!panel || reduceMotion) { setChatOpen(false); return; }
+        if (!panel || reduceMotion || isMobileChatLayout()) {
+            setChatOpen(false);
+            return;
+        }
+        stopChatAnimations();
+        setChatOpen(false);
 
-        gsap.to(panel, {
-            x: "100%", opacity: 0, duration: 0.42, ease: "power3.in",
+        const timeline = gsap.timeline({
+            defaults: { overwrite: "auto" },
             onComplete: () => {
-                setChatOpen(false);
-                const content = heroRef.current?.querySelector<HTMLElement>(".hero-left-content");
-                if (content) gsap.to(content, { filter: "brightness(1) blur(0px)", scale: 1, duration: 0.45, ease: "power2.out" });
-                if (zone) gsap.fromTo(zone, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" });
+                chatTimelineRef.current = null;
             },
         });
-    }, [reduceMotion]);
+
+        timeline.to(panel, { x: "100%", opacity: 0, duration: 0.42, ease: "power3.in" }, 0);
+
+        if (content) {
+            timeline.to(content, { filter: "brightness(1) blur(0px)", scale: 1, duration: 0.45, ease: "power2.out" }, 0.08);
+        }
+
+        if (zone) {
+            timeline.to(zone, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" }, 0.05);
+        }
+
+        chatTimelineRef.current = timeline;
+    }, [getHeroContent, isMobileChatLayout, reduceMotion, stopChatAnimations]);
 
     /* ── Entrance animation ── */
     useGSAP(() => {
@@ -254,7 +321,7 @@ export const Hero = () => {
                 {/* ── RIGHT: AI invite zone ── */}
                 <div
                     ref={zoneRef}
-                    className="hero-ai-zone"
+                    className={`hero-ai-zone${chatOpen ? " hero-ai-zone--hidden-mobile" : ""}`}
                     onClick={openChat}
                     role="button"
                     tabIndex={0}
@@ -306,7 +373,7 @@ export const Hero = () => {
                 {/* ── CHAT PANEL: slides in over the zone ── */}
                 <div
                     ref={panelRef}
-                    className="hero-right-panel"
+                    className={`hero-right-panel${chatOpen ? " hero-right-panel--open" : ""}`}
                     aria-hidden={!chatOpen}
                     style={{ pointerEvents: chatOpen ? "auto" : "none" }}
                 >
