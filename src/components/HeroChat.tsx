@@ -10,22 +10,19 @@ const SUGGESTIONS = [
 type Message = { role: "user" | "ai"; text: string };
 
 const SendIcon = () => (
-    <svg width="11" height="11" viewBox="0 0 24 24" style={{ fill: "#a5b4fc" }}>
+    <svg width="11" height="11" viewBox="0 0 24 24" style={{ fill: "var(--c-indigo)" }}>
         <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
     </svg>
 );
 
 const TypingDots = () => (
-    <div className="flex justify-start">
-        <div className="px-3 py-2.5 rounded-2xl rounded-bl-sm"
-            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.13)" }}>
-            <span className="inline-flex gap-1 items-center">
-                {[0, 150, 300].map((d) => (
-                    <span key={d} className="w-1 h-1 rounded-full animate-bounce"
-                        style={{ background: "rgba(255,255,255,0.4)", animationDelay: `${d}ms` }} />
-                ))}
-            </span>
-        </div>
+    <div className="flex justify-start pl-1">
+        <span className="inline-flex gap-1 items-center py-2">
+            {[0, 150, 300].map((d) => (
+                <span key={d} className="w-1.5 h-1.5 rounded-full animate-bounce"
+                    style={{ background: "var(--c-text-4)", animationDelay: `${d}ms` }} />
+            ))}
+        </span>
     </div>
 );
 
@@ -38,14 +35,23 @@ function MessageList({ messages, loading, endRef }: {
         <>
             {messages.map((m, i) => (
                 <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className="text-xs leading-relaxed px-3 py-2 rounded-2xl max-w-[80%]"
-                        style={{
-                            background: m.role === "user" ? "rgba(99,102,241,0.12)" : "rgba(255,255,255,0.05)",
-                            color: m.role === "user" ? "#c7d2fe" : "#eef6ff",
-                            border: m.role === "user" ? "1px solid rgba(99,102,241,0.35)" : "1px solid rgba(255,255,255,0.14)",
-                            borderBottomRightRadius: m.role === "user" ? 4 : undefined,
-                            borderBottomLeftRadius: m.role === "ai" ? 4 : undefined,
-                        }}>
+                    <div
+                        className="text-xs leading-relaxed max-w-[82%]"
+                        style={
+                            m.role === "user"
+                                ? {
+                                    padding: "8px 14px",
+                                    borderRadius: "16px 16px 4px 16px",
+                                    background: "rgba(99,102,241,0.14)",
+                                    color: "var(--c-indigo)",
+                                    border: "1px solid rgba(99,102,241,0.22)",
+                                }
+                                : {
+                                    padding: "2px 4px",
+                                    color: "var(--c-text-2)",
+                                }
+                        }
+                    >
                         {m.text}
                     </div>
                 </div>
@@ -56,10 +62,14 @@ function MessageList({ messages, loading, endRef }: {
     );
 }
 
-export default function HeroChat({ card = false }: { card?: boolean }) {
+export default function HeroChat({ card = false, onThinking }: { card?: boolean; onThinking?: (v: boolean) => void }) {
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([]);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        onThinking?.(loading);
+    }, [loading, onThinking]);
     const [aiReady, setAiReady] = useState(true);
     const [aiStatusMessage, setAiStatusMessage] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -163,24 +173,34 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     };
 
     const inputBar = (
-        <div className="flex items-center gap-2 px-4 py-3 rounded-xl"
-            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.14)" }}>
+        <div
+            className="flex items-center gap-2 px-4 py-3 rounded-xl"
+            style={{
+                background: "var(--c-icon-subtle-bg)",
+                border: "1px solid var(--c-border)",
+            }}
+        >
             <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && ask(input)}
                 disabled={!aiReady}
                 placeholder="Ask about skills, projects, or availability…"
-                className="flex-1 bg-transparent text-sm outline-none text-white placeholder:text-white/45"
+                className="flex-1 bg-transparent text-sm outline-none"
+                style={{ color: "var(--c-text)", caretColor: "var(--c-indigo)" }}
             />
-            <button onClick={() => ask(input)} disabled={loading || !input.trim() || !aiReady}
-                className="flex-none p-1.5 rounded cursor-pointer"
+            <button
+                onClick={() => ask(input)}
+                disabled={loading || !input.trim() || !aiReady}
+                className="flex-none p-1.5 rounded-md cursor-pointer"
                 style={{
-                    background: "rgba(99,102,241,0.24)",
+                    background: "rgba(99,102,241,0.18)",
+                    border: "1px solid rgba(99,102,241,0.25)",
                     opacity: loading || !input.trim() || !aiReady ? 0.35 : 1,
                     transition: "opacity 0.2s",
                 }}
-                aria-label="Send">
+                aria-label="Send"
+            >
                 <SendIcon />
             </button>
         </div>
@@ -188,96 +208,74 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
 
     if (card) {
         return (
-            <div ref={chatCardRef} className="w-full flex flex-col rounded-2xl overflow-hidden"
-                style={{ background: "#121216", border: "1px solid rgba(255,255,255,0.14)", flex: 1 }}>
-
-                {/* Header */}
-                <div className="flex items-center gap-3 px-5 py-4"
-                    style={{ borderBottom: "1px solid rgba(255,255,255,0.12)" }}>
-                    <div className="size-9 rounded-full flex-none flex items-center justify-center text-[11px] font-medium"
-                        style={{
-                            background: "#161625",
-                            border: "1px solid rgba(99,102,241,0.35)",
-                            color: "#c7d2fe",
-                            letterSpacing: "0.3px",
-                        }}>
-                        {PROFILE_INITIALS || "PO"}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white leading-tight">{PROFILE_NAME}</p>
-                        <p className="text-[10px] mt-0.5" style={{ color: "rgba(255,255,255,0.62)" }}>
-                            {PROFILE_TITLE}
-                        </p>
-                    </div>
-                    <span className="text-[9px] px-1.5 py-0.5 rounded font-semibold tracking-wide flex-none"
-                        style={{
-                            background: "rgba(99,102,241,0.14)",
-                            color: "rgba(199,210,254,0.95)",
-                            border: "1px solid rgba(99,102,241,0.28)",
-                            letterSpacing: "0.5px",
-                        }}>
-                        AI
-                    </span>
-                </div>
-
-                {/* Body */}
-                <div className="px-5 pt-5 pb-3 flex-1 overflow-hidden flex flex-col">
+            <div
+                ref={chatCardRef}
+                className="w-full flex flex-col"
+                style={{ flex: 1, minHeight: 0 }}
+            >
+                {/* Message area */}
+                <div className="flex-1 overflow-hidden flex flex-col px-7 pt-4 pb-2" style={{ minHeight: 0 }}>
                     {messages.length === 0 ? (
-                        <div className="flex flex-col gap-3">
-                            <div className="flex items-center gap-2">
-                                <span className="w-1 h-1 rounded-full flex-none animate-pulse"
-                                    style={{ background: "#4ade80" }} />
-                                <p className="text-[10px]" style={{ color: "rgba(255,255,255,0.58)" }}>
-                                    Ask me anything
+                        <div className="flex flex-col gap-5 justify-center flex-1">
+                            {/* Greeting */}
+                            <div>
+                                <p
+                                    className="text-sm leading-relaxed"
+                                    style={{ color: "var(--c-text-2)" }}
+                                >
+                                    {`Hi — I can walk you through ${PROFILE_NAME}'s work, skills, and how to work together. What would you like to explore?`}
                                 </p>
                             </div>
-                            <div className="flex flex-wrap gap-2 mb-3">
+
+                            {/* Suggestion chips */}
+                            <div className="flex flex-wrap gap-2">
                                 {SUGGESTIONS.map((s) => (
-                                    <button key={s} onClick={() => ask(s)}
-                                        className="text-[11px] px-3 py-1.5 rounded cursor-pointer transition-colors duration-150"
+                                    <button
+                                        key={s}
+                                        onClick={() => ask(s)}
+                                        className="text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all duration-150"
                                         style={{
-                                            background: "rgba(255,255,255,0.06)",
-                                            border: "1px solid rgba(255,255,255,0.15)",
-                                            color: "rgba(255,255,255,0.78)",
-                                        }}>
+                                            background: "var(--c-card-bg)",
+                                            border: "1px solid var(--c-border)",
+                                            color: "var(--c-text-3)",
+                                        }}
+                                        onMouseEnter={(e) => {
+                                            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--c-border-strong)";
+                                            (e.currentTarget as HTMLButtonElement).style.color = "var(--c-text-2)";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                            (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--c-border)";
+                                            (e.currentTarget as HTMLButtonElement).style.color = "var(--c-text-3)";
+                                        }}
+                                    >
                                         {s}
                                     </button>
                                 ))}
                             </div>
-                            <div className="rounded-xl p-4"
-                                style={{
-                                    background: "rgba(99,102,241,0.14)",
-                                    border: "1px solid rgba(99,102,241,0.24)",
-                                }}>
-                                <p className="text-[10px] uppercase tracking-widest mb-2"
-                                    style={{ color: "rgba(199,210,254,0.9)" }}>
-                                    Assistant
-                                </p>
-                                <p className="text-xs leading-relaxed"
-                                    style={{ color: "rgba(255,255,255,0.92)" }}>
-                                    {`Hi — I can walk you through ${PROFILE_NAME}'s work, skills, and how to work together. What would you like to explore?`}
-                                </p>
-                            </div>
                         </div>
                     ) : (
-                        <div ref={messagesContainerRef} className="space-y-2 overflow-y-auto flex-1"
-                            style={{ scrollbarWidth: "none" }}>
+                        <div
+                            ref={messagesContainerRef}
+                            className="space-y-3 overflow-y-auto flex-1"
+                            style={{ scrollbarWidth: "none" }}
+                        >
                             <MessageList messages={messages} loading={loading} endRef={messagesEndRef} />
                         </div>
                     )}
                 </div>
 
-                {/* Input */}
-                <div className="px-5 pb-4 pt-3"
-                    style={{ borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+                {/* Input area */}
+                <div className="px-6 pb-5 pt-3 flex flex-col gap-2">
                     {inputBar}
                     {!aiReady && (
-                        <p className="text-[10px] mt-2" style={{ color: "rgba(248,113,113,0.92)" }}>
+                        <p className="text-[10px]" style={{ color: "rgba(248,113,113,0.9)" }}>
                             {aiStatusMessage ?? "AI is currently unavailable."}
                         </p>
                     )}
-                    <p className="text-[10px] mt-1.5 text-right"
-                        style={{ color: "rgba(255,255,255,0.38)", letterSpacing: "0.3px" }}>
+                    <p
+                        className="text-[10px] text-right"
+                        style={{ color: "var(--c-text-4)", letterSpacing: "0.3px" }}
+                    >
                         Powered by Gemini
                     </p>
                 </div>
@@ -288,19 +286,24 @@ export default function HeroChat({ card = false }: { card?: boolean }) {
     return (
         <div className="w-full relative z-10">
             <div className="flex items-center gap-2 mb-3">
-                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "#c7d2fe" }} />
-                <p className="text-xs text-white-50">Ask anything about me</p>
-                <span className="ml-auto text-[10px] px-2 py-0.5 rounded font-semibold"
-                    style={{ background: "rgba(99,102,241,0.18)", color: "#c7d2fe", border: "1px solid rgba(99,102,241,0.3)" }}>
+                <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: "var(--c-green)" }} />
+                <p className="text-xs" style={{ color: "var(--c-text-3)" }}>Ask anything about me</p>
+                <span
+                    className="ml-auto text-[9px] px-2 py-0.5 rounded font-semibold tracking-wide"
+                    style={{ background: "var(--c-indigo-bg)", color: "var(--c-indigo)", border: "1px solid var(--c-indigo-border)" }}
+                >
                     AI
                 </span>
             </div>
             {messages.length === 0 ? (
                 <div className="flex flex-wrap gap-2">
                     {SUGGESTIONS.map((s) => (
-                        <button key={s} onClick={() => ask(s)}
-                            className="text-xs px-3 py-1.5 rounded-full cursor-pointer"
-                            style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.18)", color: "#eef6ff" }}>
+                        <button
+                            key={s}
+                            onClick={() => ask(s)}
+                            className="text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all duration-150"
+                            style={{ background: "var(--c-card-bg)", border: "1px solid var(--c-border)", color: "var(--c-text-3)" }}
+                        >
                             {s}
                         </button>
                     ))}

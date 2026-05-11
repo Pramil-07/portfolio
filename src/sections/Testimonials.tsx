@@ -10,8 +10,8 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
         style={{
             width: "min(calc(100vw - 40px), 360px)",
             flexShrink: 0,
-            background: "#0e0e10",
-            border: "1px solid rgba(255,255,255,0.1)",
+            background: "var(--c-surface)",
+            border: "1px solid var(--c-border)",
         }}
     >
         {/* Review body */}
@@ -19,7 +19,7 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
             {/* Faded quote mark */}
             <span
                 className="absolute top-2 left-4 font-black select-none pointer-events-none leading-none"
-                style={{ fontSize: 72, color: "rgba(255,255,255,0.05)", lineHeight: 1 }}
+                style={{ fontSize: 72, color: "var(--c-border)", lineHeight: 1 }}
             >
                 ❝
             </span>
@@ -33,7 +33,7 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
 
             <p className="relative z-10" style={{
                 fontSize: "var(--text-sm)",
-                color: "var(--c-text-3)",
+                color: "var(--c-text-2)",
                 lineHeight: 1.65,
             }}>
                 "{t.review}"
@@ -41,7 +41,7 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
         </div>
 
         {/* Divider */}
-        <div className="mx-5" style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
+        <div className="mx-5" style={{ height: "1px", background: "var(--c-border)" }} />
 
         {/* Author */}
         <div className="px-5 py-4 flex items-center gap-3">
@@ -60,7 +60,7 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
                 </p>
                 <p className="truncate mt-0.5" style={{
                     fontSize: "var(--text-xs)",
-                    color: "#839cb5",
+                    color: "var(--c-text-3)",
                 }}>
                     {t.role}
                 </p>
@@ -76,25 +76,18 @@ const TestimonialCard = ({ t }: { t: Testimonial }) => (
 );
 
 const Testimonials: React.FC = () => {
-    /* Duplicate the list so the track is wide enough for a seamless loop.
-       Each item wrapper has paddingRight = gap, so translateX(-50%) lands
-       exactly at the start of the duplicate set. */
     const doubled = [...testimonials, ...testimonials];
 
     return (
         <section id="testimonials" className="py-20 md:py-24">
-            {/* Title — keep horizontal padding here */}
             <div className="px-5 md:px-10 mb-12">
                 <TitleHeader title="Testimonials" sub="Feedback from teammates and clients" />
             </div>
 
-            {/* Full-width infinite scroll track */}
             <div className="relative overflow-hidden">
-                {/* Fade edges */}
                 <div className="gradient-edge" />
                 <div className="gradient-edge" />
 
-                {/* Animated track — no gap on flex, spacing lives in wrapper padding */}
                 <div className="testimonials-track flex">
                     {doubled.map((t, i) => (
                         <div key={i} style={{ paddingRight: "20px", flexShrink: 0 }}>

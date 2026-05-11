@@ -13,7 +13,7 @@ class ErrorBoundary extends Component<Props, State> {
     render() {
         if (this.state.hasError) {
             return (
-                <div className="flex-center min-h-[200px] text-white-50 text-sm">
+                <div className="flex-center min-h-[200px] text-sm" style={{ color: "var(--c-text-3)" }}>
                     Something went wrong loading this section.
                 </div>
             );

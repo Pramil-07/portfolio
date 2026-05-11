@@ -52,7 +52,7 @@ const TechStack: React.FC = () => {
                                     <TechIconCardExperience model={techStackIcon} />
                                 </div>
                                 <div className="w-full text-center mt-2 pb-4">
-                                    <p className="text-white text-sm font-medium">{techStackIcon.name}</p>
+                                    <p className="text-sm font-medium" style={{ color: "var(--c-text)" }}>{techStackIcon.name}</p>
                                 </div>
                             </div>
                         </div>

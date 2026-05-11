@@ -1,174 +1,212 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { Globe, Zap, Layers, Sparkles } from "lucide-react";
+import { Globe, Zap, Layers, Sparkles, X } from "lucide-react";
 import { resumeFile } from "../constants";
 import { shouldReduceHeavyMotion } from "../utils/motion";
 import HeroChat from "../components/HeroChat";
 import AnimatedCounter from "../components/AnimatedCounter";
 
-/* ── Himalayan silhouette — decorative background ── */
-const HimalayanSilhouette = () => (
-    <svg
-        viewBox="0 0 800 180"
-        preserveAspectRatio="xMidYMax meet"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-        className="hero-himalaya"
-    >
-        <path
-            d="M0,180 L0,148
-               L38,138 L72,143 L100,128
-               L128,134 L152,118 L172,124
-               L196,105 L218,112 L238,94
-               L256,101 L272,82  L285,90
-               L298,68  L310,56  L320,44
-               L328,34  L336,24  L342,18
-               L348,12  L354,20  L360,30
-               L368,42  L378,52  L390,62
-               L404,50  L418,62  L432,74
-               L448,64  L464,78  L482,90
-               L500,80  L520,95  L542,88
-               L562,102 L584,96  L606,110
-               L630,104 L658,118 L686,112
-               L714,126 L742,120 L770,134
-               L800,128 L800,180 Z"
-            fill="url(#himalaya-grad)"
-            opacity="0.9"
-        />
-        <defs>
-            <linearGradient id="himalaya-grad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="rgba(255,255,255,0.07)" />
-                <stop offset="100%" stopColor="rgba(255,255,255,0.02)" />
-            </linearGradient>
-        </defs>
-    </svg>
-);
-
-/* ── Static data ─────────────────────────────────────── */
 const SERVICES = [
-    { label: "Web Apps",        Icon: Globe,     ai: false },
-    { label: "REST APIs",       Icon: Zap,       ai: false },
-    { label: "SaaS Products",   Icon: Layers,    ai: false },
-    { label: "AI Integrations", Icon: Sparkles,  ai: true  },
+    { label: "Web Apps",        Icon: Globe,    ai: false },
+    { label: "REST APIs",       Icon: Zap,      ai: false },
+    { label: "SaaS Products",   Icon: Layers,   ai: false },
+    { label: "AI Integrations", Icon: Sparkles, ai: true  },
 ] as const;
 
-const AI_TAGS = ["Gemini API", "OpenAI", "LangChain", "RAG", "Vector DBs"];
+const TYPEWRITER_PHRASES = ["Design.", "Build.", "Ship.", "AI Apps."];
 
-/* ── Social icons ────────────────────────────────────── */
+/* ── Social icons ───────────────────────────────── */
 const GithubIcon = () => (
-    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "rgba(255,255,255,0.45)" }}>
+    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "var(--c-text-3)" }}>
         <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z" />
     </svg>
 );
-
 const LinkedInIcon = () => (
-    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "rgba(255,255,255,0.45)" }}>
+    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "var(--c-text-3)" }}>
         <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
 );
-
 const XIcon = () => (
-    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "rgba(255,255,255,0.45)" }}>
+    <svg viewBox="0 0 24 24" width="13" height="13" style={{ fill: "var(--c-text-3)" }}>
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.743l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
     </svg>
 );
 
-/* ── Hero ────────────────────────────────────────────── */
+/* ── Typewriter ─────────────────────────────────── */
+const TypewriterHeading = ({ phrase, paused }: { phrase: string; paused: boolean }) => {
+    const [text, setText] = useState(phrase);
+    useEffect(() => {
+        if (paused) { setText(phrase); return; }
+        if (text === phrase) return;
+        let timeout: number;
+        const isPrefix = phrase.startsWith(text);
+        if (!isPrefix) {
+            timeout = window.setTimeout(() => setText(t => t.slice(0, -1)), 36);
+        } else {
+            timeout = window.setTimeout(() => setText(phrase.slice(0, text.length + 1)), 90);
+        }
+        return () => clearTimeout(timeout);
+    }, [text, phrase, paused]);
+    return (
+        <span className="hero-tw-text" aria-live="polite">
+            {text || " "}
+            <span className="hero-tw-caret" aria-hidden="true" />
+        </span>
+    );
+};
+
+/* ── AI Robot Avatar ────────────────────────────── */
+const RobotAvatar = ({ size = 48, talking = false }: { size?: number; talking?: boolean }) => (
+    <div
+        className={`robot-avatar${talking ? " robot-avatar--talking" : ""}`}
+        style={{ width: size, height: size }}
+        aria-hidden="true"
+    >
+        <span className="robot-avatar__ring" />
+        <span className="robot-avatar__ring robot-avatar__ring--2" />
+        <div className="robot-avatar__core">
+            <div className="robot-avatar__eyes">
+                <span className="robot-avatar__eye" />
+                <span className="robot-avatar__eye" />
+            </div>
+            <div className="robot-avatar__bars">
+                {[0, 1, 2, 3, 4].map(i => (
+                    <span key={i} className="robot-avatar__bar" style={{ animationDelay: `${i * 0.09}s` }} />
+                ))}
+            </div>
+        </div>
+    </div>
+);
+
+/* ── Hero ───────────────────────────────────────── */
 export const Hero = () => {
     const heroRef  = useRef<HTMLElement>(null);
-    const blobRef  = useRef<HTMLDivElement>(null);
+    const panelRef = useRef<HTMLDivElement>(null);
+    const zoneRef  = useRef<HTMLDivElement>(null);
+    const reduceMotion = shouldReduceHeavyMotion();
 
-    /* Mouse-parallax on ambient glow blob */
-    useEffect(() => {
-        const hero = heroRef.current;
-        const blob = blobRef.current;
-        if (!hero || !blob || shouldReduceHeavyMotion()) return;
+    const [phraseIdx, setPhraseIdx]   = useState(0);
+    const [activeChip, setActiveChip] = useState<number | null>(null);
+    const [chatOpen, setChatOpen]     = useState(false);
+    const [aiTalking, setAiTalking]   = useState(false);
 
-        const xSet = gsap.quickSetter(blob, "x", "px");
-        const ySet = gsap.quickSetter(blob, "y", "px");
+    /* ── Open ── */
+    const openChat = useCallback(() => {
+        if (chatOpen) return;
+        setChatOpen(true);
 
-        const onMove = (e: MouseEvent) => {
-            const { left, top, width, height } = hero.getBoundingClientRect();
-            xSet(((e.clientX - left) / width  - 0.5) * 70);
-            ySet(((e.clientY - top)  / height - 0.5) * 50);
-        };
+        const panel = panelRef.current;
+        const zone  = zoneRef.current;
+        if (!panel || reduceMotion) return;
 
-        hero.addEventListener("mousemove", onMove, { passive: true });
-        return () => hero.removeEventListener("mousemove", onMove);
-    }, []);
+        // Fade zone out
+        if (zone) {
+            gsap.to(zone, { opacity: 0, scale: 0.97, duration: 0.28, ease: "power2.in" });
+        }
 
-    /* Entrance animation timeline — starts after PageLoader fades */
-    useGSAP(() => {
-        if (shouldReduceHeavyMotion()) return;
+        // Dim left content
+        const content = heroRef.current?.querySelector<HTMLElement>(".hero-left-content");
+        if (content) {
+            gsap.to(content, { filter: "brightness(0.5) blur(0.4px)", scale: 0.975, duration: 0.6, ease: "power2.inOut" });
+        }
 
-        const tl = gsap.timeline({
-            delay: 3.9,
-            defaults: { ease: "power3.out", willChange: "transform, opacity" },
+        // Panel slides in
+        gsap.fromTo(panel,
+            { x: "100%", opacity: 0 },
+            { x: "0%",   opacity: 1,  duration: 0.72, ease: "expo.out" }
+        );
+
+        // Stagger interior items
+        gsap.fromTo(".chat-inner-anim",
+            { y: 20, opacity: 0 },
+            { y: 0,  opacity: 1,  stagger: 0.07, duration: 0.5, ease: "power3.out", delay: 0.3 }
+        );
+
+        // Robot avatar pops in
+        gsap.fromTo(".chat-panel-head .robot-avatar",
+            { scale: 0.5, opacity: 0, rotation: -12 },
+            { scale: 1,   opacity: 1,  rotation: 0,   duration: 0.55, ease: "back.out(1.8)", delay: 0.38 }
+        );
+    }, [chatOpen, reduceMotion]);
+
+    /* ── Close ── */
+    const closeChat = useCallback(() => {
+        const panel = panelRef.current;
+        const zone  = zoneRef.current;
+
+        if (!panel || reduceMotion) { setChatOpen(false); return; }
+
+        gsap.to(panel, {
+            x: "100%", opacity: 0, duration: 0.42, ease: "power3.in",
+            onComplete: () => {
+                setChatOpen(false);
+                const content = heroRef.current?.querySelector<HTMLElement>(".hero-left-content");
+                if (content) gsap.to(content, { filter: "brightness(1) blur(0px)", scale: 1, duration: 0.45, ease: "power2.out" });
+                if (zone) gsap.fromTo(zone, { opacity: 0, scale: 0.97 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.3)" });
+            },
         });
+    }, [reduceMotion]);
 
+    /* ── Entrance animation ── */
+    useGSAP(() => {
+        if (reduceMotion) return;
+        const tl = gsap.timeline({ delay: 3.9, defaults: { ease: "power3.out", willChange: "transform, opacity" } });
         tl
-            .from(".hero-eyebrow",      { y: 18, opacity: 0, duration: 0.65 })
-            .from(".hero-heading",      { y: 48, opacity: 0, duration: 0.9  }, "-=0.45")
-            .from(".hero-desc",         { y: 24, opacity: 0, duration: 0.7  }, "-=0.55")
-            .from(".hero-callout",      { y: 20, opacity: 0, scale: 0.96, duration: 0.65, ease: "back.out(1.7)" }, "-=0.45")
-            .from(".hero-actions",      { y: 18, opacity: 0, duration: 0.6  }, "-=0.4")
-            .from(".hero-service-chip", {
-                y: 14, opacity: 0, scale: 0.88,
-                duration: 0.5, stagger: 0.075,
-                ease: "back.out(1.5)",
-            }, "-=0.35")
-            .from(".hero-social-row",   { opacity: 0, duration: 0.5 }, "-=0.25")
-            /* Right panel slides in while heading is animating */
-            .from(".hero-right",        { x: 40, opacity: 0, duration: 1.0  }, "<-=1.4");
+            .from(".hero-eyebrow",      { y: 12,  opacity: 0, duration: 0.5 })
+            .from(".hero-heading",      { y: 28,  opacity: 0, duration: 0.7 }, "-=0.35")
+            .from(".hero-anno",         { x: 12,  opacity: 0, duration: 0.5 }, "-=0.5")
+            .from(".hero-desc",         { y: 14,  opacity: 0, duration: 0.55 }, "-=0.5")
+            .from(".hero-actions",      { y: 12,  opacity: 0, duration: 0.5 }, "-=0.4")
+            .from(".hero-service-chip", { y: 10,  opacity: 0, scale: 0.9, duration: 0.4, stagger: 0.06, ease: "back.out(1.5)" }, "-=0.3")
+            .from(".hero-social-row",   { opacity: 0, duration: 0.4 }, "-=0.2")
+            .from(".hero-ai-zone",      { x: 40,  opacity: 0, duration: 0.75, ease: "expo.out" }, "-=0.45");
+    }, { scope: heroRef });
+
+    /* ── Phrase + chip cycle ── */
+    useGSAP(() => {
+        if (reduceMotion) return;
+        const tl = gsap.timeline({ repeat: -1, delay: 5.4 });
+        tl.to({}, { duration: 3 });
+        tl.call(() => setPhraseIdx(i => (i + 1) % TYPEWRITER_PHRASES.length));
+        tl.to({}, { duration: 2.5 });
+        tl.call(() => setActiveChip(0));
+        tl.to({}, { duration: 0.7 });
+        tl.call(() => setActiveChip(null));
+        tl.to({}, { duration: 1.5 });
+        tl.call(() => setActiveChip(3));
+        tl.to({}, { duration: 0.85 });
+        tl.call(() => setActiveChip(null));
+        tl.to({}, { duration: 1 });
     }, { scope: heroRef });
 
     return (
         <section id="hero" ref={heroRef}>
-            <div className="hero-main-grid">
+            <div className="hero-shell">
 
-                {/* ── LEFT ── */}
-                <div className="hero-left">
-                    {/* Ambient glow blob (purely decorative) */}
-                    <div ref={blobRef} className="hero-glow-blob" aria-hidden="true" />
-                    {/* Himalayan silhouette — anchored to bottom of hero-left */}
-                    <HimalayanSilhouette />
-
-                    {/* Content sits above the blob */}
+                {/* ── LEFT: hero content ── */}
+                <div className="hero-content-panel">
                     <div className="hero-left-content">
+                        <span className="hero-eyebrow">Full-Stack Engineer · Kathmandu</span>
 
-                        <span className="hero-eyebrow">
-                            Full-Stack Engineer · Kathmandu
-                            <svg viewBox="0 0 22 14" width="16" height="10" aria-label="Nepal" style={{ display: "inline-block", verticalAlign: "middle", marginLeft: "6px", marginBottom: "1px", opacity: 0.55 }}>
-                                <path d="M1,13 L6,6 L10,9 L13,4 L16,7 L19,2 L21,13 Z" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
-                            </svg>
-                        </span>
-
-                        <h1 className="hero-heading">
-                            Design. Build.<br /><em>Ship.</em>
-                        </h1>
+                        <div className="hero-heading-wrap">
+                            <h1 className="hero-heading">
+                                <TypewriterHeading phrase={TYPEWRITER_PHRASES[phraseIdx]} paused={reduceMotion} />
+                            </h1>
+                            <span className="hero-anno hero-anno--heading">
+                                <span className="hero-anno-icon">Aa</span>
+                                <span className="hero-anno-body">
+                                    <span className="hero-anno-key">Display</span>
+                                    <span className="hero-anno-val">88 / Serif</span>
+                                </span>
+                            </span>
+                        </div>
 
                         <p className="hero-desc">
                             I build production-ready web products — full-stack to
                             AI-powered — across frontend, backend, APIs, and data layers.
                         </p>
 
-                        {/* ── Option 4: AI availability callout ── */}
-                        <div className="hero-callout">
-                            <span className="hero-callout-dot" aria-hidden="true" />
-                            <div>
-                                <p className="hero-callout-label">
-                                    Available for AI-integrated projects
-                                </p>
-                                <div className="hero-callout-tags">
-                                    {AI_TAGS.map(tag => (
-                                        <span key={tag} className="hero-callout-tag">{tag}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* ── CTAs ── */}
                         <div className="hero-actions">
                             <a href="#work" className="hero-btn-primary">See my work</a>
                             <a href={resumeFile} download className="hero-btn-text">
@@ -182,12 +220,15 @@ export const Hero = () => {
                             </a>
                         </div>
 
-                        {/* ── Option 3: Service chips ── */}
                         <div className="hero-services">
-                            {SERVICES.map(({ label, Icon, ai }) => (
+                            {SERVICES.map(({ label, Icon, ai }, i) => (
                                 <div
                                     key={label}
-                                    className={`hero-service-chip${ai ? " hero-service-chip--ai" : ""}`}
+                                    className={[
+                                        "hero-service-chip",
+                                        ai ? "hero-service-chip--ai" : "",
+                                        activeChip === i ? "hero-service-chip--active" : "",
+                                    ].filter(Boolean).join(" ")}
                                 >
                                     <Icon size={11} strokeWidth={2.2} />
                                     {label}
@@ -195,36 +236,102 @@ export const Hero = () => {
                             ))}
                         </div>
 
-                        {/* ── Social row ── */}
                         <div className="hero-social-row">
-                            <a href="https://github.com/Pramil-07" target="_blank"
-                                rel="noopener noreferrer" aria-label="GitHub"
-                                className="hero-soc-btn">
+                            <a href="https://github.com/Pramil-07" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hero-soc-btn">
                                 <GithubIcon />
                             </a>
-                            <a href="https://www.linkedin.com/in/pramil-dhungana/"
-                                target="_blank" rel="noopener noreferrer"
-                                aria-label="LinkedIn" className="hero-soc-btn">
+                            <a href="https://www.linkedin.com/in/pramil-dhungana/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hero-soc-btn">
                                 <LinkedInIcon />
                             </a>
                             <div className="hero-soc-sep" />
-                            <a href="https://x.com/pramil_dev" target="_blank"
-                                rel="noopener noreferrer" aria-label="X / Twitter"
-                                className="hero-soc-btn">
+                            <a href="https://x.com/pramil_dev" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter" className="hero-soc-btn">
                                 <XIcon />
                             </a>
                         </div>
-
-                    </div>{/* /hero-left-content */}
+                    </div>
                 </div>
 
-                {/* ── RIGHT: AI Chat ── */}
-                <div className="hero-right">
-                    <div className="hero-chat-block">
-                        <p className="hero-panel-label">
-                            Ask about skills, projects, or availability
+                {/* ── RIGHT: AI invite zone ── */}
+                <div
+                    ref={zoneRef}
+                    className="hero-ai-zone"
+                    onClick={openChat}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === "Enter" && openChat()}
+                    aria-label="Open AI chat assistant"
+                    aria-expanded={chatOpen}
+                >
+                    {/* Corner reticle brackets */}
+                    <span className="hz-corner hz-corner--tl" aria-hidden="true" />
+                    <span className="hz-corner hz-corner--tr" aria-hidden="true" />
+                    <span className="hz-corner hz-corner--bl" aria-hidden="true" />
+                    <span className="hz-corner hz-corner--br" aria-hidden="true" />
+
+                    <div className="hz-inner">
+                        {/* Large robot */}
+                        <RobotAvatar size={96} />
+
+                        {/* Status */}
+                        <div className="hz-status">
+                            <span className="hz-status__dot" aria-hidden="true" />
+                            Available now
+                        </div>
+
+                        {/* Heading */}
+                        <h3 className="hz-title">Ask my AI</h3>
+                        <p className="hz-desc">
+                            Skills, projects, experience<br />or availability — just ask.
                         </p>
-                        <HeroChat card={true} />
+
+                        {/* Preview question pills */}
+                        <div className="hz-previews">
+                            <span className="hz-preview">"What's your tech stack?"</span>
+                            <span className="hz-preview">"Show me your best work"</span>
+                        </div>
+
+                        {/* CTA */}
+                        <div className="hz-cta">
+                            Start chatting
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" strokeWidth="2.5"
+                                strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <line x1="5" y1="12" x2="19" y2="12" />
+                                <polyline points="12 5 19 12 12 19" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ── CHAT PANEL: slides in over the zone ── */}
+                <div
+                    ref={panelRef}
+                    className="hero-right-panel"
+                    aria-hidden={!chatOpen}
+                    style={{ pointerEvents: chatOpen ? "auto" : "none" }}
+                >
+                    <div className="hero-chat-inner">
+                        {/* Header */}
+                        <div className="chat-panel-head chat-inner-anim">
+                            <div className="chat-panel-head__left">
+                                <RobotAvatar size={46} talking={aiTalking} />
+                                <div>
+                                    <p className="chat-panel-head__name">Pramil's AI</p>
+                                    <p className="chat-panel-head__status">
+                                        <span className={`chat-head-dot${aiTalking ? " chat-head-dot--thinking" : ""}`} />
+                                        {aiTalking ? "Generating…" : "Online now"}
+                                    </p>
+                                </div>
+                            </div>
+                            <button className="chat-panel-head__close" onClick={closeChat} aria-label="Close chat">
+                                <X size={15} />
+                            </button>
+                        </div>
+
+                        {/* Chat widget */}
+                        <div className="hero-chat-block chat-inner-anim" style={{ flex: 1, minHeight: 0, display: "flex", flexDirection: "column" }}>
+                            <HeroChat card={true} onThinking={setAiTalking} />
+                        </div>
                     </div>
                 </div>
 

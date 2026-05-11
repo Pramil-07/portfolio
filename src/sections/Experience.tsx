@@ -41,15 +41,18 @@ const MobileExperienceScroll = () => {
                 {expCards.map((card: ExpCardType, i: number) => (
                     <div
                         key={i}
-                        className="snap-start flex-none w-[calc(100vw-40px)] rounded-2xl overflow-hidden bg-black-100"
-                        style={{ border: "1px solid rgba(255,255,255,0.12)" }}
+                        className="snap-start flex-none w-[calc(100vw-40px)] rounded-2xl overflow-hidden"
+                        style={{
+                            background: "var(--c-surface)",
+                            border: "1px solid var(--c-border)",
+                        }}
                     >
                         {/* Header */}
                         <div className="relative px-4 pt-4 pb-3">
                             {/* Faded ordinal */}
                             <span
                                 className="absolute top-2 right-3 font-black text-5xl select-none pointer-events-none leading-none"
-                                style={{ color: "rgba(255,255,255,0.06)" }}
+                                style={{ color: "var(--c-border)", lineHeight: 1 }}
                             >
                                 {String(i + 1).padStart(2, "0")}
                             </span>
@@ -58,8 +61,8 @@ const MobileExperienceScroll = () => {
                                 <div
                                     className="size-10 rounded-xl flex-none flex items-center justify-center overflow-hidden p-1"
                                     style={{
-                                        background: "rgba(40,39,50,0.8)",
-                                        border: "1px solid rgba(255,255,255,0.08)",
+                                        background: "var(--c-surface-2)",
+                                        border: "1px solid var(--c-border)",
                                     }}
                                 >
                                     <OptimizedImage
@@ -69,28 +72,39 @@ const MobileExperienceScroll = () => {
                                     />
                                 </div>
                                 <div className="min-w-0">
-                                    <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5" style={{ color: "rgba(255,255,255,0.62)" }}>
+                                    <p className="text-[10px] font-semibold uppercase tracking-widest mb-0.5"
+                                        style={{ color: "var(--c-text-3)" }}>
                                         {card.company}
                                     </p>
-                                    <h3 className="font-semibold text-sm text-white leading-tight truncate">
+                                    <h3 className="font-semibold text-sm leading-tight truncate"
+                                        style={{ color: "var(--c-text)" }}>
                                         {card.title}
                                     </h3>
-                                    <p className="text-white-50 text-[11px] mt-0.5">{card.date}</p>
+                                    <p className="text-[11px] mt-0.5" style={{ color: "var(--c-text-3)" }}>
+                                        {card.date}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
                         {/* Divider */}
-                        <div className="mx-4" style={{ height: "1px", background: "rgba(255,255,255,0.06)" }} />
+                        <div className="mx-4" style={{ height: "1px", background: "var(--c-border)" }} />
 
-                        {/* Responsibilities — scrollable so card stays on screen */}
+                        {/* Responsibilities */}
                         <div className="px-4 py-3 overflow-y-auto" style={{ maxHeight: "52vh", scrollbarWidth: "none" }}>
                             <ul className="space-y-2">
                                 {card.responsibilities.map((resp: string, j: number) => (
-                                    <li key={j} className="flex gap-2.5 text-white-50 text-xs leading-relaxed">
+                                    <li key={j} className="flex gap-2.5 text-xs leading-relaxed"
+                                        style={{ color: "var(--c-text-2)" }}>
                                         <span
                                             className="flex-none rounded-full"
-                                            style={{ width: 4, height: 4, background: "rgba(255,255,255,0.5)", marginTop: 5 }}
+                                            style={{
+                                                width: 4,
+                                                height: 4,
+                                                background: "var(--c-text-3)",
+                                                marginTop: 5,
+                                                flexShrink: 0,
+                                            }}
                                         />
                                         {resp}
                                     </li>
@@ -99,11 +113,11 @@ const MobileExperienceScroll = () => {
                         </div>
                     </div>
                 ))}
-                {/* Right-edge spacer so last card clears the viewport */}
+                {/* Right-edge spacer */}
                 <div className="flex-none w-5 shrink-0" />
             </div>
 
-            {/* Segmented progress bar + counter */}
+            {/* Progress bar + counter */}
             <div className="mt-5 px-1">
                 <div className="flex gap-1.5 mb-2">
                     {expCards.map((_, i) => (
@@ -114,12 +128,14 @@ const MobileExperienceScroll = () => {
                             className="flex-1 rounded-full transition-all duration-500"
                             style={{
                                 height: 2,
-                                background: activeIndex === i ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
+                                background: activeIndex === i
+                                    ? "var(--c-text-2)"
+                                    : "var(--c-border)",
                             }}
                         />
                     ))}
                 </div>
-                <p className="text-right text-xs tabular-nums" style={{ color: "rgba(255,255,255,0.3)" }}>
+                <p className="text-right text-xs tabular-nums" style={{ color: "var(--c-text-4)" }}>
                     <span style={{ color: "#62e0ff" }}>{String(activeIndex + 1).padStart(2, "0")}</span>
                     {" / "}
                     {String(expCards.length).padStart(2, "0")}
@@ -166,7 +182,6 @@ const Experience: React.FC = () => {
             });
         });
 
-        // Mobile cards fade in
         gsap.utils.toArray<HTMLElement>(".exp-mobile-card").forEach((card) => {
             gsap.from(card, {
                 opacity: 0,
@@ -183,10 +198,10 @@ const Experience: React.FC = () => {
             <div className="w-full h-full md:px-20 px-5">
                 <TitleHeader title="Experience" sub="Product-focused full-stack delivery" />
 
-                {/* ── MOBILE / TABLET layout — horizontal snap scroll ─────── */}
+                {/* ── MOBILE / TABLET layout ─────────────────────── */}
                 <MobileExperienceScroll />
 
-                {/* ── DESKTOP layout (xl+) — original animated timeline ──────── */}
+                {/* ── DESKTOP layout ─────────────────────────────── */}
                 <div className="hidden xl:block mt-32 relative">
                     <div className="relative z-50 xl:space-y-32">
                         {expCards.map((card: ExpCardType) => (
@@ -215,10 +230,16 @@ const Experience: React.FC = () => {
                                                 <OptimizedImage src={card.logoPath} alt="logo" />
                                             </div>
                                             <div>
-                                                <h3 className="font-semibold text-3xl">{card.title}</h3>
-                                                <p className="my-5 text-white-50 text-sm">{card.date}</p>
-                                                <p className="text-white-50 text-sm mb-4">Key contributions</p>
-                                                <ul className="list-disc ms-5 flex flex-col gap-3 text-white-50">
+                                                <h3 className="font-semibold text-3xl" style={{ color: "var(--c-text)" }}>
+                                                    {card.title}
+                                                </h3>
+                                                <p className="my-5 text-sm" style={{ color: "var(--c-text-3)" }}>
+                                                    {card.date}
+                                                </p>
+                                                <p className="text-sm mb-4" style={{ color: "var(--c-text-3)" }}>
+                                                    Key contributions
+                                                </p>
+                                                <ul className="list-disc ms-5 flex flex-col gap-3" style={{ color: "var(--c-text-2)" }}>
                                                     {card.responsibilities.map((resp: string, index: number) => (
                                                         <li key={index} className="text-base">{resp}</li>
                                                     ))}

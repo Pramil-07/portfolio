@@ -5,6 +5,7 @@ import MobileNav from "./components/MobileNav";
 import ErrorBoundary from "./components/ErrorBoundary";
 import PageLoader from "./components/PageLoader";
 import { useLenis } from "./hooks/useLenis";
+import { ThemeProvider } from "./context/ThemeContext";
 
 const Testimonials = lazy(() => import("./sections/Testimonials"));
 const Contact = lazy(() => import("./sections/Contact"));
@@ -17,13 +18,13 @@ const TechStack = lazy(() => import("./sections/TechStack"));
 export function App() {
   useLenis();
   return (
-    <>
+    <ThemeProvider>
       <PageLoader />
       <MobileNav />
       <Navbar />
       <Hero />
       <ErrorBoundary>
-        <Suspense fallback={<div className="flex-center min-h-[200px]"><span className="w-8 h-8 rounded-full border-2 border-white/20 border-t-white animate-spin" /></div>}>
+        <Suspense fallback={<div className="flex-center min-h-[200px]"><span className="w-8 h-8 rounded-full border-2 animate-spin" style={{ borderColor: "var(--c-border)", borderTopColor: "var(--c-text)" }} /></div>}>
           <ShowcaseSection />
           <LogoShowcase />
           <FeatureCards />
@@ -34,6 +35,6 @@ export function App() {
           <Footer />
         </Suspense>
       </ErrorBoundary>
-    </>
+    </ThemeProvider>
   );
 }

@@ -36,15 +36,15 @@ const FeatureCards = () => {
                             key={title}
                             className="feature-card card-border p-6 flex flex-col gap-4"
                         >
-                            <div className="size-11 flex items-center justify-center rounded-lg"
+                            <div className="size-12 flex items-center justify-center rounded-xl"
                                 style={{
-                                    background: "rgba(255,255,255,0.04)",
+                                    background: "var(--c-surface-2)",
                                     border: "1px solid var(--c-border)",
                                 }}>
-                                <OptimizedImage src={imgPath} alt={title} className="size-5" />
+                                <OptimizedImage src={imgPath} alt={title} className="size-6" />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <h3 className="text-white font-semibold" style={{ fontSize: "var(--text-lg)" }}>{title}</h3>
+                                <h3 className="font-semibold" style={{ fontSize: "var(--text-lg)", color: "var(--c-text)" }}>{title}</h3>
                                 <p className="leading-relaxed" style={{ fontSize: "var(--text-sm)", color: "var(--c-text-3)" }}>{desc}</p>
                             </div>
                         </div>

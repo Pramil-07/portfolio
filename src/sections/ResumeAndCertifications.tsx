@@ -19,19 +19,29 @@ const ResumeAndCertifications: React.FC = () => {
           <a
             href={resumeFile}
             download
-            className="group card-border block p-7 transition-all duration-300 hover:border-white/30"
+            className="group card-border block p-7 transition-all duration-300"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center">
-                  <Download className="w-6 h-6 text-white" />
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center"
+                  style={{ background: "var(--c-icon-subtle-bg)", border: "1px solid var(--c-border)" }}
+                >
+                  <Download className="w-6 h-6" style={{ color: "var(--c-text)" }} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-white">Download Resume</h3>
-                  <p className="text-white-50 text-sm">PDF • Updated Jan 2026</p>
+                  <h3 className="text-lg font-semibold" style={{ color: "var(--c-text)" }}>
+                    Download Resume
+                  </h3>
+                  <p className="text-sm" style={{ color: "var(--c-text-3)" }}>
+                    PDF • Updated Jan 2026
+                  </p>
                 </div>
               </div>
-              <div className="text-white-50 group-hover:translate-x-1 transition-transform">
+              <div
+                className="group-hover:translate-x-1 transition-transform"
+                style={{ color: "var(--c-text-3)" }}
+              >
                 <ExternalLink className="w-6 h-6" />
               </div>
             </div>
@@ -40,7 +50,12 @@ const ResumeAndCertifications: React.FC = () => {
 
         {/* Certifications Grid */}
         <div className="mt-14">
-          <h3 className="text-xl font-semibold text-white mb-6 text-center">Certifications</h3>
+          <h3
+            className="text-xl font-semibold mb-6 text-center"
+            style={{ color: "var(--c-text)" }}
+          >
+            Certifications
+          </h3>
           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
             {certifications.map((cert: Certification, index: number) => (
               <div key={index} className="card-border p-5 break-inside-avoid-column">
@@ -51,7 +66,10 @@ const ResumeAndCertifications: React.FC = () => {
                   className="block group"
                 >
                   <div className="flex flex-col gap-4">
-                    <div className="w-full aspect-video rounded-lg overflow-hidden bg-white/5">
+                    <div
+                      className="w-full aspect-video rounded-lg overflow-hidden"
+                      style={{ background: "var(--c-card-bg)" }}
+                    >
                       <OptimizedImage
                         src={cert.imgPath}
                         alt={cert.title}
@@ -59,13 +77,16 @@ const ResumeAndCertifications: React.FC = () => {
                       />
                     </div>
                     <div>
-                      <h4 className="font-semibold text-white text-base mb-1">
+                      <h4 className="font-semibold text-base mb-1" style={{ color: "var(--c-text)" }}>
                         {cert.title}
                       </h4>
-                      <p className="text-white-50 text-sm">{cert.issuer}</p>
-                      <p className="text-white-50 text-xs mt-1">{cert.date}</p>
+                      <p className="text-sm" style={{ color: "var(--c-text-3)" }}>{cert.issuer}</p>
+                      <p className="text-xs mt-1" style={{ color: "var(--c-text-4)" }}>{cert.date}</p>
                     </div>
-                    <div className="flex items-center gap-2 text-white-50 text-sm font-medium">
+                    <div
+                      className="flex items-center gap-2 text-sm font-medium"
+                      style={{ color: "var(--c-text-3)" }}
+                    >
                       <span>View Credential</span>
                       <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
