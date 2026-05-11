@@ -1,11 +1,23 @@
 import { useState, useRef, useEffect } from "react";
 
 const SUGGESTIONS = [
-    "Tech stack",
-    "Projects",
-    "Experience",
-    "Availability",
-];
+    {
+        label: "Tech stack",
+        prompt: "What is Pramil's tech stack across frontend, backend, databases, infrastructure, and testing?",
+    },
+    {
+        label: "Projects",
+        prompt: "Which portfolio projects best show Pramil's work, and what did he build in each one?",
+    },
+    {
+        label: "Experience",
+        prompt: "Summarize Pramil's recent experience, employers, and the kinds of products he has shipped.",
+    },
+    {
+        label: "Availability",
+        prompt: "Is Pramil available for freelance, contract, and remote work right now? How can someone hire or contact him?",
+    },
+] as const;
 
 type Message = { role: "user" | "ai"; text: string };
 
@@ -229,10 +241,10 @@ export default function HeroChat({ card = false, onThinking }: { card?: boolean;
 
                             {/* Suggestion chips */}
                             <div className="flex flex-wrap gap-2">
-                                {SUGGESTIONS.map((s) => (
+                                {SUGGESTIONS.map((suggestion) => (
                                     <button
-                                        key={s}
-                                        onClick={() => ask(s)}
+                                        key={suggestion.label}
+                                        onClick={() => ask(suggestion.prompt)}
                                         className="text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all duration-150"
                                         style={{
                                             background: "var(--c-card-bg)",
@@ -248,7 +260,7 @@ export default function HeroChat({ card = false, onThinking }: { card?: boolean;
                                             (e.currentTarget as HTMLButtonElement).style.color = "var(--c-text-3)";
                                         }}
                                     >
-                                        {s}
+                                        {suggestion.label}
                                     </button>
                                 ))}
                             </div>
@@ -297,14 +309,14 @@ export default function HeroChat({ card = false, onThinking }: { card?: boolean;
             </div>
             {messages.length === 0 ? (
                 <div className="flex flex-wrap gap-2">
-                    {SUGGESTIONS.map((s) => (
+                    {SUGGESTIONS.map((suggestion) => (
                         <button
-                            key={s}
-                            onClick={() => ask(s)}
+                            key={suggestion.label}
+                            onClick={() => ask(suggestion.prompt)}
                             className="text-xs px-3 py-1.5 rounded-full cursor-pointer transition-all duration-150"
                             style={{ background: "var(--c-card-bg)", border: "1px solid var(--c-border)", color: "var(--c-text-3)" }}
                         >
-                            {s}
+                            {suggestion.label}
                         </button>
                     ))}
                 </div>
