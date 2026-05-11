@@ -1,11 +1,17 @@
 import { getEnv } from "../config/env";
 
 export const UNKNOWN_FACT_REPLY = "I don't have that in this portfolio yet.";
+const DEFAULT_SYSTEM_PROMPT =
+    "You are a concise AI assistant for this portfolio website. Answer only with information grounded in the provided profile context.";
+const DEFAULT_PROFILE_CONTEXT =
+    "Profile context is not configured yet. Reply only with the unknown-fact fallback when asked for portfolio-specific details.";
 
 export function buildSystemInstruction(): string {
     const env = getEnv();
+    const systemPrompt = env.AI_SYSTEM_PROMPT || DEFAULT_SYSTEM_PROMPT;
+    const profileContext = env.AI_PROFILE_CONTEXT || DEFAULT_PROFILE_CONTEXT;
     const rules = [
-        env.AI_SYSTEM_PROMPT,
+        systemPrompt,
         "",
         "Rules:",
         "- Use only facts from PROFILE_CONTEXT.",
@@ -14,7 +20,7 @@ export function buildSystemInstruction(): string {
         "- Keep responses concise (1-4 sentences). For product or service questions, lead with what can be built and the tech stack, then mention relevant proof from past projects.",
         "",
         "PROFILE_CONTEXT:",
-        env.AI_PROFILE_CONTEXT,
+        profileContext,
     ];
 
     return rules.join("\n");

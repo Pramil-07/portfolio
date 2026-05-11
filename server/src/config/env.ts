@@ -9,10 +9,10 @@ const SERVER_ENV_PATH = path.resolve(__dirname, "../../.env");
 const ENV_SCHEMA = z.object({
     NODE_ENV: z.string().optional(),
     PORT: z.coerce.number().int().positive().default(3000),
-    GEMINI_API_KEY: z.string().trim().min(1, "GEMINI_API_KEY is required"),
+    GEMINI_API_KEY: z.string().trim().optional().default(""),
     GEMINI_MODEL: z.string().trim().min(1).default("gemini-2.5-flash-lite"),
-    AI_SYSTEM_PROMPT: z.string().trim().min(1, "AI_SYSTEM_PROMPT is required"),
-    AI_PROFILE_CONTEXT: z.string().trim().min(1, "AI_PROFILE_CONTEXT is required"),
+    AI_SYSTEM_PROMPT: z.string().trim().optional().default(""),
+    AI_PROFILE_CONTEXT: z.string().trim().optional().default(""),
     AI_MAX_INPUT_CHARS: z.coerce.number().int().min(50).max(4000).default(1000),
     AI_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().min(1000).default(60000),
     AI_RATE_LIMIT_MAX: z.coerce.number().int().min(1).max(300).default(20),
@@ -41,5 +41,6 @@ export function getEnv() {
 export const env = getEnv();
 
 export function hasConfiguredGeminiKey(): boolean {
-    return getEnv().GEMINI_API_KEY.trim() !== PLACEHOLDER_GEMINI_KEY;
+    const apiKey = getEnv().GEMINI_API_KEY.trim();
+    return apiKey.length > 0 && apiKey !== PLACEHOLDER_GEMINI_KEY;
 }
