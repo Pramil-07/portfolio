@@ -91,14 +91,6 @@ export default function HeroChat({ card = false, onThinking }: { card?: boolean;
     const rawApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim();
     const API_BASE_URL = rawApiBaseUrl ? rawApiBaseUrl.replace(/\/+$/, "") : "";
     const PROFILE_NAME = (import.meta.env.VITE_PROFILE_NAME as string | undefined) ?? "Portfolio Owner";
-    const PROFILE_TITLE = (import.meta.env.VITE_PROFILE_TITLE as string | undefined) ?? "Full Stack Developer";
-    const PROFILE_INITIALS =
-        (import.meta.env.VITE_PROFILE_INITIALS as string | undefined) ??
-        PROFILE_NAME.split(" ")
-            .filter(Boolean)
-            .slice(0, 2)
-            .map((word) => word[0]?.toUpperCase() ?? "")
-            .join("");
 
     useEffect(() => {
         const container = messagesContainerRef.current;

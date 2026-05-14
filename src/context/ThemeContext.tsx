@@ -28,7 +28,6 @@ function animateThemeTransition(
 ) {
     // Use View Transitions API (Chrome 111+)
     if (document.startViewTransition) {
-        const root = document.documentElement;
         const maxRadius = Math.hypot(
             Math.max(originX, window.innerWidth - originX),
             Math.max(originY, window.innerHeight - originY),
@@ -63,7 +62,9 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
         try {
             const stored = localStorage.getItem("theme") as Theme | null;
             if (stored === "dark" || stored === "light") return stored;
-        } catch {}
+        } catch {
+            // Ignore storage access failures and fall back to system preference.
+        }
         return window.matchMedia?.("(prefers-color-scheme: light)").matches ? "light" : "dark";
     });
 
@@ -73,7 +74,11 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         document.documentElement.setAttribute("data-theme", theme);
-        try { localStorage.setItem("theme", theme); } catch {}
+        try {
+            localStorage.setItem("theme", theme);
+        } catch {
+            // Ignore storage access failures; theme still applies for this session.
+        }
     }, [theme]);
 
     const toggleTheme = (originX = window.innerWidth / 2, originY = window.innerHeight / 2) => {

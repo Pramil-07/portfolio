@@ -3,7 +3,6 @@ import type { PointerEvent as ReactPointerEvent } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Globe, Zap, Layers, Sparkles, X } from "lucide-react";
-import type { GSAPTimeline } from "gsap";
 import { resumeFile } from "../constants";
 import { shouldReduceHeavyMotion } from "../utils/motion";
 import HeroChat from "../components/HeroChat";
@@ -88,7 +87,7 @@ export const Hero = () => {
     const panelRef = useRef<HTMLDivElement>(null);
     const zoneRef  = useRef<HTMLDivElement>(null);
     const cursorOrbRef = useRef<HTMLSpanElement>(null);
-    const chatTimelineRef = useRef<GSAPTimeline | null>(null);
+    const chatTimelineRef = useRef<gsap.core.Timeline | null>(null);
     const reduceMotion = shouldReduceHeavyMotion();
 
     const [phraseIdx, setPhraseIdx]   = useState(0);

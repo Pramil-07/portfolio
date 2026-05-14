@@ -100,7 +100,7 @@ export default function PageLoader() {
                     <span className="pl-initials">PD</span>
                 </div>
                 <p className="pl-name">Pramil Dhungana</p>
-                <p className="pl-role">Full-Stack &amp; AI Engineer</p>
+                <p className="pl-role">Full-Stack · APIs · AI Integrations</p>
             </div>
 
             {/* ── Progress bar (bottom-center) ── */}

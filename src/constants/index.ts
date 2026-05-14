@@ -1,4 +1,4 @@
-import type {ExpCardType, Testimonial, NavLink, Certification} from "./types";
+import type {ExpCardType, Testimonial, NavLink} from "./types";
 
 export const navLinks: NavLink[] = [
   { id: 1, name: "Home", href: "#hero" },
@@ -248,16 +248,6 @@ const socialImgs = [
         imgPath: "/images/mail.png",
         invertImg: true,
     },
-];
-
-export const certifications: Certification[] = [
-  {
-    title: "Full Stack Development Internship",
-    issuer: "CAGTU Nepal",
-    date: "2024",
-    imgPath: "/images/cagtu-logo.jpg",
-    credentialUrl: "https://cagtu.com",
-  },
 ];
 
 export const resumeFile = "/Pramil_Dhungana_CV.pdf";

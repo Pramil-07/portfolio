@@ -55,14 +55,6 @@ export interface NavLink {
   href: string;
 }
 
-export interface Certification {
-  title: string;
-  issuer: string;
-  date: string;
-  imgPath: string;
-  credentialUrl: string;
-}
-
 export interface Project {
   id: number;
   title: string;
