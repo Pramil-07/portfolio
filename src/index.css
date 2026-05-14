@@ -347,12 +347,52 @@ section {
                 list-style: none;
 
                 li a {
+                    position: relative;
+                    overflow: hidden;
                     font-size: var(--text-sm);
                     color: var(--c-text-3);
                     text-decoration: none;
                     letter-spacing: 0.1px;
-                    transition: color 0.15s;
+                    transition:
+                        color 0.24s ease,
+                        background 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        border-color 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        box-shadow 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+                    padding: 9px 14px;
+                    border-radius: 999px;
+                    border: 1px solid transparent;
                     &:hover { color: var(--c-text); }
+                }
+
+                li a::before {
+                    content: "";
+                    position: absolute;
+                    inset: 0;
+                    border-radius: inherit;
+                    background: radial-gradient(circle at 50% 115%, rgba(82,174,255,0.16), transparent 58%);
+                    opacity: 0;
+                    transform: scale(0.9);
+                    transition:
+                        opacity 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                        transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
+                    pointer-events: none;
+                }
+
+                li.active a {
+                    color: var(--c-text);
+                    background:
+                        linear-gradient(180deg, color-mix(in srgb, var(--c-icon-subtle-bg) 100%, transparent), color-mix(in srgb, var(--c-card-bg) 92%, transparent));
+                    border-color: color-mix(in srgb, var(--c-border-strong) 78%, rgba(82,174,255,0.22));
+                    transform: translateY(-1px) scale(1.02);
+                    box-shadow:
+                        0 10px 22px rgba(0, 0, 0, 0.08),
+                        inset 0 1px 0 rgba(255,255,255,0.08);
+                }
+
+                li.active a::before {
+                    opacity: 1;
+                    transform: scale(1);
                 }
             }
         }
@@ -361,6 +401,8 @@ section {
             @apply flex;
 
             .inner {
+                position: relative;
+                overflow: hidden;
                 font-size: var(--text-sm);
                 font-weight: 500;
                 color: var(--c-bg);
@@ -368,10 +410,32 @@ section {
                 padding: 8px 18px;
                 border-radius: var(--radius-sm);
                 text-decoration: none;
-                transition: opacity 0.15s;
+                border: 1px solid transparent;
+                transition:
+                    opacity 0.2s ease,
+                    transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    box-shadow 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+                    border-color 0.32s cubic-bezier(0.22, 0.61, 0.36, 1);
                 &:hover { opacity: 0.88; }
 
                 span { color: inherit; }
+            }
+
+            &.active .inner {
+                transform: translateY(-1px) scale(1.01);
+                border-color: color-mix(in srgb, var(--c-text) 14%, var(--c-border));
+                box-shadow:
+                    0 10px 22px rgba(0, 0, 0, 0.12),
+                    0 0 0 4px color-mix(in srgb, var(--c-icon-subtle-bg) 65%, transparent);
+            }
+
+            &.active .inner::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(180deg, rgba(255,255,255,0.12), transparent 60%);
+                opacity: 0.7;
+                pointer-events: none;
             }
         }
     }
@@ -2054,16 +2118,30 @@ section {
 .navbar a::after {
     content: "";
     position: absolute;
-    left: 0;
+    left: 12px;
     bottom: -2px;
-    width: 0;
+    width: calc(100% - 24px);
+    transform: scaleX(0);
+    transform-origin: center;
     height: 1px;
     background: var(--c-text);
-    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+        transform 0.28s cubic-bezier(0.22, 0.61, 0.36, 1),
+        height 0.28s ease,
+        background 0.28s ease,
+        opacity 0.28s ease;
+    opacity: 0.8;
 }
 .nav-links a:hover::after,
 .navbar a:hover::after {
-    width: 100%;
+    transform: scaleX(1);
+}
+
+.navbar nav.desktop li.active a::after {
+    transform: scaleX(1);
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(82,174,255,0.15), var(--c-text), rgba(82,174,255,0.15));
 }
 
 /* Hero primary CTA — subtle scale + lift */
