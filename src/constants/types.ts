@@ -1,5 +1,13 @@
 import {ReactNode} from "react";
 
+export type ProjectImage =
+  | string
+  | {
+      src: string;
+      device?: "desktop" | "mobile" | "all";
+      alt?: string;
+    };
+
 export interface ExpCardType {
     id?: number;
     company: string;
@@ -59,7 +67,7 @@ export interface Project {
   id: number;
   title: string;
   description: string;
-  images: string[];
+  images: ProjectImage[];
   liveUrl?: string;
   githubUrl?: string;
   tags: string[];

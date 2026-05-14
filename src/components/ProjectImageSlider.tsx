@@ -1,59 +1,92 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
+import type { ProjectImage } from "../constants/types";
 
 interface ProjectImageSliderProps {
-    images: string[];
+    images: ProjectImage[];
     alt: string;
 }
 
 const INTERVAL_MS = 3000;
+const MOBILE_QUERY = "(max-width: 767px)";
+const MOBILE_FILENAME_PATTERN = /-mob(?=\.[a-z0-9]+(?:[?#].*)?$)/i;
+
+const getImageSrc = (image: ProjectImage) =>
+    typeof image === "string" ? image : image.src;
+
+const getImageAlt = (image: ProjectImage, fallback: string, index: number) =>
+    typeof image === "string"
+        ? `${fallback} screenshot ${index + 1}`
+        : image.alt ?? `${fallback} screenshot ${index + 1}`;
+
+const getImageDevice = (image: ProjectImage) => {
+    if (typeof image !== "string" && image.device) return image.device;
+    return MOBILE_FILENAME_PATTERN.test(getImageSrc(image)) ? "mobile" : "desktop";
+};
 
 const ProjectImageSlider = ({ images, alt }: ProjectImageSliderProps) => {
+    const [isMobile, setIsMobile] = useState(() =>
+        typeof window !== "undefined" ? window.matchMedia(MOBILE_QUERY).matches : false
+    );
     const [current, setCurrent] = useState(0);
-    const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-    const startTimer = () => {
-        if (images.length <= 1) return;
-        timerRef.current = setInterval(() => {
-            setCurrent(prev => (prev + 1) % images.length);
-        }, INTERVAL_MS);
-    };
-
-    const clearTimer = () => {
-        if (timerRef.current) clearInterval(timerRef.current);
-    };
+    const targetDevice = isMobile ? "mobile" : "desktop";
+    const matchingImages = images.filter(image => {
+        const device = getImageDevice(image);
+        return device === targetDevice || device === "all";
+    });
+    const visibleImages = matchingImages.length > 0 ? matchingImages : images;
+    const visibleCount = visibleImages.length;
+    const activeIndex = visibleCount > 0 ? current % visibleCount : 0;
 
     useEffect(() => {
-        startTimer();
-        return clearTimer;
-    }, [images.length]);
+        const mediaQuery = window.matchMedia(MOBILE_QUERY);
+        const updateDevice = () => setIsMobile(mediaQuery.matches);
+
+        updateDevice();
+        mediaQuery.addEventListener("change", updateDevice);
+        return () => mediaQuery.removeEventListener("change", updateDevice);
+    }, []);
+
+    useEffect(() => {
+        setCurrent(0);
+    }, [isMobile, images]);
+
+    useEffect(() => {
+        if (visibleCount <= 1) return;
+
+        const timer = setInterval(() => {
+            setCurrent(prev => (prev + 1) % visibleCount);
+        }, INTERVAL_MS);
+
+        return () => clearInterval(timer);
+    }, [visibleCount]);
 
     const goTo = (index: number) => {
-        clearTimer();
         setCurrent(index);
-        startTimer();
     };
+
+    if (visibleCount === 0) return null;
 
     return (
         <div className="project-slider">
             <div className="project-slider__track">
-                {images.map((src, i) => (
+                {visibleImages.map((image, i) => (
                     <img
-                        key={src}
-                        src={src}
-                        alt={`${alt} screenshot ${i + 1}`}
+                        key={getImageSrc(image)}
+                        src={getImageSrc(image)}
+                        alt={getImageAlt(image, alt, i)}
                         loading="lazy"
                         decoding="async"
                         className="project-slider__img"
-                        style={{ opacity: i === current ? 1 : 0 }}
+                        style={{ opacity: i === activeIndex ? 1 : 0 }}
                     />
                 ))}
             </div>
-            {images.length > 1 && (
+            {visibleCount > 1 && (
                 <div className="project-slider__dots">
-                    {images.map((_, i) => (
+                    {visibleImages.map((_, i) => (
                         <button
                             key={i}
-                            className={`project-slider__dot${i === current ? " project-slider__dot--active" : ""}`}
+                            className={`project-slider__dot${i === activeIndex ? " project-slider__dot--active" : ""}`}
                             onClick={() => goTo(i)}
                             aria-label={`Show screenshot ${i + 1}`}
                         />

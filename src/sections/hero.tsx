@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useCallback } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { Globe, Zap, Layers, Sparkles, X } from "lucide-react";
@@ -83,8 +84,10 @@ const RobotAvatar = ({ size = 48, talking = false }: { size?: number; talking?: 
 /* ── Hero ───────────────────────────────────────── */
 export const Hero = () => {
     const heroRef  = useRef<HTMLElement>(null);
+    const contentPanelRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const zoneRef  = useRef<HTMLDivElement>(null);
+    const cursorOrbRef = useRef<HTMLSpanElement>(null);
     const chatTimelineRef = useRef<GSAPTimeline | null>(null);
     const reduceMotion = shouldReduceHeavyMotion();
 
@@ -247,12 +250,58 @@ export const Hero = () => {
         tl.to({}, { duration: 1 });
     }, { scope: heroRef });
 
+    const handleHeroPointerMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+        if (reduceMotion || !cursorOrbRef.current || !contentPanelRef.current) return;
+
+        const bounds = contentPanelRef.current.getBoundingClientRect();
+        const x = event.clientX - bounds.left;
+        const y = event.clientY - bounds.top;
+
+        gsap.to(cursorOrbRef.current, {
+            x,
+            y,
+            opacity: 1,
+            scale: 1,
+            duration: 0.38,
+            ease: "power3.out",
+            overwrite: "auto",
+        });
+    }, [reduceMotion]);
+
+    const handleHeroPointerLeave = useCallback(() => {
+        if (reduceMotion || !cursorOrbRef.current) return;
+
+        gsap.to(cursorOrbRef.current, {
+            opacity: 0,
+            scale: 0.82,
+            duration: 0.3,
+            ease: "power2.out",
+            overwrite: "auto",
+        });
+    }, [reduceMotion]);
+
     return (
         <section id="hero" ref={heroRef}>
             <div className="hero-shell">
 
                 {/* ── LEFT: hero content ── */}
-                <div className="hero-content-panel">
+                <div
+                    ref={contentPanelRef}
+                    className="hero-content-panel"
+                    onPointerMove={handleHeroPointerMove}
+                    onPointerLeave={handleHeroPointerLeave}
+                >
+                    <div className="hero-bg-art" aria-hidden="true">
+                        <span ref={cursorOrbRef} className="hero-bg-art__cursor-orb" />
+                        <span className="hero-bg-art__glow hero-bg-art__glow--one" />
+                        <span className="hero-bg-art__glow hero-bg-art__glow--two" />
+                        <span className="hero-bg-art__grid" />
+                        <span className="hero-bg-art__beam hero-bg-art__beam--one" />
+                        <span className="hero-bg-art__beam hero-bg-art__beam--two" />
+                        <span className="hero-bg-art__shape hero-bg-art__shape--diamond" />
+                        <span className="hero-bg-art__shape hero-bg-art__shape--ring" />
+                        <span className="hero-bg-art__shape hero-bg-art__shape--pill" />
+                    </div>
                     <div className="hero-left-content">
                         <span className="hero-eyebrow">Full-Stack Engineer · Kathmandu</span>
 

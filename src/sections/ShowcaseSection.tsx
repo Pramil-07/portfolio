@@ -2,12 +2,30 @@ import { useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import ProjectDevicePreviewCards from "../components/ProjectDevicePreviewCards";
 import ProjectImageSlider from "../components/ProjectImageSlider";
 import TitleHeader from "../components/TitleHeader";
+import type { ProjectImage } from "../constants/types";
 import { shouldReduceHeavyMotion } from "../utils/motion";
 import { projects } from "../constants/projects";
 
 gsap.registerPlugin(ScrollTrigger);
+
+const MOBILE_FILENAME_PATTERN = /-mob(?=\.[a-z0-9]+(?:[?#].*)?$)/i;
+
+const getImageSrc = (image: ProjectImage) =>
+    typeof image === "string" ? image : image.src;
+
+const getImageDevice = (image: ProjectImage) => {
+    if (typeof image !== "string" && image.device) return image.device;
+    return MOBILE_FILENAME_PATTERN.test(getImageSrc(image)) ? "mobile" : "desktop";
+};
+
+const hasMobilePreviewImages = (images: ProjectImage[]) =>
+    images.some(image => {
+        const device = getImageDevice(image);
+        return device === "mobile" || device === "all";
+    });
 
 const AppShowcase = () => {
     const sectionRef = useRef<HTMLElement>(null);
@@ -52,7 +70,11 @@ const AppShowcase = () => {
                             className="project-card"
                             ref={el => { if (el) cardRefs.current[i] = el; }}
                         >
-                            <ProjectImageSlider images={project.images} alt={project.title} />
+                            {hasMobilePreviewImages(project.images) ? (
+                                <ProjectDevicePreviewCards images={project.images} alt={project.title} />
+                            ) : (
+                                <ProjectImageSlider images={project.images} alt={project.title} />
+                            )}
                             <div className="project-card__body">
                                 <span className="project-card__category">{project.category}</span>
                                 <h3 className="project-card__title">{project.title}</h3>
